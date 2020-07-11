@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://vicyor.gitee.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="鸟哥的linux私房菜 这本书的知识点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux">
+<meta property="og:url" content="http://vicyor.gitee.io/2020/05/21/linux/index.html">
+<meta property="og:site_name" content="Vicyor">
+<meta property="og:description" content="鸟哥的linux私房菜 这本书的知识点">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/05/21/linux/5-unit.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/05/21/linux/gpt.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/05/21/linux/ext.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/05/21/linux/dumpe2fs_1.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/05/21/linux/dumpe2fs_2.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/05/21/linux/xfs_info.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/05/21/linux/vfs.jpg">
+<meta property="article:published_time" content="2020-05-21T01:55:15.000Z">
+<meta property="article:modified_time" content="2020-07-11T01:00:40.483Z">
+<meta property="article:author" content="vicyor">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vicyor.gitee.io/2020/05/21/linux/5-unit.jpg">
+
+<link rel="canonical" href="http://vicyor.gitee.io/2020/05/21/linux/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>linux | Vicyor</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vicyor</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">40</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">38</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/05/21/linux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="vicyor">
+      <meta itemprop="description" content="大路且慢慢,咱一步一步走完.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vicyor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          linux
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-21 09:55:15" itemprop="dateCreated datePublished" datetime="2020-05-21T09:55:15+08:00">2020-05-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-11 09:00:40" itemprop="dateModified" datetime="2020-07-11T09:00:40+08:00">2020-07-11</time>
+              </span>
+
+          
+            <span id="/2020/05/21/linux/" class="post-meta-item leancloud_visitors" data-flag-title="linux" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/05/21/linux/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/21/linux/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>鸟哥的linux私房菜 这本书的知识点</p>
+<a id="more"></a>
+<h2 id="计算机概论"><a href="#计算机概论" class="headerlink" title="计算机概论"></a>计算机概论</h2><h3 id="硬件五大设备"><a href="#硬件五大设备" class="headerlink" title="硬件五大设备"></a>硬件五大设备</h3><p><img src="/2020/05/21/linux/5-unit.jpg" alt></p>
+<h4 id="输入设备"><a href="#输入设备" class="headerlink" title="输入设备"></a>输入设备</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">键盘、鼠标、卡片阅读机、扫描仪、手写板、触控屏幕</span><br></pre></td></tr></table></figure>
+<h4 id="输出设备"><a href="#输出设备" class="headerlink" title="输出设备"></a>输出设备</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">屏幕</span><br></pre></td></tr></table></figure>
+<h4 id="算术逻辑单元"><a href="#算术逻辑单元" class="headerlink" title="算术逻辑单元"></a>算术逻辑单元</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CPU的运算器</span><br></pre></td></tr></table></figure>
+<h4 id="控制器"><a href="#控制器" class="headerlink" title="控制器"></a>控制器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CPU的控制器</span><br></pre></td></tr></table></figure>
+<h4 id="存储器"><a href="#存储器" class="headerlink" title="存储器"></a>存储器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SRAM -&gt;内存</span><br></pre></td></tr></table></figure>
+<h3 id="主机部分"><a href="#主机部分" class="headerlink" title="主机部分"></a>主机部分</h3><h4 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1.组成</span><br><span class="line">    运算器-&gt;程序运算与逻辑判断</span><br><span class="line">    控制器-&gt;协调各周边组件和各单元间的工作</span><br><span class="line">2.设计理念</span><br><span class="line">    RISC-精简指令集</span><br><span class="line">    CISC-复杂指令集</span><br><span class="line">3.分类</span><br><span class="line">    32位 -&gt;i686 -&gt;每次从内存中最多获取2^32b-&gt;4GB</span><br><span class="line">    64位 -&gt;x86_64 -&gt;每次从内存中最多获取2^64-&gt;16EB</span><br></pre></td></tr></table></figure>
+<h4 id="主存储器"><a href="#主存储器" class="headerlink" title="主存储器"></a>主存储器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DRAM -&gt;内存</span><br><span class="line">SRAM -&gt; CPU上的L2Cache,频率与CPU的频率差不多</span><br><span class="line">ROM  -&gt;Read only Memory,BIOS就是记录在ROM中,并写在主板上的芯片中,未通电亦能将数据记录</span><br></pre></td></tr></table></figure>
+<h4 id="硬盘"><a href="#硬盘" class="headerlink" title="硬盘"></a>硬盘</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.物理组成.</span><br><span class="line">  1.扇区 (sector)-&gt;512byte</span><br><span class="line">  2.磁道 (track)-&gt;由同一个同心圆扇区组成</span><br><span class="line">  3.磁柱 (cylinder)-&gt;所有磁盘盘面上相同的磁道组和叫做磁柱</span><br><span class="line">  taps: MBR在第0磁头第0磁道的第1个扇区, MBR-&gt;MSDOS(446)+分区表(64)</span><br><span class="line">  taps: 外层的磁道(编号小)的单位时间内数据读写量多</span><br><span class="line">  taps: 磁盘容量(表面积)&#x3D;磁道数*扇区数(每磁道)*扇区大小(512B)*磁头数</span><br><span class="line">2.文件系统中，文件是按簇(linux叫block)进行分配,一簇的大小区2^n个扇区大小。</span><br><span class="line">  最常见的是1簇8个扇区,4kB.</span><br><span class="line">3.固态硬盘</span><br><span class="line">  物理结构与内存相似,没有磁盘头,DRAM.</span><br></pre></td></tr></table></figure>
+<h4 id="显卡"><a href="#显卡" class="headerlink" title="显卡"></a>显卡</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">信号转换: 将显示信息转换为一般电器信号</span><br></pre></td></tr></table></figure>
+<h4 id="芯片组"><a href="#芯片组" class="headerlink" title="芯片组"></a>芯片组</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.北桥</span><br><span class="line">    1.连接CPU,主存储器,显示适配器,连接的那条线叫做系统总线.</span><br><span class="line">    2.北桥的内存控制芯片已集成到CPU内.</span><br><span class="line">2.南桥</span><br><span class="line">    1.联系硬盘,USB,网卡等接口设备,连接那条线叫做输入输出(I&#x2F;O)总线.</span><br></pre></td></tr></table></figure>
+<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.操作系统由内核与系统调用接口组成.</span><br><span class="line">2.操作系统的重点在于管理计算机所有活动以及硬件系统的所有硬件.</span><br></pre></td></tr></table></figure>
+<h3 id="内核"><a href="#内核" class="headerlink" title="内核"></a>内核</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">操作系统核心(Kernel)必须跟硬件结合,以提供及控制硬件资源进行良好的工作.</span><br></pre></td></tr></table></figure>
+<h4 id="内核-Kernel-功能"><a href="#内核-Kernel-功能" class="headerlink" title="内核(Kernel)功能"></a>内核(Kernel)功能</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.系统调用接口(System Call Interface).</span><br><span class="line">2.程序管理(Process Control).</span><br><span class="line">3.内存管理(Memory Management).</span><br><span class="line">4.文件系统管理(Filesystem Management).</span><br><span class="line">5.装置驱动(Device Drivers)-硬件适配器.</span><br></pre></td></tr></table></figure>
+<h4 id="用户态与内核态之间的三种转换方式"><a href="#用户态与内核态之间的三种转换方式" class="headerlink" title="用户态与内核态之间的三种转换方式"></a>用户态与内核态之间的三种转换方式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.系统调用.  -&gt; 软中断</span><br><span class="line">2.异常. -&gt;内核态对异常处理已封装完毕</span><br><span class="line">3.硬件中断.</span><br></pre></td></tr></table></figure>
+<h2 id="主机规划与磁盘分区"><a href="#主机规划与磁盘分区" class="headerlink" title="主机规划与磁盘分区"></a>主机规划与磁盘分区</h2><h3 id="主机硬件选择"><a href="#主机硬件选择" class="headerlink" title="主机硬件选择"></a>主机硬件选择</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">1.根据计算机用途对主机进行规划,选择合适的硬件.</span><br><span class="line">2.硬件选择.</span><br><span class="line">  CPU</span><br><span class="line">  RAM</span><br><span class="line">  网卡   -&gt; 主机与网卡并行通信,网卡与局域网串行通信(电缆和双绞线)</span><br><span class="line">  显卡适配器</span><br><span class="line">  硬盘</span><br><span class="line">3.硬件设备对应linux的文件名.</span><br><span class="line">  taps:必须将硬件对应的文件挂载后才能使用.</span><br><span class="line">  1.IDE接口硬盘 -&gt; &#x2F;dev&#x2F;sd[a-d].</span><br><span class="line">  2.打印机 -&gt; &#x2F;dev&#x2F;Ip0.</span><br><span class="line">  3.软盘 -&gt; &#x2F;dev&#x2F;fd0.</span><br><span class="line">  4.鼠标 -&gt; &#x2F;dev&#x2F;input&#x2F;mouse[0-15].</span><br><span class="line">  taps: 云服务商提供的云服务器是虚拟机,其对应的硬盘为&#x2F;dev&#x2F;vd[a-p]</span><br><span class="line">4.装置主次设备号.</span><br><span class="line">  主设备号      -&gt; 设备对应的驱动程序</span><br><span class="line">  次设备号      -&gt; 具体唯一的某个设备</span><br><span class="line">  装置            Major           Minor</span><br><span class="line">  &#x2F;dev&#x2F;sda          8               0-15</span><br><span class="line">  &#x2F;dev&#x2F;sdb          8               16-31</span><br></pre></td></tr></table></figure>
+<h3 id="磁盘分区"><a href="#磁盘分区" class="headerlink" title="磁盘分区"></a>磁盘分区</h3><h4 id="MRB的PatitionTable-分区表"><a href="#MRB的PatitionTable-分区表" class="headerlink" title="MRB的PatitionTable(分区表)"></a>MRB的PatitionTable(分区表)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1.3个主分区与1个扩展分区.</span><br><span class="line">2.扩展分区.</span><br><span class="line">   1.扩展分区会记录逻辑分区信息,本身并不会进行格式化相关工作.</span><br><span class="line">3.逻辑分区.</span><br><span class="line">   1.逻辑分区的最大范围为扩展分区分到的磁柱范围.</span><br><span class="line">   2.逻辑分区编号从5开始.</span><br><span class="line">   3.逻辑分区之间不会相互影响.</span><br><span class="line">   4.删除扩展分区,逻辑分区亦会跟着删除.</span><br><span class="line">4.磁盘分区优势.</span><br><span class="line">   1.数据安全性.</span><br><span class="line">    taps:若windows重置操作系统,只有C盘系统受到影响(c盘会格式化),其它盘(分区)的数据不会影响.</span><br><span class="line">   2.系统的效能考虑.</span><br><span class="line">     文件被分配在一个分区的相邻的磁柱上,I&#x2F;O操作快速.</span><br></pre></td></tr></table></figure>
+<h4 id="操作系统开机的整个流程"><a href="#操作系统开机的整个流程" class="headerlink" title="操作系统开机的整个流程"></a>操作系统开机的整个流程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1.BIOS - Basic Input&#x2F;Output System.</span><br><span class="line">  bios写在主板上,计算机系统启动后自动执行的一个程序.</span><br><span class="line">2.MBR -&gt; MBRDOS 446Bytes</span><br><span class="line">3.开机管理程序 -&gt; boot loader</span><br><span class="line">    1.提供选单. 用户可以选择不同的开机项目,多重引导功能.</span><br><span class="line">    2.载入核心文件.</span><br><span class="line">    3.交由其它loade开机启动.(分区的boot sector).</span><br><span class="line">    taps:多重引导是指一个磁盘安装了多个操作系统,例如C盘安装windows,D盘安装linux,</span><br><span class="line">         多重引导boot loader会提供选单给你选,然后交由分区的boot sector开机启动.</span><br><span class="line">4.载入核心文件.</span><br></pre></td></tr></table></figure>
+<h4 id="GPT分区表"><a href="#GPT分区表" class="headerlink" title="GPT分区表"></a>GPT分区表</h4><p><img src="/2020/05/21/linux/gpt.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">taps: MBR不支持2TB以上的硬盘</span><br><span class="line">1.GPT组成.</span><br><span class="line">  LBA(Logic Block Address)0 -&gt;存储开机管理程序(MSDOS).</span><br><span class="line">  LBA1 -&gt;  GPT元数据,表头记录,分区表大小，备份位置。</span><br><span class="line">  LBA2~LBA33 -&gt; 记录分区信息</span><br><span class="line">    一个LBA对应4个Entry,一个Entry对应一个分区,一共可以记录128个分区.</span><br><span class="line">    一个Entry用64b记录开始和结束扇区号,所以一个分区的最大容量为2^64*扇区大小(512B).</span><br><span class="line">  磁盘尾部会存LBA0-LBA33的备份数据.</span><br></pre></td></tr></table></figure>
+<h3 id="linux-目录对应的分区"><a href="#linux-目录对应的分区" class="headerlink" title="linux 目录对应的分区"></a>linux 目录对应的分区</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">biosboot  - 2MB - 主分区 - 开机管理</span><br><span class="line">&#x2F;boot     - 1GB - 主分区 - 开机相关   </span><br><span class="line">&#x2F;         - 10GB -  LVM</span><br><span class="line">&#x2F;usr               软件</span><br><span class="line">&#x2F;home              用户</span><br><span class="line">swap        内存(DRAM)的2-2.5倍，不过现在大型服务器基本用不到swap了,内存就够用了</span><br><span class="line">&#x2F;var        邮件服务器</span><br></pre></td></tr></table></figure>
+<h3 id="linux镜像安装"><a href="#linux镜像安装" class="headerlink" title="linux镜像安装"></a>linux镜像安装</h3><h4 id="NAT"><a href="#NAT" class="headerlink" title="NAT"></a>NAT</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NAT -net address translation</span><br><span class="line">1.本地地址的主机与外界进行通信时候需要通过NAT将本地地址转为外界地址.</span><br><span class="line">   可以一对一，也可以多对一转换(PAT).</span><br><span class="line">2.PAT -&gt; Port Address Translation 端口多路复用，内部网络的所有主机共享一个外部IP地址.</span><br></pre></td></tr></table></figure>
+<h4 id="桥接"><a href="#桥接" class="headerlink" title="桥接"></a>桥接</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">网桥 -&gt; 早期的两端口二期网络设备,数据链路层,用于连接两个不同的lan(local area network-局域网)为一个lan.</span><br><span class="line">        网桥会记录端口与mac地址</span><br><span class="line">        lan1与lan2通信,网桥会判断帧是否发往lan2,若是则转发,若不是则丢弃.</span><br><span class="line">桥接 -&gt;  网桥实现桥接的作用,把几个网络串联起来.</span><br></pre></td></tr></table></figure>
+<h4 id="DHCP"><a href="#DHCP" class="headerlink" title="DHCP"></a>DHCP</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DHCP -&gt; Dynamic Host Configuration Protocol. </span><br><span class="line">服务器控制一段IP地址范围,客户端登录服务器自动获取分配的IP地址和子网掩码.</span><br></pre></td></tr></table></figure>
+<h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><h3 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.将文件系统挂载到目录树的对应目录,进入目录就相当于进入文件系统.</span><br><span class="line">例如光盘挂载,光盘也具有其对应的文件系统.磁盘文件系统一般为RAW,CDFS等</span><br><span class="line">    #光盘挂载</span><br><span class="line">    mount &#x2F;dev&#x2F;cdrom1 &#x2F;mnt</span><br><span class="line">    #进入光盘</span><br><span class="line">    cd &#x2F;mnt</span><br></pre></td></tr></table></figure>
+<h3 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h3><h4 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.分类  -&gt; owner,others,group.</span><br><span class="line">owner 用户名 -&gt; &#x2F;etc&#x2F;passwd</span><br><span class="line">      密码   -&gt; &#x2F;etc&#x2F;shadow</span><br><span class="line">group   -&gt; &#x2F;etc&#x2F;group</span><br></pre></td></tr></table></figure>
+<h4 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">1.基本权限: rwx.</span><br><span class="line">2.目录权限作用.</span><br><span class="line">  r 可以用获取目录的data block,目录的data block 存储子文件名.</span><br><span class="line">  w 可以在目录下创建和删除文件</span><br><span class="line">  x 可以 cd 进入目录</span><br><span class="line">3.文件权限作用.</span><br><span class="line">  r  文件可读</span><br><span class="line">  w  文件可写</span><br><span class="line">  x  文件可执行 -&gt; 若文件在环境变量PATH下,则可以不加绝对路径去执行.</span><br><span class="line">4.隐藏权限.</span><br><span class="line">  a -&gt; 文件只能追加</span><br><span class="line">  i -&gt; 文件不可变</span><br><span class="line">  S -&gt; 文件更新立刻刷磁盘,不会有脏数据</span><br><span class="line">  ......</span><br><span class="line">5.特殊权限.</span><br><span class="line">  SUID -&gt; Set UID  文件owners拥有s权限,文件others拥有x权限,当others执行文件时候,会变成文件owner.</span><br><span class="line">     taps: 这个如果文件owner是root的话，others就变成root,这样权限就没法束缚.</span><br><span class="line">  SGID -&gt; Set GID  文件group拥有s权限,文件others拥有x权限,当others执行文件时候,会变成文件group.</span><br><span class="line">     taps: 如果目录拥有SGID的话,那么在目录下新建的文件属组和属主都与目录相同.</span><br><span class="line">  Sticky Bit -&gt;  文件others拥有t权限,文件只能由文件创建者或root删除.</span><br></pre></td></tr></table></figure>
+<h3 id="文件种类"><a href="#文件种类" class="headerlink" title="文件种类"></a>文件种类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1.普通文件. -</span><br><span class="line">  纯文本文件.</span><br><span class="line">  二进制文件.</span><br><span class="line">  数据格式文件.</span><br><span class="line">2.目录  d.</span><br><span class="line">3.l -&gt; 软连接.</span><br><span class="line">   硬链接-&gt;指向真实文件 ls -l 文件对应的硬链接数会增加</span><br><span class="line">   软连接-&gt;data block内容为文件位置,可以跨文件系统. </span><br><span class="line">4.b -&gt; 块(block)设备. 缓存,可随机存取.</span><br><span class="line">5.c -&gt; 字符设备.串行存取.</span><br><span class="line">6.s -&gt; sockets文件.socket通信,通常在&#x2F;tmp或&#x2F;run目录下有该文件</span><br><span class="line">7.p -&gt;pipe,FIFO(数据传输文件).</span><br></pre></td></tr></table></figure>
+<h3 id="目录规范"><a href="#目录规范" class="headerlink" title="目录规范"></a>目录规范</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">1.FHS -&gt; FileSystem Hierarchy Standard.</span><br><span class="line">&#x2F;usr   -&gt; unix  software  resource</span><br><span class="line">&#x2F;      -&gt;根目录</span><br><span class="line">&#x2F;bin   连接到&#x2F;usr&#x2F;bin          单人模式能够操作的指令</span><br><span class="line">&#x2F;sbin  连接到&#x2F;usr&#x2F;sbin         系统所需要的指令</span><br><span class="line">&#x2F;etc   配置文件放置处</span><br><span class="line">&#x2F;dev   装置和接口设备所在目录</span><br><span class="line">&#x2F;opt   协力软件配置</span><br><span class="line">&#x2F;boot  开机和核心档</span><br><span class="line">&#x2F;lib   连接到&#x2F;usr&#x2F;lib          指令库</span><br><span class="line">&#x2F;tmp   临时文件目录</span><br><span class="line">&#x2F;media 可以移除的装备,软盘、光盘、DVD</span><br><span class="line">&#x2F;mnt   挂载目录</span><br><span class="line">&#x2F;var   应用程序动态产生的数据</span><br><span class="line">        &#x2F;var&#x2F;lib -&gt;应用程序运行时产生库</span><br><span class="line">        &#x2F;var&#x2F;lock与&#x2F;run&#x2F;lock 构成设备锁</span><br><span class="line">        &#x2F;var&#x2F;log-&gt;日志,&#x2F;var&#x2F;log&#x2F;wtmp-&gt;记录登录者相关日志信息.</span><br><span class="line">&#x2F;proc  核心程序,放在内存中</span><br></pre></td></tr></table></figure>
+<h3 id="LVM"><a href="#LVM" class="headerlink" title="LVM"></a>LVM</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.LVM -&gt; Logical Volume Manager.</span><br><span class="line">  1.块设备与磁盘驱动层之间的一层.</span><br><span class="line">  2.将几块磁盘组合起来合成一个逻辑卷组(Volume Group).</span><br><span class="line">  3.逻辑卷可以由不连续的物理卷组成.</span><br><span class="line">  4.文件系统容量可以弹性修改.</span><br></pre></td></tr></table></figure>
+<h3 id="ext2-ext3-ext4文件系统"><a href="#ext2-ext3-ext4文件系统" class="headerlink" title="ext2,ext3,ext4文件系统"></a>ext2,ext3,ext4文件系统</h3><p><img src="/2020/05/21/linux/ext.png" alt></p>
+<h4 id="block-group"><a href="#block-group" class="headerlink" title="block group"></a>block group</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">分成多个block group主要为了好管理.每一个块组都有superblock&#x2F;inode&#x2F;block.</span><br></pre></td></tr></table></figure>
+<h4 id="boot-sector"><a href="#boot-sector" class="headerlink" title="boot sector"></a>boot sector</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.前文提到过开机后MBR的boot loader会转交到其它的loader.</span><br><span class="line">2.分区的boot sector可以放linux操作系统开机管理程序.</span><br></pre></td></tr></table></figure>
+<h4 id="block"><a href="#block" class="headerlink" title="block"></a>block</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">block(windows叫簇)-&gt;文件系统的最小存储单位.</span><br><span class="line">目录 -&gt; 1.子文件名称与inode对应关系.</span><br><span class="line">taps: &#x2F; 根(root)目录是根据挂载信息确定的.</span><br></pre></td></tr></table></figure>
+<h4 id="inode-table"><a href="#inode-table" class="headerlink" title="inode table"></a>inode table</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">inode -&gt; 文件的metadata   大小 128Bytes</span><br><span class="line">metadata -&gt; </span><br><span class="line">        文件权限 -&gt; rwx</span><br><span class="line">        属组,属主</span><br><span class="line">        文件大小</span><br><span class="line">        ctime、atime、mtime</span><br><span class="line">        特殊权限 -&gt; suid,sgid,sticky id</span><br><span class="line">        data block指针 -&gt;</span><br><span class="line">          12个直接指针+1个间接指针+1个双间接指针+1个三间接指针</span><br></pre></td></tr></table></figure>
+<h4 id="block-bitmap"><a href="#block-bitmap" class="headerlink" title="block bitmap"></a>block bitmap</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">位图 -&gt; 标记块是否被使用</span><br></pre></td></tr></table></figure>
+<h4 id="inode-bitmap"><a href="#inode-bitmap" class="headerlink" title="inode bitmap"></a>inode bitmap</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">位图 -&gt; 标记inode是否被使用</span><br></pre></td></tr></table></figure>
+<h4 id="super-block"><a href="#super-block" class="headerlink" title="super block"></a>super block</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">记录的文件信息.</span><br><span class="line">1.block与inode总量.</span><br><span class="line">2.未使用&#x2F;已使用inode&#x2F;block数量.</span><br><span class="line">3.block与inode大小(block为1,2,4k,inode为128bytes或256bytes).</span><br><span class="line">4.filesystem 的挂载时间、最近一次写入数据的时间、最近一次检验磁盘 (fsck) 的时间等文件系统的相关信</span><br><span class="line">息；</span><br><span class="line">5.一个 valid bit 数值，若此文件系统已被挂载，则 valid bit 为 0 ，若未被挂载，则 valid bit 为 1</span><br></pre></td></tr></table></figure>
+<h4 id="dumpe2fs"><a href="#dumpe2fs" class="headerlink" title="dumpe2fs"></a>dumpe2fs</h4><p><img src="/2020/05/21/linux/dumpe2fs_1.png" alt><br><img src="/2020/05/21/linux/dumpe2fs_2.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dumpe2fs 可以分析 ext文件系统超级块信息.</span><br><span class="line">dumpe2fs &#x2F;dev&#x2F;vda1 | less</span><br></pre></td></tr></table></figure>
+<h4 id="ext缺点"><a href="#ext缺点" class="headerlink" title="ext缺点"></a>ext缺点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.分区格式化太慢,inode与blockfe分配耗费过长时间</span><br><span class="line">2.单个文件大小存在上限2GB.</span><br></pre></td></tr></table></figure>
+<h3 id="XFS文件系统"><a href="#XFS文件系统" class="headerlink" title="XFS文件系统"></a>XFS文件系统</h3><h4 id="规划"><a href="#规划" class="headerlink" title="规划"></a>规划</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">资料区(data section):</span><br><span class="line">    存储区群组(allocation groups,AG)与ext家族block group类似. -&gt; superblock + 剩余空间的管理机制 + inode的分配与追踪</span><br><span class="line">    taps: 由于inode是与block是用时再分配，即初始格式化时候不需要分配,所以格式化速度非常快</span><br><span class="line">    taps: block可调配 512bytes~64KB,不过由于页表大小为4KB,linux限制block最大4KB.inode容量可以设置256bytes~2MB.</span><br><span class="line">文件系统活动日志区(log section):</span><br><span class="line">    记录文件系统中文件的变化,可以做宕机恢复，快速修复文件系统.</span><br><span class="line">实时运作区(realtime section)</span><br><span class="line">  当有文件要被建立时，xfs 会在这个区段里面找一个到数个的 extent 区块，将文件放置在这个区块内，</span><br><span class="line">  等到分配完毕后，再写入到 data section 的 inode 与 block 去！ 这个 extent 区块的大小得要在格式化的时候就先指定，最小值是 4K 最大可到 1G。</span><br></pre></td></tr></table></figure>
+<h4 id="xfs-info"><a href="#xfs-info" class="headerlink" title="xfs_info"></a>xfs_info</h4><p><img src="/2020/05/21/linux/xfs_info.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">xfs_info &#x2F;dev&#x2F;sda1 查看xfs文件系统超级块信息.</span><br><span class="line">isize -&gt;inode 大小</span><br><span class="line">sectsz -&gt; sector 大小</span><br><span class="line">bsize -&gt; block 大小</span><br><span class="line">data -&gt;资料区</span><br><span class="line">log  -&gt;日志区</span><br><span class="line">realtime -&gt; 实时运作区</span><br></pre></td></tr></table></figure>
+<h3 id="VFS"><a href="#VFS" class="headerlink" title="VFS"></a>VFS</h3><p><img src="/2020/05/21/linux/vfs.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Linux VFS(Virtual Filesystem Switch)</span><br><span class="line">VFS管理所有的filesystem,将文件系统之间的切换透明化.</span><br></pre></td></tr></table></figure>
+<h3 id="磁盘分区、格式化、检验与挂载"><a href="#磁盘分区、格式化、检验与挂载" class="headerlink" title="磁盘分区、格式化、检验与挂载"></a>磁盘分区、格式化、检验与挂载</h3><h4 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1.对磁盘进行分区,建立可用的partition.</span><br><span class="line">  fdisk&#x2F;gdisk</span><br><span class="line">2.对partition进行格式化(format),以建立系统可用的filesystem.</span><br><span class="line">  mkfs</span><br><span class="line">3.对刚刚建立好的filesystem进行检验.</span><br><span class="line">  xfs_repair</span><br><span class="line">  fsck.ext4</span><br><span class="line">4.建立挂载点(目录),并将文件系统挂载到目录.</span><br><span class="line">   mount    UUID&#x3D;.... &#x2F;data&#x2F;ext4</span><br><span class="line">   taps:为啥设备都有UUID,因为设备在不同linux系统下,对应的设备&#x2F;分区名可能是不同的,而UUID是唯一的.</span><br></pre></td></tr></table></figure>
+<h4 id="设置开机挂载"><a href="#设置开机挂载" class="headerlink" title="设置开机挂载"></a>设置开机挂载</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">taps: &#x2F;目录是必须挂载的,并且一定要先于其它mount point被挂载.mount point必须遵守系统目录架构原则(FHS).</span><br><span class="line">&#x2F;etc&#x2F;fstab  -&gt;  开机时候会将&#x2F;etc&#x2F;fstab中的文件系统都挂载好.</span><br><span class="line">$&gt;cat &#x2F;etc&#x2F;fstab</span><br><span class="line">设备名称                mount point             文件系统 额外参数(-o)  dump(备份) fsck</span><br><span class="line">&#x2F;dev&#x2F;mapper&#x2F;centos-root &#x2F;                       xfs     defaults        0 0</span><br><span class="line">UUID&#x3D;7089a3f1-ce01-474a-9d98-89c3c18fe2da &#x2F;boot xfs     defaults        0 0</span><br><span class="line">&#x2F;dev&#x2F;mapper&#x2F;centos-home &#x2F;home                   xfs     defaults        0 0</span><br><span class="line">&#x2F;dev&#x2F;mapper&#x2F;centos-swap swap                    swap    defaults        0 0</span><br><span class="line">taps:  单人维护模式下的&#x2F;目录是read only状态,不能修改文件,可以通过以下一招解决它.</span><br><span class="line">  mount -n -o remount,rw &#x2F;   -&gt; 重新挂载&#x2F;为rw.</span><br></pre></td></tr></table></figure>
+<h3 id="特殊装置-loop-挂载"><a href="#特殊装置-loop-挂载" class="headerlink" title="特殊装置 loop 挂载"></a>特殊装置 loop 挂载</h3><h4 id="挂载光盘-DVD镜像文件"><a href="#挂载光盘-DVD镜像文件" class="headerlink" title="挂载光盘/DVD镜像文件"></a>挂载光盘/DVD镜像文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">taps: Loop设备是一种伪设备，是使用文件来模拟块设备的一种技术，文件模拟成块设备后, 就像一个磁盘或光盘一样使用。</span><br><span class="line">1.通过loop装置挂载镜像文件,不需要刻录在光盘上.</span><br><span class="line">    #挂载DVD映像档</span><br><span class="line">    mount -o loop &#x2F;tmp&#x2F;CentOS-7.0-1406-x86_64-DVD.iso &#x2F;data&#x2F;centos_dvd</span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line">#### 建立大文件以制作loop装置文件</span><br></pre></td></tr></table></figure>
+<p>1.建立大文件<br>    dd if=/dev/zero of=/srv/loopdev bs=1M count=512<br>2.大型文件的格式化.<br>    mkfs.xfs -f /srv/loopdev<br>    blkid /srv/loopdev<br>    /srv/loopdev: UUID=”28bf9523-132b-4d65-a80b-98dfe331ab0c” TYPE=”xfs”<br>3.挂载.<br>    mount -o loop UUID=”28bf9523-132b-4d65-a80b-98dfe331ab0c” /mnt<br>4.设置自动挂载.<br>  vi /etc/fstab<br>  /srv/loopdev  /data/file  xfs     defaults,loop   0  0<br>5.mount -a</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### 内存置换空间(swap)之建制</span><br></pre></td></tr></table></figure>
+<p>swap  -  用磁盘来暂存放置内存中的信息,用到swap时候,主机键盘灯会闪个不停.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 使用实体分区槽建置swap</span><br></pre></td></tr></table></figure>
+<p>1.分区:使用gdisk在磁盘中分出一个分区槽给系统做swap.<br>2.格式化: mkswap [装置文件名]  -&gt;  将分区槽格式化为swap分区.<br>3.将swap装置启动. swapon [装置文件名].<br>4.通过swapon -s / free 观察内存的用量.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 使用文件建置swap</span><br></pre></td></tr></table></figure>
+<p>1.使用dd指令新建一个128MB的文件.<br>  dd if=/dev/zero of=/tmp/swap bs=1M count=128<br>2.使用mkswap将/tmp/swap文件格式化为swap文件格式.<br>  mkswap /tmp/swap<br>3.swapon 启动 /tmp/swap.<br>4.设定自动启用.<br>  vim /etc/fstab<br>  /tmp/swap  swap  swap  defaults  0  0<br>  ps:文件不要用UUID,系统根据UUID会查询块设备,不会查文件.<br>```</p>
+
+    </div>
+
+    
+    
+    
+		<div>
+			
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+			
+		</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/17/linux-command/" rel="prev" title="linux-command">
+      <i class="fa fa-chevron-left"></i> linux-command
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/27/maven/" rel="next" title="maven">
+      maven <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机概论"><span class="nav-number">1.</span> <span class="nav-text">计算机概论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件五大设备"><span class="nav-number">1.1.</span> <span class="nav-text">硬件五大设备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#输入设备"><span class="nav-number">1.1.1.</span> <span class="nav-text">输入设备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输出设备"><span class="nav-number">1.1.2.</span> <span class="nav-text">输出设备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算术逻辑单元"><span class="nav-number">1.1.3.</span> <span class="nav-text">算术逻辑单元</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#控制器"><span class="nav-number">1.1.4.</span> <span class="nav-text">控制器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#存储器"><span class="nav-number">1.1.5.</span> <span class="nav-text">存储器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主机部分"><span class="nav-number">1.2.</span> <span class="nav-text">主机部分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CPU"><span class="nav-number">1.2.1.</span> <span class="nav-text">CPU</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主存储器"><span class="nav-number">1.2.2.</span> <span class="nav-text">主存储器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#硬盘"><span class="nav-number">1.2.3.</span> <span class="nav-text">硬盘</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显卡"><span class="nav-number">1.2.4.</span> <span class="nav-text">显卡</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#芯片组"><span class="nav-number">1.2.5.</span> <span class="nav-text">芯片组</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统"><span class="nav-number">2.</span> <span class="nav-text">操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础概念"><span class="nav-number">2.1.</span> <span class="nav-text">基础概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内核"><span class="nav-number">2.2.</span> <span class="nav-text">内核</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内核-Kernel-功能"><span class="nav-number">2.2.1.</span> <span class="nav-text">内核(Kernel)功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户态与内核态之间的三种转换方式"><span class="nav-number">2.2.2.</span> <span class="nav-text">用户态与内核态之间的三种转换方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主机规划与磁盘分区"><span class="nav-number">3.</span> <span class="nav-text">主机规划与磁盘分区</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主机硬件选择"><span class="nav-number">3.1.</span> <span class="nav-text">主机硬件选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#磁盘分区"><span class="nav-number">3.2.</span> <span class="nav-text">磁盘分区</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MRB的PatitionTable-分区表"><span class="nav-number">3.2.1.</span> <span class="nav-text">MRB的PatitionTable(分区表)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作系统开机的整个流程"><span class="nav-number">3.2.2.</span> <span class="nav-text">操作系统开机的整个流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GPT分区表"><span class="nav-number">3.2.3.</span> <span class="nav-text">GPT分区表</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux-目录对应的分区"><span class="nav-number">3.3.</span> <span class="nav-text">linux 目录对应的分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux镜像安装"><span class="nav-number">3.4.</span> <span class="nav-text">linux镜像安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NAT"><span class="nav-number">3.4.1.</span> <span class="nav-text">NAT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#桥接"><span class="nav-number">3.4.2.</span> <span class="nav-text">桥接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DHCP"><span class="nav-number">3.4.3.</span> <span class="nav-text">DHCP</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件系统"><span class="nav-number">4.</span> <span class="nav-text">文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#挂载"><span class="nav-number">4.1.</span> <span class="nav-text">挂载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件权限"><span class="nav-number">4.2.</span> <span class="nav-text">文件权限</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用户"><span class="nav-number">4.2.1.</span> <span class="nav-text">用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#权限"><span class="nav-number">4.2.2.</span> <span class="nav-text">权限</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件种类"><span class="nav-number">4.3.</span> <span class="nav-text">文件种类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目录规范"><span class="nav-number">4.4.</span> <span class="nav-text">目录规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LVM"><span class="nav-number">4.5.</span> <span class="nav-text">LVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ext2-ext3-ext4文件系统"><span class="nav-number">4.6.</span> <span class="nav-text">ext2,ext3,ext4文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#block-group"><span class="nav-number">4.6.1.</span> <span class="nav-text">block group</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#boot-sector"><span class="nav-number">4.6.2.</span> <span class="nav-text">boot sector</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#block"><span class="nav-number">4.6.3.</span> <span class="nav-text">block</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#inode-table"><span class="nav-number">4.6.4.</span> <span class="nav-text">inode table</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#block-bitmap"><span class="nav-number">4.6.5.</span> <span class="nav-text">block bitmap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#inode-bitmap"><span class="nav-number">4.6.6.</span> <span class="nav-text">inode bitmap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#super-block"><span class="nav-number">4.6.7.</span> <span class="nav-text">super block</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dumpe2fs"><span class="nav-number">4.6.8.</span> <span class="nav-text">dumpe2fs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ext缺点"><span class="nav-number">4.6.9.</span> <span class="nav-text">ext缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XFS文件系统"><span class="nav-number">4.7.</span> <span class="nav-text">XFS文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#规划"><span class="nav-number">4.7.1.</span> <span class="nav-text">规划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#xfs-info"><span class="nav-number">4.7.2.</span> <span class="nav-text">xfs_info</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VFS"><span class="nav-number">4.8.</span> <span class="nav-text">VFS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#磁盘分区、格式化、检验与挂载"><span class="nav-number">4.9.</span> <span class="nav-text">磁盘分区、格式化、检验与挂载</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#具体步骤"><span class="nav-number">4.9.1.</span> <span class="nav-text">具体步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置开机挂载"><span class="nav-number">4.9.2.</span> <span class="nav-text">设置开机挂载</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊装置-loop-挂载"><span class="nav-number">4.10.</span> <span class="nav-text">特殊装置 loop 挂载</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#挂载光盘-DVD镜像文件"><span class="nav-number">4.10.1.</span> <span class="nav-text">挂载光盘&#x2F;DVD镜像文件</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="vicyor"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">vicyor</p>
+  <div class="site-description" itemprop="description">大路且慢慢,咱一步一步走完.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vicyor" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vicyor" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2457569580@qq.com" title="E-Mail → mailto:2457569580@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vicyor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">819k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">12:25</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = visitors.getAttribute('id').trim();
+      var title = visitors.getAttribute('data-flag-title').trim();
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.log('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return element.getAttribute('id').trim();
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=m9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'm9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz',
+            'X-LC-Key': 'g7WSuE6aDmunoX4rgyBN7SJa',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'qQhr9rNGJh6YalJA0mfaaurx-gzGzoHsz',
+    appKey: 'kJy8NJeOTMPnxQ3zLihOcnw3',
+    placeholder: "请留下您的宝贵评论",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+	
+		 <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		 <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

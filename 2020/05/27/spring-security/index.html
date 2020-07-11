@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://vicyor.gitee.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="spring security 是一个功能强大的框架,致力于为java应用程序提供身份验证和授权.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring-security">
+<meta property="og:url" content="http://vicyor.gitee.io/2020/05/27/spring-security/index.html">
+<meta property="og:site_name" content="Vicyor">
+<meta property="og:description" content="spring security 是一个功能强大的框架,致力于为java应用程序提供身份验证和授权.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/05/27/spring-security/1.png">
+<meta property="article:published_time" content="2020-05-27T07:01:33.000Z">
+<meta property="article:modified_time" content="2020-07-11T01:00:39.707Z">
+<meta property="article:author" content="vicyor">
+<meta property="article:tag" content="spring">
+<meta property="article:tag" content="security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vicyor.gitee.io/2020/05/27/spring-security/1.png">
+
+<link rel="canonical" href="http://vicyor.gitee.io/2020/05/27/spring-security/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>spring-security | Vicyor</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vicyor</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">40</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">38</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/05/27/spring-security/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="vicyor">
+      <meta itemprop="description" content="大路且慢慢,咱一步一步走完.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vicyor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          spring-security
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-27 15:01:33" itemprop="dateCreated datePublished" datetime="2020-05-27T15:01:33+08:00">2020-05-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-11 09:00:39" itemprop="dateModified" datetime="2020-07-11T09:00:39+08:00">2020-07-11</time>
+              </span>
+
+          
+            <span id="/2020/05/27/spring-security/" class="post-meta-item leancloud_visitors" data-flag-title="spring-security" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/05/27/spring-security/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/27/spring-security/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>spring security 是一个功能强大的框架,致力于为java应用程序提供身份验证和授权.</p>
+<a id="more"></a>
+<h2 id="RBAC"><a href="#RBAC" class="headerlink" title="RBAC"></a>RBAC</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.RBAC -&gt; 基于角色的访问控制</span><br><span class="line">Resource -&gt; 资源</span><br><span class="line">Role     -&gt; 角色</span><br><span class="line">Permission -&gt; 权限</span><br><span class="line">角色权限可以自动配置,权限细化到每个URL.</span><br></pre></td></tr></table></figure>
+<h2 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h2><h3 id="默认过滤器链顺序"><a href="#默认过滤器链顺序" class="headerlink" title="默认过滤器链顺序"></a>默认过滤器链顺序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">按顺序取重要的(其实是看得懂的)过滤器说明</span><br><span class="line">SecurityContextPersistenceFilter   从session中获取token并放入SecurityContextHolder(ThreadLocal)中.这个主要处理非登录请求.</span><br><span class="line">HeaderWriterFilter                 在response中写入header.</span><br><span class="line">CsrfFilter                         csrf攻击,Cross-site Request Forgery.判断请求中是否有合法的token(此token不同上文token,相当于手机验证码实现)</span><br><span class="line">    taps:csrf -&gt; 黑客利用浏览器漏洞,利用用户已登录网站的cookie作为认证去访问后端.</span><br><span class="line">        例:</span><br><span class="line">        银行转账url:http:&#x2F;&#x2F;www.examplebank.com&#x2F;withdraw?account&#x3D;AccoutName&amp;amount&#x3D;1000&amp;for&#x3D;PayeeName</span><br><span class="line">        黑客编写恶意站点</span><br><span class="line">        xxx.com</span><br><span class="line">        用这个img标签，好像会携带浏览器cookie,这样就可以攻击后端了</span><br><span class="line">         &lt;img src&#x3D;&quot;http:&#x2F;&#x2F;www.examplebank.com&#x2F;withdraw?account&#x3D;Alice&amp;amount&#x3D;1000&amp;for&#x3D;Badman&quot;&gt;</span><br><span class="line">LogoutFilter                       拦截&#x2F;logout的url,做退出处理,FilterChain就不继续往下面走.</span><br><span class="line">UsernamePasswordAuthenticationFilter 用密登录</span><br><span class="line">......</span><br><span class="line">AnonymousAuthenticationFilter       匿名认证处理,创建AnonymousAuthenticationToken并放入到SecurityContextHolder中</span><br><span class="line">ExceptionTranslationFilter          对FilterSecurityInterceptor抛出的异常处理</span><br><span class="line">FilterSecurityInterceptor           鉴权,beforeInvocation方法中会判断用户是否具有访问url的权限</span><br></pre></td></tr></table></figure>
+<h3 id="其它过滤器"><a href="#其它过滤器" class="headerlink" title="其它过滤器"></a>其它过滤器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RememberMeAuthenticationFilter          -   记住我</span><br><span class="line">CasAuthenticationFilter                 -   cas -Center Authenticate Service</span><br><span class="line">OAuth2LoginAuthenticationFilter         -   Open Authentication</span><br></pre></td></tr></table></figure>
+<h3 id="认证过程"><a href="#认证过程" class="headerlink" title="认证过程"></a>认证过程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">拿表单登录举个例子(无关紧要的操作就不说了).</span><br><span class="line">1.前端点击登录按钮,表单以post方式请求&#x2F;login并携带用户名和密码.</span><br><span class="line">2.UsernamePasswordAuthenticationFilter根据username和password创建UsernamePasswordAuthenticationToken authRequest.</span><br><span class="line">3.getAuthenticationManager().authenticate(authRequest);</span><br><span class="line">  DaoAuthenticationProvider#authenticate -&gt; </span><br><span class="line">  user&#x3D;getUserDetailsService().loadUserByUsername(username)</span><br><span class="line">  对authRequest的密码通过passwordEncoder加密与user中的密码比对.</span><br><span class="line">  比对成功则认证成功.</span><br><span class="line">4.将usernamePasswordAuthenticationToken放入SecurityContextHolder中.</span><br></pre></td></tr></table></figure>
+<h2 id="权限管理"><a href="#权限管理" class="headerlink" title="权限管理"></a>权限管理</h2><h3 id="鉴权过程"><a href="#鉴权过程" class="headerlink" title="鉴权过程"></a>鉴权过程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FilterSecurityInterceptor#invoke -&gt;</span><br><span class="line">AbstractSecurityInterceptor#beforeInvocation -&gt;</span><br><span class="line">obtainSecurityMetadataSource().getAttributes(object) -&gt; #获取url对应的attributes(加载数据库中的权限)</span><br><span class="line">accessDecisionManager.decide(authenticated, object, attributes) -&gt;#判断authenticated(token)中的权限是否属于url的attributes</span><br><span class="line">匹配则鉴权成功,不匹配则用户无访问url权限,抛出exception,由上一层ExceptionTranslationFilter处理异常.</span><br></pre></td></tr></table></figure>
+<h2 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1.通过一个Json对象存储用户的信息,并保存到客户端的cookie或local storage中.</span><br><span class="line">2.服务端是无状态,无session.</span><br><span class="line">3.JWT-&gt;JWT Header-Meta Data + JWT PayLoad +(header+body加密后的签名).</span><br><span class="line">4.优点:</span><br><span class="line">  服务端不存session,内存使用将会降低,有助于垃圾回收.</span><br><span class="line">  JWT可以保存用户信息,可以做单点登录.</span><br><span class="line">5.缺点:</span><br><span class="line">  JWT泄露问题,signkey丢失导致用户信息泄露.</span><br><span class="line">  JWT无法自动实时更新</span><br></pre></td></tr></table></figure>
+<h3 id="SpringSecurity集成JWT"><a href="#SpringSecurity集成JWT" class="headerlink" title="SpringSecurity集成JWT"></a>SpringSecurity集成JWT</h3><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.客户端第一次登录使用用户名&#x2F;密码登录,服务器判断用户名密码登录,在登录完成后在成功钩子接口中通过Response Body返回JWT,客户端保存JWT.</span><br><span class="line">2.客户端后续登录会在header中自动携带JWT.服务器判断jwt登录,判断成功,则认证成功.</span><br></pre></td></tr></table></figure>
+<h4 id="WebSecurityConfiguration"><a href="#WebSecurityConfiguration" class="headerlink" title="WebSecurityConfiguration"></a>WebSecurityConfiguration</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">WebSecurityConfiguration#configure</span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    http</span><br><span class="line">            .authorizeRequests()</span><br><span class="line">            <span class="comment">//处理post请求时的options请求</span></span><br><span class="line">            .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()</span><br><span class="line">            <span class="comment">//main服务器上的请求都需要认证</span></span><br><span class="line">            .anyRequest().authenticated()</span><br><span class="line">            .and()</span><br><span class="line">            <span class="comment">//添加JWT过滤器配置</span></span><br><span class="line">            .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">            //<span class="title">form</span>表单登录配置</span></span><br><span class="line"><span class="class">            .<span class="title">formLogin</span>()</span></span><br><span class="line"><span class="class">            //<span class="title">get</span>方式前往表单登录页</span></span><br><span class="line">            .loginPage("/login")</span><br><span class="line">            <span class="comment">//post方式提交认证请求</span></span><br><span class="line">            .loginProcessingUrl(<span class="string">"/login"</span>)</span><br><span class="line">            <span class="comment">//认证成功处理页面</span></span><br><span class="line">            .successForwardUrl(<span class="string">"/success"</span>)</span><br><span class="line">            .permitAll()</span><br><span class="line">            .and()</span><br><span class="line">            <span class="comment">//无会话</span></span><br><span class="line">            .sessionManagement()</span><br><span class="line">            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)</span><br><span class="line">            .and()</span><br><span class="line">            <span class="comment">//csrf要求表单要有一个hidden域</span></span><br><span class="line">            .csrf().disable()</span><br><span class="line">            <span class="comment">//允许跨域</span></span><br><span class="line">            .cors();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="用密登录成功钩子"><a href="#用密登录成功钩子" class="headerlink" title="用密登录成功钩子"></a>用密登录成功钩子</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(name = <span class="string">"/success"</span>, method = RequestMethod.POST)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> GeneralResponseObject <span class="title">loginSuccessProcess</span><span class="params">(@RequestParam(<span class="string">"username"</span>)</span> String username, @<span class="title">RequestParam</span><span class="params">(<span class="string">"password"</span>)</span> String password, @<span class="title">RequestParam</span><span class="params">(<span class="string">"temporaryShoppingCart"</span>)</span> String temporaryShoppingCart) <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="comment">//获取用户id</span></span><br><span class="line">    ShoppingUser user = shoppingUserService.findUserByUsername(username);</span><br><span class="line">    Long userId = user.getId();</span><br><span class="line">    ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">    List temporaryShoppingCarts = mapper.readValue(temporaryShoppingCart, ArrayList<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    <span class="comment">//在响应中返回jwt</span></span><br><span class="line">    GeneralResponseObject response = <span class="keyword">new</span> GeneralResponseObject(<span class="number">0</span>, <span class="keyword">new</span> ArrayList()&#123;&#123;add(<span class="keyword">new</span> HashMap&lt;String,Object&gt;()&#123;&#123;put(<span class="string">"Authorization"</span>,<span class="string">"Bearer "</span> + jwtUtil.generateJsonWebToken(user));&#125;&#125;);&#125;&#125;, <span class="string">"购物车成功合并"</span>);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//将临时购物车和用户购物车合并</span></span><br><span class="line">        userShoppingCartService.mergeTemporaryShoppingCart(userId, temporaryShoppingCarts);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (RuntimeException re) &#123;</span><br><span class="line">        re.printStackTrace();</span><br><span class="line">        response = <span class="keyword">new</span> GeneralResponseObject(<span class="number">103</span>, <span class="keyword">null</span>, <span class="string">"购物车合并失败"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> response;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="JwtAuthenticationFilter"><a href="#JwtAuthenticationFilter" class="headerlink" title="JwtAuthenticationFilter"></a>JwtAuthenticationFilter</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doFilterInternal</span><span class="params">(HttpServletRequest request, HttpServletResponse response, FilterChain chain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">    <span class="comment">//获取request header中authorization</span></span><br><span class="line">    String authorization = obtationAuthorization(request);</span><br><span class="line">    <span class="comment">//判断jwt是否过期，是否伪造</span></span><br><span class="line">    <span class="keyword">if</span> (!authorization.equals(<span class="string">""</span>) &amp;&amp; jwtUtil.validateToken(authorization)) &#123;</span><br><span class="line">        String username = jwtUtil.getSubject(authorization);</span><br><span class="line">        List&lt;String&gt; roles = jwtUtil.getRoles(authorization);</span><br><span class="line">       <span class="comment">//生成token</span></span><br><span class="line">        UsernamePasswordAuthenticationToken token = <span class="keyword">new</span> UsernamePasswordAuthenticationToken(username, <span class="keyword">null</span>, roles.stream().map(SimpleGrantedAuthority::<span class="keyword">new</span>).collect(Collectors.toSet()));</span><br><span class="line">       <span class="comment">//放入SecurityContextHolder中</span></span><br><span class="line">        SecurityContextHolder.setContext(<span class="keyword">new</span> SecurityContextImpl(token));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//这个放行很重要哦，不放行会直接导致请求被abort</span></span><br><span class="line">        chain.doFilter(request, response);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Oauth"><a href="#Oauth" class="headerlink" title="Oauth"></a>Oauth</h2><h3 id="四种授权模式"><a href="#四种授权模式" class="headerlink" title="四种授权模式"></a>四种授权模式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">taps:认证服务器如何判断用户是否登录?</span><br><span class="line">认证服务器和用户浏览器端存在唯一的cookie.ps:浏览器和每个服务器都会有cookie.所以和认证服务器之间也有cookie.</span><br><span class="line">taps:资源服务器如何判断用户是否登录?</span><br><span class="line">用户在认证服务器登陆后,会将token存到资源服务器session中.</span><br><span class="line">taps:如何做到单点登录?</span><br><span class="line">用户访问其它的资源，会触发去认证服务器登录,认证服务器发现其已登录(cookie),就直接返回token,其它资源服务器将token存入session中.</span><br><span class="line">1.授权码模式.</span><br><span class="line">  用户先在认证服务器登录后，资源服务器获取code,资源服务器再根据code去获取token，将token存到session.</span><br><span class="line">2.简化模式.</span><br><span class="line">  用户在认证服务器登录后,资源服务器直接获取token,并存到session中.</span><br><span class="line">3.密码模式.</span><br><span class="line">   资源服务器直接将认证信息发给认证服务器,认证服务器返回token.</span><br><span class="line">4.客户端模式(无用户模式).</span><br><span class="line">   资源服务器发自己的身份信息给认证服务器,认证服务器返回token.</span><br></pre></td></tr></table></figure>
+<h3 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">浏览器</span><br><span class="line">客户端服务器</span><br><span class="line">资源服务器</span><br><span class="line">认证服务器</span><br></pre></td></tr></table></figure>
+<h3 id="oauth单点登录过程"><a href="#oauth单点登录过程" class="headerlink" title="oauth单点登录过程"></a>oauth单点登录过程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">以授权码模式介绍.</span><br><span class="line">1.用户访问A服务器资源.A服务器判断用户有没有登录.</span><br><span class="line">2.用户未登录,则将用户引向认证服务器登录.</span><br><span class="line">3.用户登录后，认证服务器会重定向到A服务器的认证URL.</span><br><span class="line">4.A服务器处理重定向请求，获取URL中的code，根据code去认证服务器加载token,放入session中，认证成功.</span><br></pre></td></tr></table></figure>
+<h3 id="oauth单点注销过程"><a href="#oauth单点注销过程" class="headerlink" title="oauth单点注销过程"></a>oauth单点注销过程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.用户在某客户端发起注销请求.</span><br><span class="line">2.某客户端服务器会向认证服务器请求注销.</span><br><span class="line">3.认证服务器根据客户端携带的token,去向所有具有该token的客户端发送销毁请求.</span><br><span class="line">4.其它客户端接收销毁请求,销毁对应的token.</span><br></pre></td></tr></table></figure>
+<h2 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h2><h3 id="角色-1"><a href="#角色-1" class="headerlink" title="角色"></a>角色</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">浏览器</span><br><span class="line">CAS Client</span><br><span class="line">CAS Server</span><br></pre></td></tr></table></figure>
+<h3 id="CAS登录过程"><a href="#CAS登录过程" class="headerlink" title="CAS登录过程"></a>CAS登录过程</h3><p><img src="/2020/05/27/spring-security/1.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cas和oauth的授权码模式非常相似,这里就不复说</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+		<div>
+			
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+			
+		</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/spring/" rel="tag"># spring</a>
+              <a href="/tags/security/" rel="tag"># security</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/27/maven/" rel="prev" title="maven">
+      <i class="fa fa-chevron-left"></i> maven
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/30/java-virtual-machine/" rel="next" title="java_virtual_machine">
+      java_virtual_machine <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RBAC"><span class="nav-number">1.</span> <span class="nav-text">RBAC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#认证"><span class="nav-number">2.</span> <span class="nav-text">认证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#默认过滤器链顺序"><span class="nav-number">2.1.</span> <span class="nav-text">默认过滤器链顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它过滤器"><span class="nav-number">2.2.</span> <span class="nav-text">其它过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#认证过程"><span class="nav-number">2.3.</span> <span class="nav-text">认证过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权限管理"><span class="nav-number">3.</span> <span class="nav-text">权限管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#鉴权过程"><span class="nav-number">3.1.</span> <span class="nav-text">鉴权过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JWT"><span class="nav-number">4.</span> <span class="nav-text">JWT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringSecurity集成JWT"><span class="nav-number">4.1.</span> <span class="nav-text">SpringSecurity集成JWT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">4.1.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebSecurityConfiguration"><span class="nav-number">4.1.2.</span> <span class="nav-text">WebSecurityConfiguration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用密登录成功钩子"><span class="nav-number">4.1.3.</span> <span class="nav-text">用密登录成功钩子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JwtAuthenticationFilter"><span class="nav-number">4.1.4.</span> <span class="nav-text">JwtAuthenticationFilter</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Oauth"><span class="nav-number">5.</span> <span class="nav-text">Oauth</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#四种授权模式"><span class="nav-number">5.1.</span> <span class="nav-text">四种授权模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#角色"><span class="nav-number">5.2.</span> <span class="nav-text">角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oauth单点登录过程"><span class="nav-number">5.3.</span> <span class="nav-text">oauth单点登录过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oauth单点注销过程"><span class="nav-number">5.4.</span> <span class="nav-text">oauth单点注销过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS"><span class="nav-number">6.</span> <span class="nav-text">CAS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#角色-1"><span class="nav-number">6.1.</span> <span class="nav-text">角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS登录过程"><span class="nav-number">6.2.</span> <span class="nav-text">CAS登录过程</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="vicyor"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">vicyor</p>
+  <div class="site-description" itemprop="description">大路且慢慢,咱一步一步走完.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vicyor" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vicyor" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2457569580@qq.com" title="E-Mail → mailto:2457569580@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vicyor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">819k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">12:25</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = visitors.getAttribute('id').trim();
+      var title = visitors.getAttribute('data-flag-title').trim();
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.log('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return element.getAttribute('id').trim();
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=m9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'm9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz',
+            'X-LC-Key': 'g7WSuE6aDmunoX4rgyBN7SJa',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'qQhr9rNGJh6YalJA0mfaaurx-gzGzoHsz',
+    appKey: 'kJy8NJeOTMPnxQ3zLihOcnw3',
+    placeholder: "请留下您的宝贵评论",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+	
+		 <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		 <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

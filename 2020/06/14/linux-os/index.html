@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://vicyor.gitee.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="这是极客时间 &lt;&lt;趣谈Linux操作系统&gt;&gt;这门课所做的笔记taps: 关于linux的内核源码部分没有过多记录,只记录的大部分逻辑.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux_os">
+<meta property="og:url" content="http://vicyor.gitee.io/2020/06/14/linux-os/index.html">
+<meta property="og:site_name" content="Vicyor">
+<meta property="og:description" content="这是极客时间 &lt;&lt;趣谈Linux操作系统&gt;&gt;这门课所做的笔记taps: 关于linux的内核源码部分没有过多记录,只记录的大部分逻辑.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/linux.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/linux-process.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/linux-system.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/linux-process-manage.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/hard-logic.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/linux-logic-2.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/x86-cpu.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/bios-bootloader.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/linux-kernel.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/process-tree.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/segment.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/page.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/filesystem.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/ext4-inode.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/link.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/vfs.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/file_operate.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/out-system.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/irq.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/singal.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/osi.jpg">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/send-data-package.jpg">
+<meta property="article:published_time" content="2020-06-14T14:02:13.000Z">
+<meta property="article:modified_time" content="2020-07-11T01:00:41.206Z">
+<meta property="article:author" content="vicyor">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vicyor.gitee.io/2020/06/14/linux-os/linux.jpg">
+
+<link rel="canonical" href="http://vicyor.gitee.io/2020/06/14/linux-os/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>linux_os | Vicyor</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vicyor</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">40</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">38</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/06/14/linux-os/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="vicyor">
+      <meta itemprop="description" content="大路且慢慢,咱一步一步走完.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vicyor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          linux_os
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-14 22:02:13" itemprop="dateCreated datePublished" datetime="2020-06-14T22:02:13+08:00">2020-06-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-11 09:00:41" itemprop="dateModified" datetime="2020-07-11T09:00:41+08:00">2020-07-11</time>
+              </span>
+
+          
+            <span id="/2020/06/14/linux-os/" class="post-meta-item leancloud_visitors" data-flag-title="linux_os" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/06/14/linux-os/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/14/linux-os/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>26k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>24 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这是极客时间 &lt;&lt;趣谈Linux操作系统&gt;&gt;这门课所做的笔记<br>taps: 关于linux的内核源码部分没有过多记录,只记录的大部分逻辑.</p>
+<a id="more"></a>
+<p><img src="/2020/06/14/linux-os/linux.jpg" alt></p>
+<h2 id="入门准备篇"><a href="#入门准备篇" class="headerlink" title="入门准备篇"></a>入门准备篇</h2><h3 id="入学测验题"><a href="#入学测验题" class="headerlink" title="入学测验题"></a>入学测验题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">1.在linux上安装一个软件的常用方式有.</span><br><span class="line">    A.make install.     make -&gt; 编译,make install -&gt;安装.</span><br><span class="line">    B.通过rpm和deb文件.  rpm -&gt; RedHat -&gt; rpm -参数,deb -&gt; Debian -&gt; dpkg -参数. </span><br><span class="line">    C.通过yum和apt-get.  yum-&gt;从云端安装rpm包,apt-get -&gt; 从云端安装deb包.</span><br><span class="line">    D.下载压缩包解压缩后设置PATH. -&gt;windows下可以,linux应该也可以.</span><br><span class="line">2.下列过程在实模式下运行的有.</span><br><span class="line">   A.BIOS加载启动扇区.</span><br><span class="line">   B.启动扇区加载Grub的kernel.img.   Grub(GRand Unified Bootloader) -&gt;计算机拥有多个操作系统(不同的操作系统在不同分区上)时,可以在计算机启动时候选择希望运行的操作系统.</span><br><span class="line">   C.Grub加载Linux内核.</span><br><span class="line">   D.Linux内核加载驱动.</span><br><span class="line">3.对于Linux内核初始化阶段创建进程,下列说法正确的有:</span><br><span class="line">   A.0号进程是所有用户态进程的祖先.</span><br><span class="line">   B.1号进程是所有用户态进程的祖先.</span><br><span class="line">   C.1号进程是所有内核态进程的祖先.</span><br><span class="line">   D.2号进程是所有内核态进程的祖先.</span><br><span class="line">   taps:0号进程是初始化进程,并创建1号进程与2号进程,1号进程是用户态进程祖先,2号进程是内核态进程祖先</span><br><span class="line">4.下列触发系统调用的指令.</span><br><span class="line">    A int $0x80 -&gt;中断</span><br><span class="line">    B sysenter  -&gt; x86_32</span><br><span class="line">    C syscall   -&gt; x86_64</span><br><span class="line">    D systemcall</span><br><span class="line">5.对于内核中的进程管理,下列描述正确的有.</span><br><span class="line">    A 将所有进程放入一个链表中,所有线程放在一个链表中</span><br><span class="line">    B 处于TASK_RUNNING状态的进程一定在占用CPU</span><br><span class="line">    C 父进程与子进程之间可以通过指针相互访问</span><br><span class="line">    D 从用户态切换到内核态要切换到内核栈</span><br><span class="line">6.关于进程调度,下列说法正确的是.</span><br><span class="line">    A.优先级低的进程可以采取FIFO策略.</span><br><span class="line">    B.优先级低的进程可以采取轮流调度策略.</span><br><span class="line">    C.对于普通进程可以采取CFS调度策略.</span><br><span class="line">    D.对于实时进程可以采取CFS调度策略.</span><br><span class="line">7.对于进程的内存管理,下列说法正确的是.</span><br><span class="line">    A.进程的代码非常关键,要放在内核态.</span><br><span class="line">    B.进程的代码非常关键,不能修改.</span><br><span class="line">    C.进程的栈分为两部分,用户栈与内核栈.</span><br><span class="line">    D.不同进程的内核态映射到相同的地方.</span><br><span class="line">8.对于物理内存的管理,下列说法正确的是.</span><br><span class="line">    A.物理内存被划分为大小相同的段,段被分为大小相等的页.</span><br><span class="line">    B.物理内存的页需要被标记这个页是属于内核还是用户的.</span><br><span class="line">    C.很可能CPU访问不同的页速度不同.</span><br><span class="line">    D.会有多个链表保存空闲的页面.</span><br><span class="line">9.对于文件,下面描述正确的有</span><br><span class="line">    A.文件描述符仅在一个进程内有效.</span><br><span class="line">    B.每个进程维护一个file链表,维护它打开的文件.</span><br><span class="line">    C.操作系统统一维护一个file链表,维护所有打开的文件.</span><br><span class="line">    D.每个文件都要有一个inode.</span><br><span class="line">10.对于虚拟文件系统,下列描述正确的是.</span><br><span class="line">   A.文件系统需要注册才能使用.</span><br><span class="line">   B.dentry结构维护了文件名和inode之间的关系.</span><br><span class="line">   C.每种文件系统对于读、写、打开、关闭操作都有自己的实现.</span><br><span class="line">   D.虚拟文件系统可以对接NFS之类的网络文件系统.</span><br><span class="line">11.对于输入输出设备,下列描述正确的有.</span><br><span class="line">   A.对于设备的操作完全使用文件的方式.</span><br><span class="line">   B.块设备的使用可以使用缓存,也可以不使用缓存进行读写.</span><br><span class="line">   C.字符设备可以使用缓存,也可以不适用缓存进行读写.</span><br><span class="line">   D.设备也会关联inode.</span><br><span class="line">12.对于网络通信,下列描述正确的有</span><br><span class="line">   A.七层协议全部都在内核里面实现.</span><br><span class="line">   B.套接字也是一个文件,因而也有inode.</span><br><span class="line">   C.相同机器的两个进程Socket通信只能通过Loopback.</span><br><span class="line">   D.相同机器的两个进程Socket通信可以通过文件.</span><br></pre></td></tr></table></figure>
+<h3 id="六个陡坡"><a href="#六个陡坡" class="headerlink" title="六个陡坡"></a>六个陡坡</h3><p><img src="/2020/06/14/linux-os/linux-process.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1.熟练使用linux命令行      -       &lt;&lt;鸟哥的linux私房菜&gt;&gt;</span><br><span class="line">2.学会linux程序设计        -       &lt;&lt;学会linux程序设计&gt;&gt;</span><br><span class="line">3.了解linux内核机制        -       &lt;&lt;深入了解LINUX内核&gt;&gt;</span><br><span class="line">4.阅读linux内核源码        -       &lt;&lt;Linux内核源代码情景分析&gt;&gt;</span><br><span class="line">5.实验定制化 linux组件     </span><br><span class="line">6.实践没有终点        </span><br><span class="line">7.大牛</span><br></pre></td></tr></table></figure>
+<h2 id="Linux操作系统综述"><a href="#Linux操作系统综述" class="headerlink" title="Linux操作系统综述"></a>Linux操作系统综述</h2><h3 id="计算机各种硬件"><a href="#计算机各种硬件" class="headerlink" title="计算机各种硬件"></a>计算机各种硬件</h3><p><img src="/2020/06/14/linux-os/linux-system.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1.鼠标和键盘     -&gt;      输入设备.  鼠标的点击相当于一次中断事件(Interrupt Event).   </span><br><span class="line">            输入设备驱动  -&gt;  客户对接员</span><br><span class="line">            客户向客户对接员发送需求 -&gt;  中断事件</span><br><span class="line">2.显示器         -&gt;      输出设备.                                                </span><br><span class="line">3.显卡           -&gt;      坐标. 显示信号 -&gt; 电信号                                   </span><br><span class="line">            输出设备驱动  -&gt;  交互人员</span><br><span class="line">            程序 -&gt; 项目执行计划书，会响应输入设备的输入中断请求.</span><br><span class="line">4.文件管理子系统(File Management Subsystem)    -&gt;      管理所有的文件系统.</span><br><span class="line">5.二进制可执行文件 - 程序(Program).</span><br><span class="line">  运行的程序 - 进程(Process).</span><br><span class="line">  系统调用   - 办事大厅</span><br><span class="line">6.进程管理子系统(Process Management Subsystem)   -  如果运行的进程很多,则一个CPU会并发运行多个进程 -&gt; CPU的调度能力.</span><br><span class="line">7.内存管理子系统(Memory Management Subsystem)   -  不同的进程有不同的内存空间,整个电脑内存就这么点儿,所以需要统一的管理和分配。</span><br></pre></td></tr></table></figure>
+<h3 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h3><p><img src="/2020/06/14/linux-os/linux-process-manage.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1.linux里,创建一个新进程,需要对老进程进行fork调用,父进程fork出子进程.</span><br><span class="line">  当父进程调用 fork 创建进程的时候,子进程将各个子系统为父进程创建的数据结构也全部拷贝了一份,甚至连程序代码也是拷贝过来的.</span><br><span class="line">2.子进程与父进程的如何取分?</span><br><span class="line">  fork函数系统调用返回值   -&gt;        0            -&gt;      子进程        </span><br><span class="line">                          -&gt;    子进程进程号      -&gt;      父进程</span><br><span class="line">3.运行新的二进制文件execve.</span><br><span class="line">3.waitpid pid</span><br><span class="line">  父进程查看子进程是否运行结束.</span><br><span class="line">4.内存管理  -&gt;  在操作系统中,每个进程都有自己的内存,互相之间不干扰,有独立的进程内存空间.</span><br><span class="line">  进程内存空间  -&gt;  代码段   -&gt;  存放程序代码</span><br><span class="line">               -&gt;  数据段   -&gt;  存放程序运行中产生数据  -&gt;堆&#x2F;栈</span><br><span class="line">5.在堆中分配内存的系统调用.</span><br><span class="line">  brk   -&gt;  用于分配数量比较小的内存,并和原来堆的数据连在一起.</span><br><span class="line">  mmap  -&gt;  用于分配数量比较大的内存,重新划分一块区域.</span><br></pre></td></tr></table></figure>
+<h3 id="文件管理"><a href="#文件管理" class="headerlink" title="文件管理"></a>文件管理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1.文件的系统调用.</span><br><span class="line">    1.open&#x2F;close - 打开&#x2F;关闭文件.</span><br><span class="line">    2.create - 创建文件.</span><br><span class="line">    3.lseek - 跳转到打开文件的某个位置.</span><br><span class="line">    4.read&#x2F;write - 对文件内容进行读写.</span><br><span class="line">2.linux - 一切皆文件.</span><br><span class="line">    程序文件    -   二进制文件</span><br><span class="line">    普通文件    -   文本文件</span><br><span class="line">    控制台      -   stdout文件</span><br><span class="line">    管道        -   管道文件</span><br><span class="line">    Socket      -   套接字文件</span><br><span class="line">    外部设备    -   设备文件 </span><br><span class="line">    文件夹      -   </span><br><span class="line">    进程文件    -   &#x2F;proc&#x2F;</span><br></pre></td></tr></table></figure>
+<h3 id="项目异常处理与信号处理"><a href="#项目异常处理与信号处理" class="headerlink" title="项目异常处理与信号处理"></a>项目异常处理与信号处理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.项目遇到异常情况,例如项目中断,需要发送一个信号(Signal)给项目组.常遇的信号有以下几种.</span><br><span class="line">    1.CTRL + C . </span><br><span class="line">    2.非法访问内存.</span><br><span class="line">    3.硬件故障.</span><br><span class="line">    4.kill -&gt; kill进程号指定的进程.</span><br></pre></td></tr></table></figure>
+<h3 id="项目组间沟通与进程间通信"><a href="#项目组间沟通与进程间通信" class="headerlink" title="项目组间沟通与进程间通信"></a>项目组间沟通与进程间通信</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.消息队列(Message Queue).  -  消息队列在内核之中。</span><br><span class="line">    msgget  -  创建一个消息队列</span><br><span class="line">    msgsnd  -  将消息发送到消息队列</span><br><span class="line">    msgrcv  -  从消息队列中取消息</span><br><span class="line">2.共享内存(Share Memory).</span><br><span class="line">    shmget  -  创建一个共享内存块.</span><br><span class="line">    shmat   -  将共享内存映射到自己的内存空间.</span><br><span class="line">3.信号量(Semaphore).</span><br><span class="line">   sem_wait</span><br><span class="line">     xxxx</span><br><span class="line">   sem_post</span><br></pre></td></tr></table></figure>
+<h3 id="公司间沟通与网络通信"><a href="#公司间沟通与网络通信" class="headerlink" title="公司间沟通与网络通信"></a>公司间沟通与网络通信</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.TCP&#x2F;IP协议栈.</span><br><span class="line">2.网络服务  -  套接字  Socket.</span><br></pre></td></tr></table></figure>
+<h3 id="源代码中的系统调用"><a href="#源代码中的系统调用" class="headerlink" title="源代码中的系统调用"></a>源代码中的系统调用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linux内核 -&gt; unistd_64.h -&gt;系统调用的定义.</span><br></pre></td></tr></table></figure>
+<h3 id="中介与Glibc"><a href="#中介与Glibc" class="headerlink" title="中介与Glibc"></a>中介与Glibc</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Glibc 是 Linux 下使用的开源的标准 C 库，它是 GNU 发布的 libc 库。</span><br><span class="line">Glibc 为程序员提供丰富的 API，除了例如字符串处理、数学运算等用户态服务之外，最重要的是封装了操作系统提供的系统服务，即系统调用的封装。</span><br><span class="line">每个特定的系统调用对应了至少一个 Glibc 封装的库函数，比如说，系统提供的打开文件系统调用 sys_open 对应的是 Glibc 中的 open 函数。</span><br><span class="line">Glibc 一个单独的 API 可能调用多个系统调用，比如说，Glibc 提供的 printf 函数就会调用如 sys_open、sys_mmap、sys_write、sys_close 等等系统调用。</span><br><span class="line">也有时候，多个 API 也可能只对应同一个系统调用，如 Glibc 下实现的 malloc、calloc、free 等函数用来分配和释放内存，都利用了内核的 sys_brk 的系统调用。</span><br></pre></td></tr></table></figure>
+<h2 id="系统初始化"><a href="#系统初始化" class="headerlink" title="系统初始化"></a>系统初始化</h2><h3 id="x86架构-有了开放的架构-才能打造开发的营商环境"><a href="#x86架构-有了开放的架构-才能打造开发的营商环境" class="headerlink" title="x86架构:有了开放的架构,才能打造开发的营商环境"></a>x86架构:有了开放的架构,才能打造开发的营商环境</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x86 - 开发、统一、兼容的平台.</span><br></pre></td></tr></table></figure>
+<h4 id="计算机的工作模式是怎么样的"><a href="#计算机的工作模式是怎么样的" class="headerlink" title="计算机的工作模式是怎么样的?"></a>计算机的工作模式是怎么样的?</h4><p><img src="/2020/06/14/linux-os/hard-logic.jpg" alt><br><img src="/2020/06/14/linux-os/linux-logic-2.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1.CPU(Central Processing Unit) - 计算机大脑</span><br><span class="line">总线(Bus) - CPU与其它设备的连接介质</span><br><span class="line">内存  - 内存将很多复杂的计算任务的中间结果保存下来</span><br><span class="line">2.CPU -  运算单元、数据单元、控制单元.</span><br><span class="line">   运算单元  -  加法器、乘法器......</span><br><span class="line">   数据单元  -  CPU内部的缓存与寄存器组</span><br><span class="line">   控制单元  -  指挥运算进行的单元 - 指令指针寄存器 - 存放下一条指令在内存中的地址.</span><br><span class="line">   指令   -   操作  - 计算单元</span><br><span class="line">             数据  - 数据单元</span><br><span class="line">3.进程切换的简单介绍.</span><br><span class="line">    CPU有两个寄存器,用于保存进程代码段的起始地址与数据段的起始地址.</span><br><span class="line">    进程切换会将CPU两个寄存器的地址切换到不同的进程上去.</span><br><span class="line">4.CPU与内存之间传输数据的总线.</span><br><span class="line">    地址总线 -&gt;  位数决定访问的数据范围,32位能访问4GB的内存.</span><br><span class="line">    数据总线 -&gt;  位数决定cpu每次从内存中获取的数据量,32位相当于1个int类型的值,32位的话,一次获取一个int.</span><br><span class="line">    taps:说的32操作系统,64位操作系统,指的是数据总线的位数.</span><br></pre></td></tr></table></figure>
+<h4 id="x86-成为开放平台历史中的重要一笔"><a href="#x86-成为开放平台历史中的重要一笔" class="headerlink" title="x86 成为开放平台历史中的重要一笔"></a>x86 成为开放平台历史中的重要一笔</h4><p><img src="/2020/06/14/linux-os/x86-cpu.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1.x86平台  -  开放、统一、兼容的平台.</span><br><span class="line">  因特尔的系列开端于8086,因此称为x86架构.</span><br><span class="line">2.8086CPU组成. -&gt;总线16位,地址位20位</span><br><span class="line">  1.数据单元   </span><br><span class="line">    1.8个16位的通用寄存器 -&gt; AX、BX、CX、DX、SP、BP、SI、DI.</span><br><span class="line">  2.控制单元</span><br><span class="line">    1.IP寄存器(Instruction Pointer Register)指向代码段中下一条指令的位置.CPU会从内存的代码段中不断的获取指令,并交给运算单元执行.</span><br><span class="line">    2.进程切换. -&gt; CS,DS,SS,ES.</span><br><span class="line">      CS  -&gt;  代码段寄存器,代码在内存的进程中的位置.</span><br><span class="line">      DS  -&gt;  数据段寄存器,数据在内存的进程中的位置.</span><br><span class="line">      SS  -&gt;  栈寄存器. 方法栈.</span><br><span class="line">      taps: CS和DS存着的是一个段的起始地址,代码段的偏移量在IP寄存器中,数据段的偏移量放在通用寄存器中.</span><br><span class="line">            地址位为20位 -&gt; CS&#x2F;Ds * 2^4 + 偏移地址为真的地址.</span><br><span class="line">    3.8086 寻址一共2^20&#x3D;1M,一次读取2byte.</span><br></pre></td></tr></table></figure>
+<h4 id="32位处理器"><a href="#32位处理器" class="headerlink" title="32位处理器"></a>32位处理器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.32根地址总线  -&gt;  2^32 &#x3D;4G寻址空间. 32个总线位.</span><br><span class="line">  1.数据单元</span><br><span class="line">    8个32位通用寄存器</span><br><span class="line">  2.控制单元</span><br><span class="line">    1.IP寄存器 -&gt;32位</span><br><span class="line">    2.进程切换.</span><br><span class="line">        1.段的起始地址存放在内存的某个地方(表格,表格的每一项是段描述符(Segment Descriptor)).</span><br><span class="line">        2.段寄存器(CS,DS,SS,ES)里面保存的是表格中的项 -&gt; 选择子(Selector).</span><br><span class="line">2.寻址兼容性解决.</span><br><span class="line">    1.实模式(Real Pattern) -&gt; 适配以前的8086</span><br><span class="line">    2.保护模式(Protected Patter) -&gt; 32位处理器.</span><br></pre></td></tr></table></figure>
+<h3 id="从BIOS到bootloader-创业伊始-有活儿老板自己上"><a href="#从BIOS到bootloader-创业伊始-有活儿老板自己上" class="headerlink" title="从BIOS到bootloader:创业伊始,有活儿老板自己上"></a>从BIOS到bootloader:创业伊始,有活儿老板自己上</h3><p><img src="/2020/06/14/linux-os/bios-bootloader.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BIOS -&gt; bootloader(mbr) -&gt; os&#39;s kernel</span><br></pre></td></tr></table></figure>
+<h4 id="BIOS时期"><a href="#BIOS时期" class="headerlink" title="BIOS时期"></a>BIOS时期</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">1.ROM(Read only Memory) -&gt; BIOS(Basic Input and Output System).</span><br><span class="line">  主板上的CMOS里面存储的是BIOS.</span><br><span class="line">2.BIOS的工作.</span><br><span class="line">    1.检查系统的硬件是否完整.</span><br><span class="line">    2.建立一个中断向量表与中断服务程序.</span><br><span class="line">    3.bootloader-启动盘的第一个扇区,512字节,以0xAA55结束.</span><br><span class="line">    taps: Linux有一个Grub2(Grand Unified Bootloader Version 2)工具,grub2-mkconfig -o &#x2F;boot&#x2F;grub2&#x2F;grub.cfg命令可以配置系统启动的选项.</span><br><span class="line">          grub2-install &#x2F;dev&#x2F;sda</span><br><span class="line">         1.grub2安装boot.img,一共512字节,安装到启动盘的第一个扇区(MBR).</span><br><span class="line">      1.bios会将boot.img从硬盘加载到内存的0x7c00运行.</span><br><span class="line">      2.由于 512 个字节实在有限，boot.img 做不了太多的事情。它能做的最重要的一个事情就是加载 grub2 的另一个镜像 core.img</span><br><span class="line">      3.core.img 由 lzma_decompress.img、diskboot.img、kernel.img(这是grub的内核) 和一系列的模块组成，功能比较丰富，能做很多事情。</span><br><span class="line">      4.lzma_decompress.img会将实模式切换到保护模式。</span><br><span class="line">      实模式切换到保护模式</span><br><span class="line">        1.启用分段.  -  在内存中建立段描述符表,将寄存器里面的段寄存器变成段选择子,指向某个段描述符,这样就能实现不同进程的切换.</span><br><span class="line">        2.启动分页.  -  将内存分为大小相等的块.</span><br><span class="line">        3.打开Gate A20(第21根地址线).  -  第21根起保护作用.</span><br><span class="line">            DATA32 call real_to_prot</span><br><span class="line">      5.kernel.img -&gt; grub_load_config(解析grub.conf) -&gt; ...</span><br><span class="line">        -&gt; grub_show_menu(显示操作系统列表) </span><br><span class="line">        -&gt; grub_menu_execute_entry(鼠标点击某个操作系统)</span><br><span class="line">      6.启动操作系统的内核.   </span><br><span class="line">  taps:grub2-mkconfig -o &#x2F;boot&#x2F;grub2&#x2F;grub.cfg -&gt;</span><br><span class="line">      Generating grub configuration file ...</span><br><span class="line">      Found linux image: &#x2F;boot&#x2F;vmlinuz-3.10.0-957.21.3.el7.x86_64</span><br><span class="line">      Found initrd image: &#x2F;boot&#x2F;initramfs-3.10.0-957.21.3.el7.x86_64.img</span><br><span class="line">      Found linux image: &#x2F;boot&#x2F;vmlinuz-0-rescue-0ea734564f9a4e2881b866b82d679dfc</span><br><span class="line">      Found initrd image: &#x2F;boot&#x2F;initramfs-0-rescue-0ea734564f9a4e2881b866b82d679dfc.img</span><br><span class="line">      done</span><br></pre></td></tr></table></figure>
+<h3 id="内核初始化-生意做大了就得成立公司"><a href="#内核初始化-生意做大了就得成立公司" class="headerlink" title="内核初始化: 生意做大了就得成立公司"></a>内核初始化: 生意做大了就得成立公司</h3><p><img src="/2020/06/14/linux-os/linux-kernel.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">初始化0号进程  -&gt; trap_init(中断门) -&gt;mm_init(内存管理) -&gt; sched_init(项目调度) -&gt; 初始化VFS -&gt; 1号进程(用户进程祖先) -&gt; 2号进程(内核进程祖先)</span><br></pre></td></tr></table></figure>
+<h4 id="初始化公司职能部门"><a href="#初始化公司职能部门" class="headerlink" title="初始化公司职能部门"></a>初始化公司职能部门</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">参考 init&#x2F;mainc文件</span><br><span class="line">1.项目管理部门.    </span><br><span class="line">  set_task_stack_end_magic(&amp;init_task)</span><br><span class="line">  struct task_struct init_task &#x3D; INIT_TASK(init_task) -&gt; 创建0号进程.</span><br><span class="line">2.办事大厅.</span><br><span class="line">  trap_init()  -&gt;  设置中断门(Interrupt Gate)处理各种中断.</span><br><span class="line">  -&gt;    set_system_intr_gate(IA32_SYSCALL_VECTOR, entry_INT80_32)  &lt;-&gt; 系统调用的中断门</span><br><span class="line">3.会议室管理系统.</span><br><span class="line">    mm_init()  -&gt;  初始化内存管理模块 </span><br><span class="line">    sched_init() -&gt; 初始化调度模块</span><br><span class="line">    vfs_caches_init() -&gt; 初始化基于内存的文件系统rootfs(mnt_init()-&gt;init_rootfs())</span><br><span class="line">    vfs -&gt;为了兼容各种各样的文件系统，我们需要将文件的相关数据结构和操作抽象出来，形成一个抽象层对上提供统一的接口，这个抽象层就是 VFS（Virtual File System），虚拟文件系统.</span><br><span class="line">4.其它方面初始化.</span><br><span class="line">    rest_init() -&gt; </span><br><span class="line">                1号进程通过execve执行ramdisk的&#x2F;init或其它文件系统的&#x2F;sbin&#x2F;init、&#x2F;etc&#x2F;init、&#x2F;bin&#x2F;init、&#x2F;bin&#x2F;sh.</span><br><span class="line">                    kernel_thread(kernel_init,NULL,CLONE_FS)  -&gt;  1号进程  -  用户进程祖先.</span><br><span class="line">                        taps:x86提供了分层的权限机制,将指令分为4个Ring,Ring 0是内核使用的指令,Ring 1是设备驱动使用的指令.Ring 3对应着普通的应用程序.</span><br><span class="line">                        taps: 保护模式 -&gt; 保护 -&gt; 用户态的程序不能执行更高权限的指令.</span><br><span class="line">                        taps: 用户态 -&gt; 内核态  指令相关的寄存器(段寄存器+指令指针寄存器)会指向内核, 内核 -&gt; 用户态 指令相关的寄存器会恢复指向进程.</span><br><span class="line">                        taps: ramdisk(根文件系统) -&gt; 基于内存的文件系统,访问内存文件系统不像访问其它文件系统需要驱动.</span><br><span class="line">                2号进程 -负责所有内核态的线程的调度和管理，是内核态所有线程运行的祖先。</span><br><span class="line">                     kernel_thread(kthreadd, NULL, CLONE_FS | CLONE_FILES)</span><br></pre></td></tr></table></figure>
+<h2 id="进程管理-1"><a href="#进程管理-1" class="headerlink" title="进程管理"></a>进程管理</h2><h3 id="公司接这么多项目-如何管"><a href="#公司接这么多项目-如何管" class="headerlink" title="公司接这么多项目,如何管?"></a>公司接这么多项目,如何管?</h3><h4 id="写代码-用系统调用创建进程"><a href="#写代码-用系统调用创建进程" class="headerlink" title="写代码: 用系统调用创建进程"></a>写代码: 用系统调用创建进程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">1.yum -y groupinstall &quot;Development Tools&quot;  -&gt;  安装开发者工具.</span><br><span class="line">2.创建进程的函数逻辑 - process.c.</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    #include &lt;stdlib.h&gt;</span><br><span class="line">    #include &lt;sys&#x2F;types.h&gt;</span><br><span class="line">    #include &lt;unistd.h&gt;</span><br><span class="line">    extern int create_process (char* program, char** arg_list);</span><br><span class="line">    int create_process (char* program, char** arg_list)</span><br><span class="line">    &#123;</span><br><span class="line">        pid_t child_pid;</span><br><span class="line">        child_pid &#x3D; fork ();</span><br><span class="line">        if (child_pid !&#x3D; 0)</span><br><span class="line">            &#x2F;&#x2F;父进程直接返回pid</span><br><span class="line">            return child_pid;</span><br><span class="line">        else &#123;</span><br><span class="line">            &#x2F;&#x2F;子进程执行项目对应的二进制文件</span><br><span class="line">            execvp (program, arg_list);</span><br><span class="line">            &#x2F;&#x2F;抛弃该分支</span><br><span class="line">            abort ();</span><br><span class="line">        &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">  # 上述文件的使用</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    #include &lt;stdlib.h&gt;</span><br><span class="line">    #include &lt;sys&#x2F;types.h&gt;</span><br><span class="line">    #include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">    extern int create_process (char* program, char** arg_list);</span><br><span class="line"></span><br><span class="line">    int main ()</span><br><span class="line">    &#123;</span><br><span class="line">        char* arg_list[] &#x3D; &#123;</span><br><span class="line">            &quot;ls&quot;,</span><br><span class="line">            &quot;-l&quot;,</span><br><span class="line">            &quot;&#x2F;etc&#x2F;yum.repos.d&#x2F;&quot;,</span><br><span class="line">            NULL</span><br><span class="line">        &#125;;</span><br><span class="line">        create_process (&quot;ls&quot;, arg_list);</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="进行编译-程序的二进制格式"><a href="#进行编译-程序的二进制格式" class="headerlink" title="进行编译: 程序的二进制格式"></a>进行编译: 程序的二进制格式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">1.二进制的程序的严格的格式 -&gt; ELF (Executeable and Linkable Format).</span><br><span class="line">2.c文件的编译、连接.</span><br><span class="line">  #编译</span><br><span class="line">  gcc -c -fPIC process.c</span><br><span class="line">  gcc -c -fPIC createprocess.c</span><br><span class="line">  #将process.o做成静态链接库</span><br><span class="line">  ar  cr  libstaticprocess.a process.0</span><br><span class="line">  #连接</span><br><span class="line">  gcc -o staticcreateprocess createprocess.o -l. -lstaticprocess</span><br><span class="line">  -l -&gt; 在当前目录找.a文件</span><br><span class="line">  -lstaticprocess -&gt; 自动补全文件名为libstaticprocess.a</span><br><span class="line">  #程序执行</span><br><span class="line">  .&#x2F;staticcreateprocess</span><br><span class="line"> taps: 静态链接库 vs 动态链接库</span><br><span class="line">       多个程序使用静态链接库的话,在内存中会有多份。并且程序不会随着库动态更新.</span><br><span class="line">       动态链接库:最后的程序文件并不包括动态链接库中的代码，而仅仅包括对动态链接库的引用，并且不保存动态链接库的全路径，仅仅保存动态链接库的名称。</span><br><span class="line">                  程序会在&#x2F;lib或&#x2F;usr&#x2F;lib下寻找动态链接库.</span><br><span class="line"> taps:对于ELF格式的可执行程序,linux_binfmt elf_format结构体封装ELF程序,do_execve会传入这个结构体并执行.</span><br></pre></td></tr></table></figure>
+<h4 id="进程树"><a href="#进程树" class="headerlink" title="进程树"></a>进程树</h4><p><img src="/2020/06/14/linux-os/process-tree.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1号进程  &lt;-&gt;  &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;systemd  &lt;-&gt;  &#x2F;sbin&#x2F;init</span><br><span class="line">    taps:系统启动后,1号进程会启动很多的daemon进程,为系统运行提供服务,随后启动getty,让用户登录,登录后运行shell.</span><br></pre></td></tr></table></figure>
+<h3 id="线程-如何让复杂的项目并行执行"><a href="#线程-如何让复杂的项目并行执行" class="headerlink" title="线程: 如何让复杂的项目并行执行"></a>线程: 如何让复杂的项目并行执行</h3><h4 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.线程 -CPU进行资源调度的最小单位.</span><br><span class="line">  线程主要用于并行处理,用多线程而不是多进程的原因是多进程需要不同的内存空间,进程间通信亦存在问题.</span><br><span class="line">2.Mutex  -&gt;  互斥  -&gt;  阻塞与释放  -&gt;  重量级锁.</span><br></pre></td></tr></table></figure>
+<h3 id="进程数据结构-项目多了就需要项目管理系统"><a href="#进程数据结构-项目多了就需要项目管理系统" class="headerlink" title="进程数据结构 - 项目多了就需要项目管理系统"></a>进程数据结构 - 项目多了就需要项目管理系统</h3><h4 id="进程、线程数据结构"><a href="#进程、线程数据结构" class="headerlink" title="进程、线程数据结构"></a>进程、线程数据结构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line">1.进程或线程  -&gt;  task_struct.</span><br><span class="line">  linux内部使用一个链表,将所有的task_struct串起来.</span><br><span class="line">2.任务id  -&gt;  pid -&gt; process id ; tgid -&gt; thread group id; group_leader -&gt; 进程主线程</span><br><span class="line">3.任务状态  -&gt;  </span><br><span class="line">include&#x2F;linux&#x2F;sched.h</span><br><span class="line">    &#x2F;* Used in tsk-&gt;state: *&#x2F; &#x2F;&#x2F;位运算</span><br><span class="line">    #define TASK_RUNNING                    0</span><br><span class="line">    #define TASK_INTERRUPTIBLE              1</span><br><span class="line">    #define TASK_UNINTERRUPTIBLE            2</span><br><span class="line">    #define __TASK_STOPPED                  4</span><br><span class="line">    #define __TASK_TRACED                   8</span><br><span class="line">    &#x2F;* Used in tsk-&gt;exit_state: *&#x2F;</span><br><span class="line">    #define EXIT_DEAD                       16</span><br><span class="line">    #define EXIT_ZOMBIE                     32</span><br><span class="line">    #define EXIT_TRACE                      (EXIT_ZOMBIE | EXIT_DEAD)</span><br><span class="line">    &#x2F;* Used in tsk-&gt;state again: *&#x2F;</span><br><span class="line">    #define TASK_DEAD                       64</span><br><span class="line">    #define TASK_WAKEKILL                   128</span><br><span class="line">    #define TASK_WAKING                     256</span><br><span class="line">    #define TASK_PARKED                     512</span><br><span class="line">    #define TASK_NOLOAD                     1024</span><br><span class="line">    #define TASK_NEW                        2048</span><br><span class="line">    #define TASK_STATE_MAX                  4096</span><br><span class="line"></span><br><span class="line"> TASK_RUNNING  -&gt;  进程并不是真正运行,而是可运行状态,当获取CPU时间片的时候,即可运行.</span><br><span class="line"> TASK_INTERRUPTIBLE  -&gt;  可中断的睡眠状态,中断信号可以唤醒进程.</span><br><span class="line"> TASK_UNINTERRUPTIBLE  -&gt;  不可中断的睡眠状态,中断信号不可以唤醒进程.</span><br><span class="line">     -&gt;改进版 TASK_KILLABLE  -&gt;  可以终止的新睡眠状态.</span><br><span class="line"> TASK_STOPPED  -&gt;  处理SIGSTOP、SIGTTIN、SIGTSTP、SIGTTOU信号后.</span><br><span class="line"> TASK_TRACED  -&gt;  进程被debugger进程监视,进程执行被调试程序所停止.</span><br><span class="line"> EXIT_DEAD  -&gt;  进程最终状态.</span><br><span class="line">4.进程调度相关.</span><br><span class="line">    &#x2F;&#x2F;是否在运行队列上</span><br><span class="line">    int        on_rq;</span><br><span class="line">    &#x2F;&#x2F;优先级</span><br><span class="line">    int        prio;</span><br><span class="line">    int        static_prio;</span><br><span class="line">    int        normal_prio;</span><br><span class="line">    unsigned int      rt_priority;</span><br><span class="line">    &#x2F;&#x2F;调度器类</span><br><span class="line">    const struct sched_class  *sched_class;</span><br><span class="line">    &#x2F;&#x2F;调度实体</span><br><span class="line">    struct sched_entity    se;</span><br><span class="line">    struct sched_rt_entity    rt;</span><br><span class="line">    struct sched_dl_entity    dl;</span><br><span class="line">    &#x2F;&#x2F;调度策略</span><br><span class="line">    unsigned int      policy;</span><br><span class="line">    &#x2F;&#x2F;可以使用哪些CPU</span><br><span class="line">    int        nr_cpus_allowed;</span><br><span class="line">    cpumask_t      cpus_allowed;</span><br><span class="line">    struct sched_info    sched_info;</span><br><span class="line">5.进程运行统计信息.</span><br><span class="line">    u64        utime;&#x2F;&#x2F;用户态消耗的CPU时间</span><br><span class="line">    u64        stime;&#x2F;&#x2F;内核态消耗的CPU时间</span><br><span class="line">    unsigned long      nvcsw;&#x2F;&#x2F;自愿(voluntary)上下文切换计数</span><br><span class="line">    unsigned long      nivcsw;&#x2F;&#x2F;非自愿(involuntary)上下文切换计数</span><br><span class="line">    u64        start_time;&#x2F;&#x2F;进程启动时间，不包含睡眠时间</span><br><span class="line">    u64        real_start_time;&#x2F;&#x2F;进程启动时间，包含睡眠时间</span><br><span class="line">6.进程亲缘关系.</span><br><span class="line">    struct task_struct __rcu *real_parent; &#x2F;* real parent process *&#x2F;                父进程</span><br><span class="line">    struct task_struct __rcu *parent; &#x2F;* recipient of SIGCHLD, wait4() reports *&#x2F;    </span><br><span class="line">    struct list_head children;      &#x2F;* list of my children *&#x2F;                      子进程列表</span><br><span class="line">    struct list_head sibling;       &#x2F;* linkage in my parent&#39;s children list *&#x2F;     兄弟进程</span><br><span class="line">7.进程权限.</span><br><span class="line">    Objective -&gt; 操作者权限</span><br><span class="line">    Subjective -&gt; 被操作者权限 </span><br><span class="line">    &#x2F;&#x2F;属主和属组权限信息</span><br><span class="line">    struct cred &#123;</span><br><span class="line">    ......</span><br><span class="line">            kuid_t          uid;            &#x2F;* real UID of the task *&#x2F;</span><br><span class="line">            kgid_t          gid;            &#x2F;* real GID of the task *&#x2F;</span><br><span class="line">            kuid_t          suid;           &#x2F;* saved UID of the task *&#x2F;</span><br><span class="line">            kgid_t          sgid;           &#x2F;* saved GID of the task *&#x2F;</span><br><span class="line">            kuid_t          euid;           &#x2F;* effective UID of the task *&#x2F;</span><br><span class="line">            kgid_t          egid;           &#x2F;* effective GID of the task *&#x2F;</span><br><span class="line">            kuid_t          fsuid;          &#x2F;* UID for VFS ops *&#x2F;</span><br><span class="line">            kgid_t          fsgid;          &#x2F;* GID for VFS ops *&#x2F;</span><br><span class="line">    ......</span><br><span class="line">            kernel_cap_t    cap_inheritable; &#x2F;* caps our children can inherit *&#x2F;</span><br><span class="line">            kernel_cap_t    cap_permitted;  &#x2F;* caps we&#39;re permitted *&#x2F;</span><br><span class="line">            kernel_cap_t    cap_effective;  &#x2F;* caps we can actually use *&#x2F;</span><br><span class="line">            kernel_cap_t    cap_bset;       &#x2F;* capability bounding set *&#x2F;</span><br><span class="line">            kernel_cap_t    cap_ambient;    &#x2F;* Ambient capability set *&#x2F;</span><br><span class="line">    ......</span><br><span class="line">    &#125; __randomize_layout;</span><br><span class="line">    uid,gid  -&gt;  进程启动者</span><br><span class="line">    euid,egid  -&gt;  effective user&#x2F;group id</span><br><span class="line">    fsuid,fsgid  -&gt;  filesystem user&#x2F;group id</span><br><span class="line">    taps: 若设置suid位,则uid仍为启动用户,但是euid和fsuid变成所有者用户了</span><br><span class="line">8.内存管理.</span><br><span class="line">  每个进程都有自己独立的虚拟内存空间.</span><br><span class="line">    struct mm_struct                *mm;</span><br><span class="line">    struct mm_struct                *active_mm;</span><br><span class="line">9.函数栈.</span><br><span class="line">  1.ESP  -&gt;  栈顶指针寄存器</span><br><span class="line">  2.EBP  -&gt;  栈基址指针寄存器   -&gt; 指向当前栈帧的最底部.</span><br><span class="line"> A 函数调用 B 函数 , EBP保存A的栈帧栈底位置,目的是可以访问A的局部变量(及A函数传入B的参数), </span><br><span class="line"> 当B执行结束返回时候,B的返回值存在EAX寄存器中,并将指令跳转回A,并继续执行A.</span><br></pre></td></tr></table></figure>
+<h3 id="进程调度"><a href="#进程调度" class="headerlink" title="进程调度"></a>进程调度</h3><h4 id="调度策略与调度类"><a href="#调度策略与调度类" class="headerlink" title="调度策略与调度类"></a>调度策略与调度类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">0.进程调度  -&gt;  进程数目远远超过CPU数目,因而需要进行进程的调度.有效地分配 CPU 的时间.既要保证进程的最快响应，也要保证进程之间的公平.</span><br><span class="line">1.进程  -&gt;  实时进程(立刻需要结果)  +  普通进程</span><br><span class="line">2.优先级  -&gt;  实时进程  0 ~ 99     数值越小,优先级越高.</span><br><span class="line">             普通进程  100 ~ 139</span><br><span class="line">3.实时进程调度策略.</span><br><span class="line">  1.SCHED_FIFO  -&gt;  公平,先进先出.(高优先级的可以抢占低优先级的线程)</span><br><span class="line">  2.SCHED_RR  -&gt;  使用时间片,任务使用完时间片会放到队列尾部(高优先级的进程会抢占低优先级的进程).</span><br><span class="line">  3.SCHED_DEADLINe  -&gt;  DL调度器总会选择deadline距离当前时间点最近的那个任务.</span><br><span class="line">4.普通进程调度策略.</span><br><span class="line">   分类</span><br><span class="line">    SCHED_NORMAL</span><br><span class="line">    SCHED_BATCH   -&gt;   后台进程</span><br><span class="line">    SCHED_IDLE    -&gt;   空闲进程</span><br><span class="line">  执行逻辑 sched_class</span><br><span class="line">    stop_sched_class 优先级最高的任务会使用这种策略，会中断所有其他线程，且不会被其他任务打断；</span><br><span class="line">    dl_sched_class 就对应上面的 deadline 调度策略；</span><br><span class="line">    rt_sched_class 就对应 RR 算法或者 FIFO 算法的调度策略，具体调度策略由进程的</span><br><span class="line">    task_struct-&gt;policy 指定；</span><br><span class="line">    fair_sched_class 就是普通进程的调度策略；</span><br><span class="line">    idle_sched_class 就是空闲进程的调度策略。</span><br><span class="line">5.普通进程的调度策略 - fair_sched_class.</span><br><span class="line">  CFS -&gt; Completely Fair Scheduling.</span><br><span class="line">   算法逻辑: </span><br><span class="line">      CPU会提供一个时间,过一段时间就会触发一个时钟中断.</span><br><span class="line">      CFS会为每一个进程安排一个虚拟运行时间vruntime.</span><br><span class="line">      若一个程序一直在运行,随着一个个tick到来,进程的vruntime不断增大.没有执行的进程vruntime不变.</span><br><span class="line">      显然,那些vruntime小的进程,受到了不公平的对待,优先会运行这样的进程.</span><br><span class="line">      对于优先级而言,分配的vruntime逻辑上会除以其响应的优先级.</span><br><span class="line">   算法数据结构:</span><br><span class="line">      CFS会对vruntime进行排序,平衡查询和更新的速度,使用红黑树作为数据结构.</span><br></pre></td></tr></table></figure>
+<h4 id="主动调度与抢占式调度"><a href="#主动调度与抢占式调度" class="headerlink" title="主动调度与抢占式调度"></a>主动调度与抢占式调度</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.主动调度 -  进程主动让出CPU.一般情况为进程等待I&#x2F;O操作主动让出CPU.</span><br><span class="line">    1.在任务队列中取出下一个任务-取红黑树中最小节点.</span><br><span class="line">    2.当前任务上下文切换为下一个任务.</span><br><span class="line">2.抢占式调度.</span><br><span class="line">    1.CPU时间片,每过一段时间触发一次时钟中断,通知操作系统,时间又过去一个时钟周期.</span><br></pre></td></tr></table></figure>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><h3 id="内存管理-1"><a href="#内存管理-1" class="headerlink" title="内存管理"></a>内存管理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1.每个进程都有自己的内存空间,内存空间都是独立的,相互隔离的.</span><br><span class="line">2.操作系统的内存管理.</span><br><span class="line">    1.物理内存管理.</span><br><span class="line">    2.虚拟地址管理.</span><br><span class="line">    3.虚拟地址与物理地址的映射,会议室管理员如何管理映射表.</span><br><span class="line">3.进程内存划分.</span><br><span class="line">    1.Text Segment  -&gt; 代码.</span><br><span class="line">    2.Data Segment  -&gt; 数据.</span><br><span class="line">    3.BSS  Segment  -&gt; BSS是存放程序中未初始化的全局变量的一块静态内存分配区域</span><br><span class="line">    4.Heap          -&gt; 堆.</span><br><span class="line">    5.Memory Mapping Segment -&gt; 物理地址&#x2F;虚拟地址 映射.</span><br><span class="line">    6.Stack         -&gt; 栈.</span><br><span class="line">    7.内核空间.</span><br></pre></td></tr></table></figure>
+<h4 id="物理内存地址与虚拟内存地址"><a href="#物理内存地址与虚拟内存地址" class="headerlink" title="物理内存地址与虚拟内存地址"></a>物理内存地址与虚拟内存地址</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.操作系统会给进程分配一个虚拟地址,虚拟内存地址从0开始编号.</span><br><span class="line">  虚拟地址会映射到物理地址上,物理地址对进程不可见.</span><br><span class="line">  taps: 在程序中,指令写入的地址都是虚拟地址.</span><br><span class="line">        程序访问虚拟地址时候,由内核的数据结构进行转换,转换成不同的物理地址.</span><br></pre></td></tr></table></figure>
+<h4 id="x86-32位处理器以及之后的处理器的-内存分段机制"><a href="#x86-32位处理器以及之后的处理器的-内存分段机制" class="headerlink" title="x86 32位处理器以及之后的处理器的 内存分段机制"></a>x86 32位处理器以及之后的处理器的 内存分段机制</h4><p><img src="/2020/06/14/linux-os/segment.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.分段机制下虚拟地址  -&gt;  段选择子  +  段内偏移量.</span><br><span class="line">    段选择子  -&gt;  保留段号,指向段表.</span><br><span class="line">    段表  -&gt;  段基地址 、段界限、 特权等级.</span><br><span class="line">2.段基地址 + 段内偏移量 -&gt; 物理内存地址.</span><br><span class="line">3.linux中, 段表  -&gt;  段描述符表 (segment descriptors),放在全局描述符表GDT(Global Descriptor Table)中.</span><br></pre></td></tr></table></figure>
+<h4 id="内存分页机制"><a href="#内存分页机制" class="headerlink" title="内存分页机制"></a>内存分页机制</h4><p><img src="/2020/06/14/linux-os/page.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.操作系统将物理内存划分为一块一块大小相同的页,有的内存页面长时间不使用,写到磁盘上,称为换出.</span><br><span class="line">  一旦需要,再将换出的页面加载进来,叫做换入.</span><br><span class="line">  虚拟地址 -&gt; 页号 + 页内偏移.</span><br><span class="line">  taps:  32位环境下,虚拟地址空间共4GB.若4KB为一页,则有1MB个页.页表单元需要4byte存储,那么需要4MB的内存来存储映射表.</span><br><span class="line">         100个进程就需要400MB的内存.</span><br><span class="line">         页表4MB,1000*4KB,可以将4KB的页表(1000个页表单元)作为页目录表.</span><br><span class="line">         进一步映射 -&gt;  1000个页目录,可以用10位(1024)位图来映射</span><br><span class="line">                   -&gt;  一个目录有1000个页表单元,可以通过10位(1024)来映射访问页表单元.</span><br><span class="line">                   -&gt;   12位记录页表中的偏移量(4kB-&gt;2^12B,以B为偏移量起始位置).</span><br><span class="line">                   -&gt;  一共需要32位即可找到页面.</span><br><span class="line">           结果: 4GB内存,每个进程需要4MB的页表以及32位.</span><br></pre></td></tr></table></figure>
+<h4 id="用户态、内核态划分"><a href="#用户态、内核态划分" class="headerlink" title="用户态、内核态划分"></a>用户态、内核态划分</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1.用户态.</span><br><span class="line">    代码段、全局变量、BSS.</span><br><span class="line">    函数栈.</span><br><span class="line">    堆.</span><br><span class="line">    内存映射区.</span><br><span class="line">2.内核态.</span><br><span class="line">    内核代码段、全局变量、BSS.</span><br><span class="line">    内核数据结构 task_struct.</span><br><span class="line">    内核栈.</span><br><span class="line">    内核中动态分配的内存.</span><br></pre></td></tr></table></figure>
+<h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><h3 id="文件系统的功能规划"><a href="#文件系统的功能规划" class="headerlink" title="文件系统的功能规划"></a>文件系统的功能规划</h3><p><img src="/2020/06/14/linux-os/filesystem.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.文件以块单位进行存储.</span><br><span class="line">2.文件系统索引区,查找一个文件分成的多个块的存放位置.</span><br><span class="line">3.文件系统缓存区,缓存热点文件.</span><br><span class="line">4.文件因以文件夹的形式组织起来,方便管理和查阅.</span><br><span class="line">5.linux内核在内存中维护一套数据结构,保存哪些文件被哪些进程打开和使用.</span><br></pre></td></tr></table></figure>
+<h4 id="inode与块的存储"><a href="#inode与块的存储" class="headerlink" title="inode与块的存储"></a>inode与块的存储</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">1.ext4_inode 数据结构.</span><br><span class="line">    struct ext4_inode &#123;</span><br><span class="line">      __le16  i_mode;    &#x2F;* File mode *&#x2F;</span><br><span class="line">      __le16  i_uid;    &#x2F;* Low 16 bits of Owner Uid *&#x2F;</span><br><span class="line">      __le32  i_size_lo;  &#x2F;* Size in bytes *&#x2F;</span><br><span class="line">      __le32  i_atime;  &#x2F;* Access time *&#x2F;</span><br><span class="line">      __le32  i_ctime;  &#x2F;* Inode Change time *&#x2F;</span><br><span class="line">      __le32  i_mtime;  &#x2F;* Modification time *&#x2F;</span><br><span class="line">      __le32  i_dtime;  &#x2F;* Deletion Time *&#x2F;</span><br><span class="line">      __le16  i_gid;    &#x2F;* Low 16 bits of Group Id *&#x2F;</span><br><span class="line">      __le16  i_links_count;  &#x2F;* Links count *&#x2F;</span><br><span class="line">      __le32  i_blocks_lo;  &#x2F;* Blocks count *&#x2F;</span><br><span class="line">      __le32  i_flags;  &#x2F;* File flags *&#x2F;</span><br><span class="line">    ......</span><br><span class="line">      __le32  i_block[EXT4_N_BLOCKS];&#x2F;* Pointers to blocks *&#x2F;</span><br><span class="line">      __le32  i_generation;  &#x2F;* File version (for NFS) *&#x2F;</span><br><span class="line">      __le32  i_file_acl_lo;  &#x2F;* File ACL *&#x2F;</span><br><span class="line">      __le32  i_size_high;</span><br><span class="line">    ......</span><br><span class="line">    &#125;;</span><br><span class="line">2.索引块.</span><br><span class="line">   1.12个直接索引+1个一级间接索引+1个二级间接索引+1个三级间接索引.</span><br><span class="line">     间接索引 -&gt; 1个块1KB,一个索引4B -&gt; 一级间接索引数据量 &#x3D; 1KB&#x2F;4B *1KB&#x3D;256KB.</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/06/14/linux-os/ext4-inode.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">   2.ext4引入了一个新的概念,叫做Extents.</span><br><span class="line">     Extents会存放连续的块.</span><br><span class="line">     Entent Entry -&gt; Extend Header + Entend Entry (扩展节点)</span><br><span class="line">     Entend Entry若是叶子节点则会指向硬盘上连续块的地址,即ext4_extent;</span><br><span class="line">                 若是分支节点则会指向下一层的分支节点或叶子节点.</span><br><span class="line">     taps: 有点像mysql b+树索引.</span><br><span class="line">     taps:图中的root只能放4个Entent Entry指针,但是其它的节点最多能放340个Entent Entry.</span><br><span class="line">3.inode位图和块位图位置.</span><br><span class="line">    Block Group  -&gt;  super block,块组描述符表,inode bitmap , inode table,block bitmap ,block .</span><br><span class="line">    super block  -&gt;  记录文件系统一共有多少inode、s_inodes_count、block_count、每个块组的meta data.</span><br></pre></td></tr></table></figure>
+<h4 id="目录的存储格式"><a href="#目录的存储格式" class="headerlink" title="目录的存储格式"></a>目录的存储格式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">目录  -&gt;  目录文件中保存的是目录里面一项一项的文件信息(ext4_dir_entity).</span><br></pre></td></tr></table></figure>
+<h4 id="软连接与硬链接的存储格式"><a href="#软连接与硬链接的存储格式" class="headerlink" title="软连接与硬链接的存储格式"></a>软连接与硬链接的存储格式</h4><p><img src="/2020/06/14/linux-os/link.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.硬链接   -&gt;   不同目录的文件名对应的inode是相同的,不可跨文件系统.</span><br><span class="line">2.软连接   -&gt;   连接文件存储目标文件的地址,可以跨文件系统.</span><br></pre></td></tr></table></figure>
+<h3 id="虚拟文件系统"><a href="#虚拟文件系统" class="headerlink" title="虚拟文件系统"></a>虚拟文件系统</h3><p><img src="/2020/06/14/linux-os/vfs.jpg" alt><br><img src="/2020/06/14/linux-os/file_operate.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.mount系统调用   -&gt;   挂载. open 系统调用-&gt; 创建文件.</span><br><span class="line">2.虚拟文件系统解决 -&gt; 当不同的文件系统挂载到当前文件系统的目录时候，访问挂载的系统中的文件需要VFS解决了.</span><br><span class="line">  在图2操作文件的对应中,若文件是当前文件系统,则会有指向文件对应的inode.</span><br><span class="line">  否则则会通过VFS区访问文件.</span><br></pre></td></tr></table></figure>
+<h3 id="文件缓存"><a href="#文件缓存" class="headerlink" title="文件缓存"></a>文件缓存</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1.是否使用内存做缓存  -&gt;  文件的I&#x2F;O操作分成两种类型.</span><br><span class="line">    1.缓存I&#x2F;O.</span><br><span class="line">        读时候,若内核缓存中存在对应数据,直接从缓存中返回.</span><br><span class="line">        写时候,会将数据从用户空间复制到内核空间的缓存中,缓存何时写道磁盘由操作系统决定(除非显示调用sync).</span><br><span class="line">    2.直接I&#x2F;O.</span><br><span class="line">        应用程序直接访问磁盘数据,不经过内核缓冲区,减少了内核缓存和用户程序之间数据复制.</span><br><span class="line">taps: ext4文件系统引入Journal模式(日志模式),这种模式在将数据写入文件系统前，必须等待元数据和数据的日志已经落盘才能发挥作用。这样性能比较差，但是最安全。</span><br></pre></td></tr></table></figure>
+
+<h2 id="输入输出系统"><a href="#输入输出系统" class="headerlink" title="输入输出系统"></a>输入输出系统</h2><h3 id="输入与输出"><a href="#输入与输出" class="headerlink" title="输入与输出"></a>输入与输出</h3><p><img src="/2020/06/14/linux-os/out-system.jpg" alt></p>
+<h4 id="用设备控制器屏蔽设备差异"><a href="#用设备控制器屏蔽设备差异" class="headerlink" title="用设备控制器屏蔽设备差异"></a>用设备控制器屏蔽设备差异</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1.设备控制器(Device Control Unit). (taps:设备控制器在主板上,像小计算机,硬件驱动会管理设备控制器)</span><br><span class="line">  1.每一个物理设备都拥有自己的控制器。控制器有点像小电脑,它有自己的芯片,类似小cpu,并有自己的寄存器保留控制器对于设备的状态.</span><br><span class="line">  2.在linux中,管理硬件设备的控制器代码并没有放置在每个应用程序中,而是由内核统一管理.处理和管理硬件控制器的软件是设备驱动程序.</span><br><span class="line">2.输入输出设备  -&gt;  块设备、字符设备.</span><br><span class="line">  1.块设备将信息存储在固定大小的块中,每个块都有自己的地址. -&gt; 硬盘</span><br><span class="line">  2.字符设备发送和接收的是字节流. -&gt; 鼠标.</span><br><span class="line">3.设备控制器如何通知CPU写入&#x2F;读取操作.</span><br><span class="line">  控制器的寄存器一般有状态标识位,可以通过检测状态标识位,来确定输入与输出操作是否完成.</span><br><span class="line">  方式一 轮询等待  -&gt; 一直轮询查看标识位,直到标识位为完成.</span><br><span class="line">  方式二 中断     -&gt; 通过中断的方式通知操作系统输入输出操作完成.</span><br><span class="line">  硬件中断控制器  -&gt;  设备完成任务后,触发中断到中断控制器,中断控制器通知CPU。</span><br><span class="line">                     CPU收到中断请求,会停下当前手中的事情去处理中断.</span><br><span class="line">4.中断  -&gt;  软中断 + 硬件中断.</span><br></pre></td></tr></table></figure>
+<h4 id="用驱动程序屏蔽设备控制器差异"><a href="#用驱动程序屏蔽设备控制器差异" class="headerlink" title="用驱动程序屏蔽设备控制器差异"></a>用驱动程序屏蔽设备控制器差异</h4><p><img src="/2020/06/14/linux-os/irq.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1.设备控制器不属于操作系统的一部分,但是设备驱动程序属于操作系统一部分.</span><br><span class="line">  操作系统的内核代码可以像调用本地代码一样调用驱动程序的代码，而驱动程序的代码需要发出特殊的面向设备控制器的指令，才能操作设备控制器。</span><br><span class="line">2.设备中断的流程.</span><br><span class="line">  1.设备驱动程序初始化时候,注册一个设备的中断处理函数.</span><br><span class="line">   taps:中断返回时候,是进程切换的时机.  进程主动调度这种.</span><br><span class="line">  2.中断发生时候,通过do_IRQ函数处理中断,do_IRQ会找到中断处理函数handler,并执行其进行中断处理.</span><br><span class="line">3.驱动  -  内核模块.</span><br><span class="line">3.在linux中,添加一块物理设备，需要安装一个驱动程序.</span><br><span class="line">  例如:</span><br><span class="line">    1.安装openvswitch驱动.</span><br><span class="line">     insmod openvswitch.ko.</span><br><span class="line">    2.在&#x2F;dev文件夹下创建设备文件.</span><br><span class="line">     mknod  filename type major minor.</span><br><span class="line">  设备文件创建好后,可以通过操作设备文件来操作驱动程序,从而操作设备.</span><br><span class="line">taps:也可以通过热插拔的形式自动检测设备.</span><br></pre></td></tr></table></figure>
+<h4 id="用文件系统屏蔽驱动程序差异"><a href="#用文件系统屏蔽驱动程序差异" class="headerlink" title="用文件系统屏蔽驱动程序差异"></a>用文件系统屏蔽驱动程序差异</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">操作系统的统一</span><br><span class="line"> 1.设备名称  -&gt;  所有的设备都在&#x2F;dev&#x2F;文件夹下创建一个特殊的设备文件.</span><br><span class="line">   该文件并不关联到硬盘或其它任何介质上的数据，而是建立了与某个设备驱动程序的连接.</span><br></pre></td></tr></table></figure>
+<h2 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h2><h3 id="管道模型"><a href="#管道模型" class="headerlink" title="管道模型"></a>管道模型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1.瀑布模型: 软件开发过程分为多个阶段,上个阶段完全做完,才将结果交给下一个阶段.</span><br><span class="line">2.管道模型  -&gt;  前一个命令的输出作为后一个命令的输入.</span><br><span class="line">  例如:</span><br><span class="line">    ps -ef | awk &#39;&#123;print $2&#125;&#39; | xargs kill -9</span><br><span class="line">3.| -&gt;匿名管道.</span><br><span class="line">4.命名管道.</span><br><span class="line">  1.创建管道文件.</span><br><span class="line">    mkfifo  hello</span><br><span class="line">  2.向管道中写入数据.</span><br><span class="line">    echo &quot;hello world&quot; &gt; hello</span><br><span class="line">  3.获取管道内容.</span><br><span class="line">    cat &lt; hello</span><br></pre></td></tr></table></figure>
+<h3 id="消息队列模型"><a href="#消息队列模型" class="headerlink" title="消息队列模型"></a>消息队列模型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1.消息有点像邮件.</span><br><span class="line">  1.创建消息队列.</span><br><span class="line">    msgget queue</span><br><span class="line">  2.发生消息</span><br><span class="line">    msgsend queue buffer</span><br><span class="line">  3.接收消息</span><br><span class="line">    msgrcv  queue</span><br><span class="line">2.ftok 可以根据文件名生成唯一的queuename</span><br></pre></td></tr></table></figure>
+<h3 id="共享内存模型"><a href="#共享内存模型" class="headerlink" title="共享内存模型"></a>共享内存模型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.内存管理时候,进程有自己独立的虚拟内存空间,</span><br><span class="line">  不同的进程虚拟内存空间映射到不同的物理内存上.</span><br><span class="line">2.共享内存  -&gt;  不同进程的虚拟地址 映射到 物理地址上.</span><br><span class="line">  shmget -&gt;创建共享内存.</span><br><span class="line">  shmat  -&gt; 将共享内存映射到自己的虚拟空间的某个位置</span><br><span class="line">  shmdt  -&gt; 解除共享内存与虚拟内存的映射</span><br></pre></td></tr></table></figure>
+<h3 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.两个进程同时操作一个共享内存可能会产生冲突,所以产生了一种保护机制  -  信号量.</span><br><span class="line">2.信号量 -&gt; P操作(申请资源操作,信号量的数值-N) + V操作(归还资源操作,信号量的数值+M).</span><br><span class="line"> 信号量相当于资源,只有当资源数量够分配时候,P操作才会成功,否则会阻塞.</span><br></pre></td></tr></table></figure>
+<h3 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.信号,一个数字代表一个信号.linux提供几十种信号,分别代表不同的含义.</span><br><span class="line">2.信号可以在任何时候发送给某一进程，进程需要为这个信号配置信号处理函数。</span><br><span class="line">3.当某个信号发生的时候，就默认执行这个函数就可以了</span><br></pre></td></tr></table></figure>
+<h4 id="信号发送"><a href="#信号发送" class="headerlink" title="信号发送"></a>信号发送</h4><p><img src="/2020/06/14/linux-os/singal.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><span class="line">1.kill -l 查看信号.</span><br><span class="line">    # kill -l</span><br><span class="line">     1) SIGHUP       2) SIGINT       3) SIGQUIT      4) SIGILL       5) SIGTRAP</span><br><span class="line">     6) SIGABRT      7) SIGBUS       8) SIGFPE       9) SIGKILL     10) SIGUSR1</span><br><span class="line">    11) SIGSEGV     12) SIGUSR2     13) SIGPIPE     14) SIGALRM     15) SIGTERM</span><br><span class="line">    16) SIGSTKFLT   17) SIGCHLD     18) SIGCONT     19) SIGSTOP     20) SIGTSTP</span><br><span class="line">    21) SIGTTIN     22) SIGTTOU     23) SIGURG      24) SIGXCPU     25) SIGXFSZ</span><br><span class="line">    26) SIGVTALRM   27) SIGPROF     28) SIGWINCH    29) SIGIO       30) SIGPWR</span><br><span class="line">    31) SIGSYS      34) SIGRTMIN    35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3</span><br><span class="line">    38) SIGRTMIN+4  39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8</span><br><span class="line">    43) SIGRTMIN+9  44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13</span><br><span class="line">    48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12</span><br><span class="line">    53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7</span><br><span class="line">    58) SIGRTMAX-6  59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2</span><br><span class="line">    63) SIGRTMAX-1  64) SIGRTMAX</span><br><span class="line">2. man 7 singal 查看各个信号的作用.</span><br><span class="line"></span><br><span class="line">    Signal     Value     Action   Comment</span><br><span class="line">    ──────────────────────────────────────────────────────────────────────</span><br><span class="line">    SIGHUP        1       Term    Hangup detected on controlling terminal</span><br><span class="line">                                  or death of controlling process</span><br><span class="line">    SIGINT        2       Term    Interrupt from keyboard</span><br><span class="line">    SIGQUIT       3       Core    Quit from keyboard</span><br><span class="line">    SIGILL        4       Core    Illegal Instruction</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    SIGABRT       6       Core    Abort signal from abort(3)</span><br><span class="line">    SIGFPE        8       Core    Floating point exception</span><br><span class="line">    SIGKILL       9       Term    Kill signal</span><br><span class="line">    SIGSEGV      11       Core    Invalid memory reference</span><br><span class="line">    SIGPIPE      13       Term    Broken pipe: write to pipe with no</span><br><span class="line">                                  readers</span><br><span class="line">    SIGALRM      14       Term    Timer signal from alarm(2)</span><br><span class="line">    SIGTERM      15       Term    Termination signal</span><br><span class="line">    SIGUSR1   30,10,16    Term    User-defined signal 1</span><br><span class="line">    SIGUSR2   31,12,17    Term    User-defined signal 2</span><br><span class="line">    ……</span><br><span class="line">3.用户进程对信号的处理方式.</span><br><span class="line">  1.执行默认操作.</span><br><span class="line">    Term   -&gt;   终止进程</span><br><span class="line">    Core Dump   -&gt;   将当前进程的运行状态保存在文件里,方便程序员事后分析问题.</span><br><span class="line">  2.捕捉信号.</span><br><span class="line">    信号发生时候,执行相应的信号处理函数.</span><br><span class="line">  3.忽略信号.</span><br><span class="line">    SIGKILL与SEGSTOP是应用进程无法捕捉和忽略的.</span><br><span class="line">4.信号处理的流程.</span><br><span class="line">  1.注册相应的信号处理函数,设置信号处理方式的是signal函数.</span><br><span class="line">    typedef void (*sighandler_t)(int);</span><br><span class="line">    sighandler_t signal(int signum, sighandler_t handler);</span><br><span class="line">  2.SA_NOMASK  -&gt;  在信号处理函数执行过程中,亦可以被其它信号中断.</span><br><span class="line">    SA_INTERRUPT  -&gt;  若系统调用时候发生中断,则取消系统调用</span><br><span class="line">    SA_RESTATR   -&gt;  若系统调用时发生中断,则中断处理后重试系统调用</span><br><span class="line">5.信号发送.</span><br><span class="line">  1.crtl + c  -&gt;  SIGINT.</span><br><span class="line">  2.crtl + z  -&gt;  SIGTSTP.</span><br><span class="line">  3.硬件异常.</span><br><span class="line">    1.cpu除0异常.   -&gt;   SIGFPE</span><br><span class="line">    2.非法访问内存异常.   -&gt;   SIGSEGV</span><br><span class="line">  4.kill 系统调用</span><br><span class="line">6.信号与中断区别.</span><br><span class="line">  1.中断要注册中断处理函数,中断处理函数是在内核驱动中.</span><br><span class="line">  2.信号要注册信号处理函数,信号处理是在用户态进程中.</span><br><span class="line">7.信号的一个例子.</span><br><span class="line">    #include &lt;stdlib.h&gt;&#x2F;*&#123;&#123;&#123;*&#x2F;</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    #include &lt;wait.h&gt;</span><br><span class="line">    #include &lt;unistd.h&gt;</span><br><span class="line">    #include &lt;sys&#x2F;types.h&gt;</span><br><span class="line">    #include &lt;sys&#x2F;wait.h&gt;</span><br><span class="line">    #include &lt;signal.h&gt;&#x2F;*&#125;&#125;&#125;*&#x2F;</span><br><span class="line"></span><br><span class="line">    int loop_driver &#x3D; 0;</span><br><span class="line">    int loop_seller &#x3D; 0;</span><br><span class="line">    int fork_id;</span><br><span class="line"></span><br><span class="line">    void handle_driver(int signum)</span><br><span class="line">    &#123;</span><br><span class="line">        loop_driver &#x3D; 1;</span><br><span class="line">        printf(&quot;driver: bus has stop\n&quot;);</span><br><span class="line">        kill(fork_id,SIGUSR1);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void handle_seller(int signum)</span><br><span class="line">    &#123;</span><br><span class="line">        loop_seller &#x3D; 1;</span><br><span class="line">        printf(&quot;seller: OK, it&#39;s busy time \n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    int main()</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F;清楚原来的SIGINT</span><br><span class="line">        signal(SIGINT,SIG_IGN);</span><br><span class="line">        while(-1 &#x3D;&#x3D; (fork_id &#x3D; fork()));</span><br><span class="line">        while(1)&#123;</span><br><span class="line">            if (fork_id &gt; 0)&#x2F;&#x2F; in parent</span><br><span class="line">            &#123;</span><br><span class="line">                &#x2F;&#x2F;司机绑定 sigint 与 handle_driver</span><br><span class="line">                signal(SIGINT,handle_driver);</span><br><span class="line">                while(1 !&#x3D; loop_driver)&#123;</span><br><span class="line">                    sleep(1);</span><br><span class="line">                    printf(&quot;driver: keep driver\n&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">                loop_driver &#x3D; 0;</span><br><span class="line">            &#125;</span><br><span class="line">            else&#x2F;&#x2F; in child</span><br><span class="line">            &#123;</span><br><span class="line">                &#x2F;&#x2F;售票员绑定  sigusr1和handle_seller</span><br><span class="line">                signal(SIGUSR1,handle_seller);</span><br><span class="line">                while(1 !&#x3D; loop_seller)&#123;</span><br><span class="line">                    sleep(1);</span><br><span class="line">                    printf(&quot;seller: sell tickets or check account\n&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">                loop_seller &#x3D; 0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="网络系统"><a href="#网络系统" class="headerlink" title="网络系统"></a>网络系统</h2><h3 id="协议分层"><a href="#协议分层" class="headerlink" title="协议分层"></a>协议分层</h3><p><img src="/2020/06/14/linux-os/osi.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">2.数据链路层(MAC层). 每个网卡都有唯一的硬件地址.</span><br><span class="line">  交互机  -  桥接  - 多个广播域链接成一个广播域.</span><br><span class="line">3.网络层(IP层).</span><br><span class="line">    路由器 - 将网络包从一个网络转发给另一个网络设备.</span><br><span class="line">    路由器会记录路由表.</span><br><span class="line">    路由表 -&gt; 目的ip地址 + ip地址的子网掩码   +  对应的网关   -&gt; 对应网关与目的ip地址在一个网段上.</span><br><span class="line">4.TCP与UDP层.</span><br><span class="line"> 1.区别.</span><br><span class="line">  1.TCP面向连接,UDP面向非连接.</span><br><span class="line">  2.TCP提供可靠交互、无差错、不丢失、不重复、并且按序到达.</span><br><span class="line">    UDP不提供可靠交互、不保证不丢失、不保障按序到达.</span><br><span class="line">  3.TCP面向字节流,发送时发的是一个流,UDP面向数据包,一个一个发送.</span><br><span class="line">  4.TCP提供流量控制(滑动窗口-防止拥塞)与拥塞控制(拥塞解决方式),防止对端压垮、也防止网络被压垮.</span><br><span class="line"> 2.三次握手.</span><br><span class="line">   1. SYN,seq.</span><br><span class="line">   2. SYN,ACK,seq,ack.</span><br><span class="line">   3. ACK,ack,seq.</span><br><span class="line">  客户端: CLOSED  -&gt;  SYN-SENT  -&gt;  ESTABLISHED</span><br><span class="line">  服务器: CLOSED  -&gt;  LISTEN  -&gt;  SYN-RCVD  -&gt;  ESTABLISHED</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/06/14/linux-os/send-data-package.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">4.网络数据包传输的过程</span><br><span class="line">    1.客户端浏览器将用户发出的请求封装为Http协议,通过Socket发送到内核,</span><br><span class="line">      内核的网络协议栈中,</span><br><span class="line">      在TCP层创建用于维护连接、序列号、重传、拥塞控制的数据结构.(Http报文会加上TCP Header).</span><br><span class="line">      在IP层会加上IP头,在mac层会加上mac头.</span><br><span class="line">      从硬件网卡发出去.</span><br><span class="line">    2.数据包经过交换机、路由器的转发最终到达目的主机.</span><br><span class="line">      主机存在ARP缓存表 -&gt; IP地址与mac地址的映射.</span><br><span class="line">      1.通过ARP协议获取目的IP地址对应的路由器网关(本网段的网关)的mac地址.</span><br><span class="line">      2.向路由器网关发送数据包.</span><br><span class="line">      3.路由器根据路由协议从路由器其它的网关发出报文.</span><br><span class="line">      4.报文根据ARP协议继续寻找路由器.</span><br><span class="line">      5.最后一个路由器发出的报文,根据ARP协议获取目的主机对应的mac,并发送报文.</span><br><span class="line">    3.目的主机会将报文一步一步解封.</span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line">## 虚拟化</span><br><span class="line">### 虚拟化方式</span><br></pre></td></tr></table></figure>
+<p>1.完全虚拟化  -&gt;  虚拟化软件(例如virtual box)会模拟假的CPU、内存、网络、硬盘。<br>  将原来操作系统的部分资源划给虚拟机(类似进程,用相对地址这种..).<br>2.硬件辅助虚拟化  -&gt;  为了提高运行速率, 让虚拟机大部分内核指令都能直接在 CPU 上执行, 部分敏感指令还是通过中转的方式执行.<br>3.半虚拟化 -&gt; 网络/硬盘可以加载针对虚拟机特殊优化的驱动, 通过内存缓存等方式优化资源的访问.<br>4.虚拟化工具.<br>    1.桌面虚拟化  -  VirtualBox.<br>    2.服务器  -  qemu.<br>      1.在bios中打开硬件辅助虚拟化.<br>        虚拟机CPU指令通过KVM在CPU上运行.<br>        KVM是一个内核模块,通过/dev/kvm暴露端口,用户态可以通过ioctl访问这个接口直接运行CPU指令.<br>      2.qemu整合kvm,将CPU指令交由KVM运行.即qemu-kvm.<br>        Qemu-kvm 只解决 CPU 性能问题, qemu 让虚拟机加载特殊驱动, 实现半虚拟化. 例如网络驱动 virtio_net, 存储驱动 virtio_blk.<br>5.使用qemu创建虚拟机.<br>  1.创建一个虚拟硬盘.(可以使用qcow2(动态分配)和raw 2种分配方式)<br>    qemu-img  create -f qcow2  ubuntutest.img 8G<br>  2.创建KVM虚拟机.<br>    qemu-system-x86_64 -enable-kvm -name ubuntutest  -m 2048 -hda ubuntutest.img -cdrom ubuntu-14.04-server-amd64.iso -boot d -vnc :19<br>  3.在host机器上创建网桥并开启.<br>    brctl addbr br0<br>    ip link set br0 up<br>  4.创建tap device并开启.<br>    tunctl -b<br>    ip link set tap0 up<br>  5.将tap0加入到br0上.<br>    brctl addif br0 tap0<br>  6.启动虚拟机,设置tap0与br0<br>    qemu-system-x86_64 -enable-kvm -name ubuntutest -m 2048 -hda ubuntutest.qcow2 -vnc :19 -net nic,model=virtio -nettap,ifname=tap0,script=no,downscript=no<br>  7.给br0设置一个ip<br>    ifconfig br0 192.168.57.1/24<br>  8.VNC 连上虚拟机，给网卡设置地址，重启虚拟机，可 ping 通 br0<br>  9.要想访问外网，在 Host 上设置 NAT，并且 enable ip forwarding，可以 ping 通外网网关<br>    # sysctl -p<br>    net.ipv4.ip_forward = 1<br>    sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE<br>  10.如果 DNS 没配错，可以进行 apt-get update </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## 容器虚拟化</span><br><span class="line">### 容器虚拟化技术</span><br></pre></td></tr></table></figure>
+<ol>
+<li>namespace  -&gt;  每个namespace中看到的是不同的ip地址,用户空间,进程ID.</li>
+<li>cgroup     -&gt;  每个容器只应用CPU、内存的一部分.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### docker</span><br></pre></td></tr></table></figure></li>
+<li>优点<br>  1.持续集成  -&gt;  开发将环境打包成一个docker镜像,测试pull一下镜像，创建容器即可测试.<br>  2.弹性压缩  -&gt;  部署,docker run 容器就可以了,很快.<br>  3.跨云迁移</li>
+<li>参数配置.<br>  -c / –cpu-shares   每个容器占用的 CPU 时间比例为它的 share 在总额中的比例<br>  –cpuset 参数让容器只运行在某些核上<br>  -m –memory：容器能使用的最大内存大小<br>  –memory-swap：容器能够使用的 swap 大小。<br>  –kernel-memory：容器能够使用的 kernel memory 大小<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#### docker 与 qemu虚拟化对比</span><br><span class="line">![](linux-os&#x2F;docker.jpg)</span><br></pre></td></tr></table></figure></li>
+<li>虚拟机在qemu进程中有客户机内核,应用完全运行在客户机的用户态中.</li>
+<li>Docker将容器镜像作为容器,通过namespace与cgroup进行隔离,容器不包含内核,共享宿主机内核.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### Namespace</span><br></pre></td></tr></table></figure></li>
+<li>分类<br>  1.UTS  -&gt;   不同的namespace可以配置不同的hostname.<br>  2.User -&gt;   不同的namespace可以配置不同的用户和组.<br>  3.Mount -&gt;  不同的namespace的挂载点是不同的.<br>  4.PID -&gt;  不同的namespace有完全独立的pid.<br>  5.Network -&gt;  不同的namespace有独立的网络协议栈.</li>
+<li>操作指令.<br> 1.查看命名空间<br>   ll  /proc/${pid}/ns<br> 2.进入命名空间(有点像进入docker容器).<br>   nsenter –target 58212 –mount –uts –ipc –net –pid – env –ignore-environment – /bin/bash<br> 3.离开命名空间.<br>   unshare  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### cgroup</span><br></pre></td></tr></table></figure></li>
+<li>cgroup的一系列子系统.<br>  CPU 子系统，主要限制进程的 CPU 使用率。<br>  cpuacct 子系统，可以统计 cgroup 中的进程的 CPU 使用报告。<br>  cpuset 子系统，可以为 cgroup 中的进程分配单独的 CPU 节点或者内存节点。<br>  memory 子系统，可以限制进程的 Memory 使用量。<br>  blkio 子系统，可以限制进程的块设备 IO。<br>  devices 子系统，可以控制进程能够访问某些设备。<br>  net_cls 子系统，可以标记 cgroups 中进程的网络数据包，然后可以使用 tc 模块（traffic control）对数据包进行控制。<br>  freezer 子系统，可以挂起或者恢复 cgroup 中的进程。</li>
+<li>docker参数与cgroup的映射关系.<br> $&gt;docker run -d –cpu-shares 513 –cpus 2 –cpuset-cpus 1,3 –memory 1024M –memory-swap 1234M –memory-swappiness 7 -p 8081:80 testnginx:1<br> $&gt;docker ps<br>  CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                  NAMES<br>  3dc0601189dd        testnginx:1         “/bin/sh -c ‘nginx -…”   About a minute ago   Up About a minute   0.0.0.0:8081-&gt;80/tcp   boring_cohen<br> $&gt;mount -t cgroup<pre><code>cgroup on /sys/fs/cgroup/systemd type cgroup (rw,nosuid,nodev,noexec,relatime,xattr,release_agent=/usr/lib/systemd/systemd-cgroups-agent,name=systemd)
+cgroup on /sys/fs/cgroup/net_cls,net_prio type cgroup (rw,nosuid,nodev,noexec,relatime,net_prio,net_cls)
+cgroup on /sys/fs/cgroup/perf_event type cgroup (rw,nosuid,nodev,noexec,relatime,perf_event)
+cgroup on /sys/fs/cgroup/devices type cgroup (rw,nosuid,nodev,noexec,relatime,devices)
+cgroup on /sys/fs/cgroup/blkio type cgroup (rw,nosuid,nodev,noexec,relatime,blkio)
+cgroup on /sys/fs/cgroup/cpu,cpuacct type cgroup (rw,nosuid,nodev,noexec,relatime,cpuacct,cpu)
+cgroup on /sys/fs/cgroup/memory type cgroup (rw,nosuid,nodev,noexec,relatime,memory)
+cgroup on /sys/fs/cgroup/cpuset type cgroup (rw,nosuid,nodev,noexec,relatime,cpuset)
+cgroup on /sys/fs/cgroup/hugetlb type cgroup (rw,nosuid,nodev,noexec,relatime,hugetlb)
+cgroup on /sys/fs/cgroup/freezer type cgroup (rw,nosuid,nodev,noexec,relatime,freezer)
+cgroup on /sys/fs/cgroup/pids type cgroup (rw,nosuid,nodev,noexec,relatime,pids)</code></pre>```</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+		<div>
+			
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+			
+		</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/13/alibaba-development-manual/" rel="prev" title="alibaba-development-manual">
+      <i class="fa fa-chevron-left"></i> alibaba-development-manual
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/23/linux-course-design/" rel="next" title="linux-course-design">
+      linux-course-design <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#入门准备篇"><span class="nav-number">1.</span> <span class="nav-text">入门准备篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#入学测验题"><span class="nav-number">1.1.</span> <span class="nav-text">入学测验题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六个陡坡"><span class="nav-number">1.2.</span> <span class="nav-text">六个陡坡</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux操作系统综述"><span class="nav-number">2.</span> <span class="nav-text">Linux操作系统综述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#计算机各种硬件"><span class="nav-number">2.1.</span> <span class="nav-text">计算机各种硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程管理"><span class="nav-number">2.2.</span> <span class="nav-text">进程管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件管理"><span class="nav-number">2.3.</span> <span class="nav-text">文件管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目异常处理与信号处理"><span class="nav-number">2.4.</span> <span class="nav-text">项目异常处理与信号处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目组间沟通与进程间通信"><span class="nav-number">2.5.</span> <span class="nav-text">项目组间沟通与进程间通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#公司间沟通与网络通信"><span class="nav-number">2.6.</span> <span class="nav-text">公司间沟通与网络通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源代码中的系统调用"><span class="nav-number">2.7.</span> <span class="nav-text">源代码中的系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中介与Glibc"><span class="nav-number">2.8.</span> <span class="nav-text">中介与Glibc</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统初始化"><span class="nav-number">3.</span> <span class="nav-text">系统初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#x86架构-有了开放的架构-才能打造开发的营商环境"><span class="nav-number">3.1.</span> <span class="nav-text">x86架构:有了开放的架构,才能打造开发的营商环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#计算机的工作模式是怎么样的"><span class="nav-number">3.1.1.</span> <span class="nav-text">计算机的工作模式是怎么样的?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#x86-成为开放平台历史中的重要一笔"><span class="nav-number">3.1.2.</span> <span class="nav-text">x86 成为开放平台历史中的重要一笔</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#32位处理器"><span class="nav-number">3.1.3.</span> <span class="nav-text">32位处理器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从BIOS到bootloader-创业伊始-有活儿老板自己上"><span class="nav-number">3.2.</span> <span class="nav-text">从BIOS到bootloader:创业伊始,有活儿老板自己上</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BIOS时期"><span class="nav-number">3.2.1.</span> <span class="nav-text">BIOS时期</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内核初始化-生意做大了就得成立公司"><span class="nav-number">3.3.</span> <span class="nav-text">内核初始化: 生意做大了就得成立公司</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化公司职能部门"><span class="nav-number">3.3.1.</span> <span class="nav-text">初始化公司职能部门</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程管理-1"><span class="nav-number">4.</span> <span class="nav-text">进程管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#公司接这么多项目-如何管"><span class="nav-number">4.1.</span> <span class="nav-text">公司接这么多项目,如何管?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#写代码-用系统调用创建进程"><span class="nav-number">4.1.1.</span> <span class="nav-text">写代码: 用系统调用创建进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进行编译-程序的二进制格式"><span class="nav-number">4.1.2.</span> <span class="nav-text">进行编译: 程序的二进制格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程树"><span class="nav-number">4.1.3.</span> <span class="nav-text">进程树</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程-如何让复杂的项目并行执行"><span class="nav-number">4.2.</span> <span class="nav-text">线程: 如何让复杂的项目并行执行</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#线程"><span class="nav-number">4.2.1.</span> <span class="nav-text">线程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程数据结构-项目多了就需要项目管理系统"><span class="nav-number">4.3.</span> <span class="nav-text">进程数据结构 - 项目多了就需要项目管理系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进程、线程数据结构"><span class="nav-number">4.3.1.</span> <span class="nav-text">进程、线程数据结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程调度"><span class="nav-number">4.4.</span> <span class="nav-text">进程调度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#调度策略与调度类"><span class="nav-number">4.4.1.</span> <span class="nav-text">调度策略与调度类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主动调度与抢占式调度"><span class="nav-number">4.4.2.</span> <span class="nav-text">主动调度与抢占式调度</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理"><span class="nav-number">5.</span> <span class="nav-text">内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内存管理-1"><span class="nav-number">5.1.</span> <span class="nav-text">内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#物理内存地址与虚拟内存地址"><span class="nav-number">5.1.1.</span> <span class="nav-text">物理内存地址与虚拟内存地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#x86-32位处理器以及之后的处理器的-内存分段机制"><span class="nav-number">5.1.2.</span> <span class="nav-text">x86 32位处理器以及之后的处理器的 内存分段机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存分页机制"><span class="nav-number">5.1.3.</span> <span class="nav-text">内存分页机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户态、内核态划分"><span class="nav-number">5.1.4.</span> <span class="nav-text">用户态、内核态划分</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件系统"><span class="nav-number">6.</span> <span class="nav-text">文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件系统的功能规划"><span class="nav-number">6.1.</span> <span class="nav-text">文件系统的功能规划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#inode与块的存储"><span class="nav-number">6.1.1.</span> <span class="nav-text">inode与块的存储</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#目录的存储格式"><span class="nav-number">6.1.2.</span> <span class="nav-text">目录的存储格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#软连接与硬链接的存储格式"><span class="nav-number">6.1.3.</span> <span class="nav-text">软连接与硬链接的存储格式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟文件系统"><span class="nav-number">6.2.</span> <span class="nav-text">虚拟文件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件缓存"><span class="nav-number">6.3.</span> <span class="nav-text">文件缓存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入输出系统"><span class="nav-number">7.</span> <span class="nav-text">输入输出系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输入与输出"><span class="nav-number">7.1.</span> <span class="nav-text">输入与输出</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用设备控制器屏蔽设备差异"><span class="nav-number">7.1.1.</span> <span class="nav-text">用设备控制器屏蔽设备差异</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用驱动程序屏蔽设备控制器差异"><span class="nav-number">7.1.2.</span> <span class="nav-text">用驱动程序屏蔽设备控制器差异</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用文件系统屏蔽驱动程序差异"><span class="nav-number">7.1.3.</span> <span class="nav-text">用文件系统屏蔽驱动程序差异</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程间通信"><span class="nav-number">8.</span> <span class="nav-text">进程间通信</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#管道模型"><span class="nav-number">8.1.</span> <span class="nav-text">管道模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息队列模型"><span class="nav-number">8.2.</span> <span class="nav-text">消息队列模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#共享内存模型"><span class="nav-number">8.3.</span> <span class="nav-text">共享内存模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信号量"><span class="nav-number">8.4.</span> <span class="nav-text">信号量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信号"><span class="nav-number">8.5.</span> <span class="nav-text">信号</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#信号发送"><span class="nav-number">8.5.1.</span> <span class="nav-text">信号发送</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络系统"><span class="nav-number">9.</span> <span class="nav-text">网络系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#协议分层"><span class="nav-number">9.1.</span> <span class="nav-text">协议分层</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="vicyor"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">vicyor</p>
+  <div class="site-description" itemprop="description">大路且慢慢,咱一步一步走完.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vicyor" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vicyor" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2457569580@qq.com" title="E-Mail → mailto:2457569580@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vicyor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">819k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">12:25</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = visitors.getAttribute('id').trim();
+      var title = visitors.getAttribute('data-flag-title').trim();
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.log('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return element.getAttribute('id').trim();
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=m9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'm9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz',
+            'X-LC-Key': 'g7WSuE6aDmunoX4rgyBN7SJa',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'qQhr9rNGJh6YalJA0mfaaurx-gzGzoHsz',
+    appKey: 'kJy8NJeOTMPnxQ3zLihOcnw3',
+    placeholder: "请留下您的宝贵评论",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+	
+		 <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		 <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

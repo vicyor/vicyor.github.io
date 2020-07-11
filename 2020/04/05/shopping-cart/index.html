@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://vicyor.gitee.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="购物车项目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shopping-cart">
+<meta property="og:url" content="http://vicyor.gitee.io/2020/04/05/shopping-cart/index.html">
+<meta property="og:site_name" content="Vicyor">
+<meta property="og:description" content="购物车项目">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-05T14:17:14.000Z">
+<meta property="article:modified_time" content="2020-07-11T01:00:39.960Z">
+<meta property="article:author" content="vicyor">
+<meta property="article:tag" content="shopping-cart">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://vicyor.gitee.io/2020/04/05/shopping-cart/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>shopping-cart | Vicyor</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vicyor</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">40</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">38</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/04/05/shopping-cart/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="vicyor">
+      <meta itemprop="description" content="大路且慢慢,咱一步一步走完.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vicyor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          shopping-cart
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-05 22:17:14" itemprop="dateCreated datePublished" datetime="2020-04-05T22:17:14+08:00">2020-04-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-11 09:00:39" itemprop="dateModified" datetime="2020-07-11T09:00:39+08:00">2020-07-11</time>
+              </span>
+
+          
+            <span id="/2020/04/05/shopping-cart/" class="post-meta-item leancloud_visitors" data-flag-title="shopping-cart" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/04/05/shopping-cart/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/05/shopping-cart/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>购物车项目</p>
+<a id="more"></a>
+<h3 id="dubbo还是mq"><a href="#dubbo还是mq" class="headerlink" title="dubbo还是mq"></a>dubbo还是mq</h3><h4 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.dubbo的调用是以同步的方式进行的.</span><br><span class="line">  同步响应的实时性不太好,整个流程处理较慢.</span><br><span class="line">2.mq的调用方式是以异步方式进行的.</span><br><span class="line">  项目的当前一致性不能保证,但可以保证数据最终一致性.</span><br></pre></td></tr></table></figure>
+<h4 id="扩展性"><a href="#扩展性" class="headerlink" title="扩展性"></a>扩展性</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.dubbo是分布式框架,可以通过添加应用副本的方式实现负载均衡.</span><br><span class="line">2.mq可以搭集群,实现数据冗余和扩展.</span><br></pre></td></tr></table></figure>
+<h4 id="成功还是失败"><a href="#成功还是失败" class="headerlink" title="成功还是失败"></a>成功还是失败</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.mq可以开启生产者确认重发失败的消息,broker服务器可以持久化消息,消费端开启确认机制保证最终一定成功执行.</span><br><span class="line">2.dubbo的容错机制FailOver,Failback,Forking,Available能保证调用最终进行.</span><br><span class="line">  但是某个服务所有的副本都宕机了,会一直重试，同步很占用时间,或者直接返回失败不进行重试.</span><br></pre></td></tr></table></figure>
+<h4 id="事务保证"><a href="#事务保证" class="headerlink" title="事务保证"></a>事务保证</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1.dubbo未提供分布式事务,单机事务不安全</span><br><span class="line">  单机事务不能确保安全,由于一个应用出现多个副本,可能导致多个应用同时执行同一个单机事务.</span><br><span class="line">  例如:</span><br><span class="line">    int money&#x3D;getMoney(&quot;123456&quot;);  &#x2F;&#x2F;应用A1读取money为100   应用A2读取money为100</span><br><span class="line">    money&#x3D;money+100;               </span><br><span class="line">    updateMoney(&quot;123456&quot;,money);   &#x2F;&#x2F;A1存200提交事务后, A2存200 ，数据一致性出现问题.</span><br><span class="line">  解决方式:</span><br><span class="line">    1.分布式事务.</span><br><span class="line">    2.改sql语句, 尽量减少先读取后修改这种操作(难度较大).</span><br><span class="line">2.mq可以确保事务,mq的同一个消息只会发往一个消费者.</span><br></pre></td></tr></table></figure>
+<h3 id="集合类型的泛型擦除"><a href="#集合类型的泛型擦除" class="headerlink" title="集合类型的泛型擦除"></a>集合类型的泛型擦除</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1.java对容器泛型的检查只是在编译时候,但是在程序运行时候并不会进行检查.</span><br><span class="line">例如:</span><br><span class="line">  dubbo a服务消费者.</span><br><span class="line">     List&lt;A&gt;aList&#x3D;new ArrayList();</span><br><span class="line">     aList.add(a1);</span><br><span class="line">     aList.add(a2);</span><br><span class="line">     aService.doSomething(aList);</span><br><span class="line">  dubbo a服务提供者</span><br><span class="line">    public void doSomething(List&lt;A&gt; aList)&#123; &#x2F;&#x2F;这里实际上传过来的是 List&lt;Map&gt;aList,但是由于泛型擦除不报错</span><br><span class="line">       </span><br><span class="line">        for(A a:aList)&#123;  &#x2F;&#x2F;这里会报 ClassCastException,Map不能转A,jvm运行时检查.</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="在bean的构造函数中使用-AutoWired注入的bean"><a href="#在bean的构造函数中使用-AutoWired注入的bean" class="headerlink" title="在bean的构造函数中使用@AutoWired注入的bean"></a>在bean的构造函数中使用@AutoWired注入的bean</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Componet</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span> </span><br><span class="line">    B b;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">A</span><span class="params">()</span></span>&#123;</span><br><span class="line">        b.doSomething(); <span class="comment">//报空指针异常</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">原因: spring是先通过构造函数创建bean,再执行bean的其它依赖注入.</span><br><span class="line">可改成</span><br><span class="line"><span class="meta">@Componet</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">A</span><span class="params">(@Autowired B b)</span></span>&#123;</span><br><span class="line">        b.doSomething(); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">或</span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> A <span class="title">a</span><span class="params">(B b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> A(b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="mvn多模块打包的依赖问题"><a href="#mvn多模块打包的依赖问题" class="headerlink" title="mvn多模块打包的依赖问题"></a>mvn多模块打包的依赖问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.对于&lt;packaging&gt;pom&lt;&#x2F;packaging&gt;的项目,不能添加spring boot maven plugin 打包插件.</span><br><span class="line">2.api模块也需要打成jar包.</span><br><span class="line">3.在根pom文件中,对于每个项目都有的依赖可以用&lt;dependencies&gt;将依赖一同加载,对只有每个项目单独的依赖可以用&lt;dependencyManagement&gt;处理.</span><br><span class="line">4.打包某个项目一直报错,可以尝试重建一个maven工程,将代码复制进去.</span><br></pre></td></tr></table></figure>
+<h3 id="正则表达式-与"><a href="#正则表达式-与" class="headerlink" title="正则表达式 ?=与?:"></a>正则表达式 ?=与?:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1.?&#x3D; 的特点.</span><br><span class="line">  1.不消耗字符.</span><br><span class="line">    1. &#x2F;x(?&#x3D;a)(?&#x3D;b)c&#x2F;.test(&quot;xabc&quot;); &#x3D;&gt; false 不消耗字符,零宽.</span><br><span class="line">    2. &#x2F;x(?&#x3D;a)abc&#x2F;.test(&quot;xabc&quot;); &#x3D;&gt; true</span><br><span class="line">  2.不在结果捕获组中出现.</span><br><span class="line">    &#x2F;a(?&#x3D;a)a&#x2F;.exec(&quot;aa&quot;);&#x3D;&gt; 只有group(0) -&gt;&quot;aa&quot;</span><br><span class="line">2.?: 的特点.</span><br><span class="line">  1.消耗字符.</span><br><span class="line">    &#x2F;x(?:a)(?:b)c&#x2F;.test(&quot;xabc&quot;); &#x3D;&gt; true</span><br><span class="line">  2.不在结果捕获组中出现</span><br><span class="line">    &#x2F;x(?:a)(?:b)c&#x2F;.exec(&quot;xabc&quot;); &#x3D;&gt;group(0) -&gt; xabc</span><br><span class="line">3.密码匹配,至少一位数字和一位字母,长度大于6位.</span><br><span class="line">  &#x2F;^(?&#x3D;.*[a-zA-Z])(?&#x3D;.*[\d])[a-zA-z\d]&#123;6,&#125;$&#x2F;.test(&quot;A123456bc&quot;) --&gt; true</span><br><span class="line">  ps:</span><br><span class="line">      1.?&#x3D;不消耗密码字符.</span><br><span class="line">      2.两个?&#x3D;确保密码不是由全数字和全字母组成.</span><br><span class="line">      3.[a-zA-Z\d]&#123;b,&#125;保证密码由数字或密码组成,没有其它字符</span><br></pre></td></tr></table></figure>
+<h3 id="React分页插件顺序问题"><a href="#React分页插件顺序问题" class="headerlink" title="React分页插件顺序问题"></a>React分页插件顺序问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">分页 : 点击 -&gt; 获取数据 -&gt; 渲染</span><br><span class="line">错误情况:</span><br><span class="line">    handleClick()&#123;</span><br><span class="line">        &#x2F;&#x2F;先setState</span><br><span class="line">        setState(obj);</span><br><span class="line">        &#x2F;&#x2F;后获取数据</span><br><span class="line">        getData();</span><br><span class="line">    &#125;</span><br><span class="line">setState会导致浏览器立刻重新渲染,如果将getData放在setState后,会导致获取数据无法渲染(因为已经渲染过了).</span><br></pre></td></tr></table></figure>
+<h3 id="使用Ant-Design组件遇到的问题"><a href="#使用Ant-Design组件遇到的问题" class="headerlink" title="使用Ant-Design组件遇到的问题"></a>使用Ant-Design组件遇到的问题</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>删除购物车某行数据,并更新state后,Ant-Table组件并没有最终渲染.</span><br><span class="line">  <span class="number">1.</span>React判断state中element是否更新是看element是否是新的对象(地址空间不同),在原element上操作并不会生成新的对象.</span><br><span class="line"> 解决方式:</span><br><span class="line">  <span class="comment">//获取旧对象</span></span><br><span class="line">  <span class="keyword">let</span> oldCarts= <span class="keyword">this</span>.state.carts;</span><br><span class="line">  <span class="comment">//删除元素</span></span><br><span class="line">  oldCarts.splice(index,<span class="number">1</span>);</span><br><span class="line">  <span class="comment">//生成新对象</span></span><br><span class="line">  <span class="keyword">let</span> newCarts=[...oldCarts];</span><br><span class="line">  <span class="comment">//设置状态</span></span><br><span class="line">  <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      carts:newCarts</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+		<div>
+			
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+			
+		</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/shopping-cart/" rel="tag"># shopping-cart</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/25/netty/" rel="prev" title="netty">
+      <i class="fa fa-chevron-left"></i> netty
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/06/spring-transaction/" rel="next" title="spring-transaction">
+      spring-transaction <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo还是mq"><span class="nav-number">1.</span> <span class="nav-text">dubbo还是mq</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#调用方式"><span class="nav-number">1.1.</span> <span class="nav-text">调用方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#扩展性"><span class="nav-number">1.2.</span> <span class="nav-text">扩展性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#成功还是失败"><span class="nav-number">1.3.</span> <span class="nav-text">成功还是失败</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事务保证"><span class="nav-number">1.4.</span> <span class="nav-text">事务保证</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类型的泛型擦除"><span class="nav-number">2.</span> <span class="nav-text">集合类型的泛型擦除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在bean的构造函数中使用-AutoWired注入的bean"><span class="nav-number">3.</span> <span class="nav-text">在bean的构造函数中使用@AutoWired注入的bean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mvn多模块打包的依赖问题"><span class="nav-number">4.</span> <span class="nav-text">mvn多模块打包的依赖问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正则表达式-与"><span class="nav-number">5.</span> <span class="nav-text">正则表达式 ?&#x3D;与?:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React分页插件顺序问题"><span class="nav-number">6.</span> <span class="nav-text">React分页插件顺序问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Ant-Design组件遇到的问题"><span class="nav-number">7.</span> <span class="nav-text">使用Ant-Design组件遇到的问题</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="vicyor"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">vicyor</p>
+  <div class="site-description" itemprop="description">大路且慢慢,咱一步一步走完.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vicyor" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vicyor" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2457569580@qq.com" title="E-Mail → mailto:2457569580@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vicyor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">819k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">12:25</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = visitors.getAttribute('id').trim();
+      var title = visitors.getAttribute('data-flag-title').trim();
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.log('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return element.getAttribute('id').trim();
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=m9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'm9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz',
+            'X-LC-Key': 'g7WSuE6aDmunoX4rgyBN7SJa',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'qQhr9rNGJh6YalJA0mfaaurx-gzGzoHsz',
+    appKey: 'kJy8NJeOTMPnxQ3zLihOcnw3',
+    placeholder: "请留下您的宝贵评论",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+	
+		 <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		 <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

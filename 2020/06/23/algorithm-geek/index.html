@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://vicyor.gitee.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="看算法面试通关40讲所做的笔记,只记录干货,理论之类的直接pass.难理解的会贴代码.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="algorithm-geek">
+<meta property="og:url" content="http://vicyor.gitee.io/2020/06/23/algorithm-geek/index.html">
+<meta property="og:site_name" content="Vicyor">
+<meta property="og:description" content="看算法面试通关40讲所做的笔记,只记录干货,理论之类的直接pass.难理解的会贴代码.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/06/23/algorithm-geek/tire.jpg">
+<meta property="article:published_time" content="2020-06-23T13:07:55.000Z">
+<meta property="article:modified_time" content="2020-07-11T01:00:42.496Z">
+<meta property="article:author" content="vicyor">
+<meta property="article:tag" content="algorithm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vicyor.gitee.io/2020/06/23/algorithm-geek/tire.jpg">
+
+<link rel="canonical" href="http://vicyor.gitee.io/2020/06/23/algorithm-geek/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>algorithm-geek | Vicyor</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vicyor</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">40</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">38</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/06/23/algorithm-geek/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="vicyor">
+      <meta itemprop="description" content="大路且慢慢,咱一步一步走完.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vicyor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          algorithm-geek
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-23 21:07:55" itemprop="dateCreated datePublished" datetime="2020-06-23T21:07:55+08:00">2020-06-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-11 09:00:42" itemprop="dateModified" datetime="2020-07-11T09:00:42+08:00">2020-07-11</time>
+              </span>
+
+          
+            <span id="/2020/06/23/algorithm-geek/" class="post-meta-item leancloud_visitors" data-flag-title="algorithm-geek" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/06/23/algorithm-geek/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/23/algorithm-geek/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>18k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>17 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>看算法面试通关40讲所做的笔记,只记录干货,理论之类的直接pass.难理解的会贴代码.</p>
+<a id="more"></a>
+<h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Big O notation</span><br><span class="line">O(1) -&gt; 常数复杂度</span><br><span class="line">...</span><br><span class="line">递归的时间复杂度:</span><br><span class="line">  主定律(用于分治): T(n)&#x3D;aT(n&#x2F;b)+O(n^d)</span><br><span class="line">    若 a&#x3D;b^d , T(n)&#x3D;O(n^dlog(n))</span><br><span class="line">    若 a&lt;b^d , T(n)&#x3D;O(n^d)</span><br><span class="line">    若a&gt;b^d , T(n)&#x3D;O(n^logb(a))</span><br><span class="line">  例如: Fib(n)&#x3D;Fib(n-1)+Fib(n-2) -&gt; </span><br><span class="line">       Fib(n)&#x3D;2Fib(n) -&gt; a&#x3D;2,b&#x3D;1,d&#x3D;0-&gt; a&gt;b^d -&gt; O(n^2)</span><br><span class="line">  常见的几种递归算法时间复杂度.</span><br><span class="line">     T(n)&#x3D;T(n&#x2F;2)+O(1) -&gt;O(logn)</span><br><span class="line">     T(n)&#x3D;2T(n&#x2F;2)+O(1) -&gt; O(1)</span><br><span class="line">     T(n)&#x3D;2T(n&#x2F;2)+O(logn) -&gt; O(n)</span><br><span class="line">     T(n)&#x3D;2T(n&#x2F;2)+O(n) -&gt; O(n*logn)</span><br></pre></td></tr></table></figure>
+<h2 id="理论讲解"><a href="#理论讲解" class="headerlink" title="理论讲解"></a>理论讲解</h2><h3 id="数值-amp-链表"><a href="#数值-amp-链表" class="headerlink" title="数值&amp;链表"></a>数值&amp;链表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.数组 -&gt; 查找O(1),更新O(n).</span><br><span class="line">2.链表 -&gt; 查找O(n),更新O(1).</span><br></pre></td></tr></table></figure>
+<h4 id="链表相关题目"><a href="#链表相关题目" class="headerlink" title="链表相关题目"></a>链表相关题目</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1.链表反转.</span><br><span class="line">    1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5</span><br><span class="line">  &#x3D;&gt; 2 -&gt; 1  -&gt; 3  -&gt;  4  -&gt;5</span><br><span class="line">  &#x3D;&gt; 3 -&gt; 2  -&gt; 1  -&gt;  4  -&gt;5</span><br><span class="line">  ......</span><br><span class="line">  需要 pre,p,head三个指针.  </span><br><span class="line">  -&gt; pre.next&#x3D;p.next;p.next&#x3D;head;head&#x3D;p;p&#x3D;pre.next;</span><br><span class="line">2.链表两两反转</span><br><span class="line">   1 -&gt; 2 -&gt; 3 -&gt; 4</span><br><span class="line"> &#x3D;&gt; 2 -&gt; 1 -&gt; 4 -&gt; 3</span><br><span class="line"> 需要 pre,p,pn三个指针</span><br><span class="line">    p.next&#x3D;pn.next;pn.next&#x3D;p;pre.next&#x3D;pn;</span><br><span class="line">    pre&#x3D;p;p&#x3D;p.next;pn&#x3D;p.next;</span><br><span class="line">3.判断链表是否有环.</span><br><span class="line">  方式一: 用 hashSet.</span><br><span class="line">  方式二: 快慢指针.</span><br><span class="line">   p,q -&gt; p&#x3D;p.next,q&#x3D;q.next.next -&gt; 有环的话,走两步的人最终会碰到走一步的人.</span><br></pre></td></tr></table></figure>
+<h3 id="堆栈-队列"><a href="#堆栈-队列" class="headerlink" title="堆栈/队列"></a>堆栈/队列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stack -&gt; FILO</span><br><span class="line">Queue -&gt; FIFO</span><br></pre></td></tr></table></figure>
+<h4 id="栈-队列相关题目"><a href="#栈-队列相关题目" class="headerlink" title="栈\队列相关题目"></a>栈\队列相关题目</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1.判断括号&#x2F;字符串是否有效.</span><br><span class="line">  &#39;(&#39;、&#39;[&#39;、&#39;&#123;&#39; 压栈, 遇到&#39;)&#39;、&#39;]&#39;、&#39;&#125;&#39;,出栈并与栈顶元素比较.</span><br><span class="line">  括号的关系可用map存储一下.</span><br><span class="line">2.用队列实现栈.</span><br><span class="line">  栈 -&gt; 2个队列.</span><br><span class="line">  pop时需要将1-n-1个元素放入另一个队列,随后pop队列的第n个元素.</span><br><span class="line">3.用栈实现队列.</span><br><span class="line">  队列 -&gt;input栈 + output 栈.</span><br><span class="line">  input栈 -&gt;  进队列操作一直往input栈中放.</span><br><span class="line">  output栈 -&gt; 出队列操作,每次都弹出output栈顶部,若output栈为空,则将input栈倒入output栈.</span><br></pre></td></tr></table></figure>
+<h3 id="优先级队列"><a href="#优先级队列" class="headerlink" title="优先级队列"></a>优先级队列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PriorityQueue</span><br><span class="line">1.Heap.</span><br><span class="line">2.二叉搜索树(二叉排序树).</span><br><span class="line">java的实现类.</span><br><span class="line">PriorityQueue priority&#x3D;new PriorityQueue((o1,o2)-&gt;&#123;return 0;&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="优先级队列相关题目"><a href="#优先级队列相关题目" class="headerlink" title="优先级队列相关题目"></a>优先级队列相关题目</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">1.求数据流中的第k大元素.</span><br><span class="line">  最小堆+堆的大小为k.</span><br><span class="line">  当有比堆首部大的元素到来时,去除堆首,将元素加入堆中.</span><br><span class="line">  时间复杂度(n*log2K)</span><br><span class="line">2.求滑动窗口中的最大元素.</span><br><span class="line">  1.最大堆+大小为窗口大小.每次窗口移动则放入新的元素,去除旧的元素,堆顶即为最大元素.</span><br><span class="line">  2.双端队列.</span><br><span class="line">    Deque -&gt; 记录下标</span><br><span class="line">    新元素进来时,</span><br><span class="line">     1.将老的元素出队列(只会存在1个老的元素,步长为1),</span><br><span class="line">     2.将小的元素出队列(从后向前遍历).</span><br><span class="line">     3.新元素进队列.</span><br><span class="line">    贴一下代码:</span><br><span class="line">            public int[] maxSlidingWindow(int[] nums, int k) &#123;</span><br><span class="line">                &#x2F;&#x2F;记录下标</span><br><span class="line">                Deque&lt;Integer&gt; deque&#x3D;new ArrayDeque();</span><br><span class="line">                int []result&#x3D;new int[nums.length-k+1];</span><br><span class="line">                int index&#x3D;0;</span><br><span class="line">                 </span><br><span class="line">                for(int i&#x3D;0;i&lt;nums.length;i++)&#123;    </span><br><span class="line">                    &#x2F;&#x2F;老的出队列(only one)</span><br><span class="line">                    if(!deque.isEmpty()&amp;&amp;deque.getFirst()&#x3D;&#x3D;i-k)&#123;</span><br><span class="line">                        deque.removeFirst();</span><br><span class="line">                    &#125;</span><br><span class="line">                    &#x2F;&#x2F;小的出队列(may be many)</span><br><span class="line">                    while(!deque.isEmpty()&amp;&amp;nums[deque.getLast()]&lt;&#x3D;nums[i])&#123;</span><br><span class="line">                        deque.removeLast();</span><br><span class="line">                    &#125;</span><br><span class="line">                    &#x2F;&#x2F;当前元素进队列</span><br><span class="line">                    deque.addLast(i);</span><br><span class="line">                    if(i&gt;&#x3D;k-1)&#123;</span><br><span class="line">                        result[index++]&#x3D;nums[deque.getFirst()];</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                return result;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.hash碰撞 -&gt; 开地址&#x2F;拉链法.</span><br><span class="line">2.HashMap  &lt;-&gt;  TreeMap</span><br><span class="line">  散列表         二叉树</span><br><span class="line">  o(1)           o(n)</span><br><span class="line">  无序           有序</span><br></pre></td></tr></table></figure>
+<h4 id="哈希表相关题目"><a href="#哈希表相关题目" class="headerlink" title="哈希表相关题目"></a>哈希表相关题目</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">1.有效的字母异位词.</span><br><span class="line">  str1,str2 -&gt; 判断2者包含的字母是否相同</span><br><span class="line">  1.排序,判断是否相等. -&gt; o(nlogn) 排序</span><br><span class="line">  2.Map计数.</span><br><span class="line">2.两数之和.</span><br><span class="line">    arr,target -&gt; 在arr中找2个数,和为target.</span><br><span class="line">    1.遍历数组,将数组的所有元素加入set.</span><br><span class="line">    2.遍历数组,查看set中是否contains target-set.</span><br><span class="line">    O(n);</span><br><span class="line">3.三数之和.</span><br><span class="line">    arr,target -&gt; 在arr中找3个数,和为target.</span><br><span class="line">   解法一:利用哈希表</span><br><span class="line">    1.遍历数组,将2数之和加入set中.</span><br><span class="line">    2.遍历数组,找set中是否contains target-set.</span><br><span class="line">    O(n^2);</span><br><span class="line">   解法二:排序+双重指针</span><br><span class="line">    1.升序排序. -&gt; 为了指针根据大小好移动</span><br><span class="line">    2.对数组进行遍历,用p从当前的下一个位置往后遍历,用q从最后一个元素位置向前遍历.</span><br><span class="line">      若三数之后大于target,则q向前.</span><br><span class="line">      若三数之后小于target,则p向后.</span><br><span class="line">      若三数之和等于target,保存位置,p向后,q向前.</span><br></pre></td></tr></table></figure>
+<h3 id="树、二叉树、二叉搜索树"><a href="#树、二叉树、二叉搜索树" class="headerlink" title="树、二叉树、二叉搜索树"></a>树、二叉树、二叉搜索树</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">二叉搜索树 -&gt; 二叉排序树.中序遍历有序.</span><br><span class="line">二叉树遍历.</span><br><span class="line">  1.深度优先遍历.</span><br><span class="line">    1.Pre-order.</span><br><span class="line">    2.In-order.</span><br><span class="line">    3.Post-order.</span><br><span class="line">  2.广度优先遍历.</span><br><span class="line">    def BFS(graph,stack,end):</span><br><span class="line">      queu &#x3D; []</span><br><span class="line">      queue.append([start])</span><br><span class="line">      visited.append([start]) #visited用于判重,例如图的遍历</span><br><span class="line">      </span><br><span class="line">      while queue:</span><br><span class="line">        node &#x3D; queue.pop()</span><br><span class="line">        visited.add(node)</span><br><span class="line">        </span><br><span class="line">        process(node)</span><br><span class="line">        nodes &#x3D; generate_related_nodes(node)</span><br><span class="line">        queue.push(nodes)</span><br><span class="line">   3.深度优先遍历.</span><br><span class="line">      递归&#x2F;栈</span><br><span class="line">      栈 -&gt; 左子树一直压栈,直到为空的时候弹出并压入右子树节点,重复左子树压栈操作.</span><br></pre></td></tr></table></figure>
+<h4 id="树相关的面试题"><a href="#树相关的面试题" class="headerlink" title="树相关的面试题"></a>树相关的面试题</h4><p>做个标记,从这里往后面都是没在leetcode上找题做的,时间赶.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">1.判断二叉搜索树.</span><br><span class="line">   法一: 中序遍历 -&gt; 判断当前节点是否大于前继节点.</span><br><span class="line">       方式 1.用一个全局遍历prev记录前继节点.</span><br><span class="line">             每次比较prev与now的大小.</span><br><span class="line">             O(n)</span><br><span class="line">       方式 2.用一个数组记录二叉搜索中序遍历结果,判断是否是升序序列.</span><br><span class="line">   法二: Recursion</span><br><span class="line">        public boolean isValid(TreeNode root,Integer min,Integer max)&#123;</span><br><span class="line">            if(root&#x3D;&#x3D;null) return true;</span><br><span class="line">            if(min !&#x3D;null &amp;&amp; root.val&lt;&#x3D;min) return false;</span><br><span class="line">            if(max!&#x3D;null&amp;&amp;root.val&gt;&#x3D;max) return false;</span><br><span class="line">            return isValid(root.left,min,root.val) &amp;&amp; isValid(root.right,root.val,max);</span><br><span class="line">        &#125;</span><br><span class="line">        min和max是父亲节点的值,并保持着位置关系(如min是在当前节点左上方，max是在当前节点右上方)</span><br><span class="line">2.二叉树最近公共祖先.</span><br><span class="line">  tree,m,n -&gt; 找出m,n的最近公共祖先.</span><br><span class="line">  解法一: 记录路径 </span><br><span class="line">    root -&gt; m  &#x3D;&gt; path1</span><br><span class="line">    root -&gt; n  &#x3D;&gt; path2</span><br><span class="line">    找出path1与path2最后一个相交节点(将path1放入set,对path2从后往前遍历).</span><br><span class="line">    O(n)&#x3D;n.空间复杂度可能有点大.</span><br><span class="line"> 解法二: Recursion </span><br><span class="line">    1.若当前节点的左子树,右字数分别存在m,n则返回当前节点.</span><br><span class="line">    2.若当前节点的左子树存在m,n,则抛弃右子树,进入左子树重复1操作.</span><br><span class="line">    3.若当前节点的右子树存在m,n,则抛弃左子树,进入右子树重复1操作.</span><br><span class="line">    public TreeNode lowestCommonAncestor(TreeNode root,TreeNode p,TreeNode q)&#123;</span><br><span class="line">        if(root&#x3D;&#x3D;null) return null;</span><br><span class="line">        if(root&#x3D;&#x3D;p||root&#x3D;&#x3D;q) return root;</span><br><span class="line">         TreeNode left&#x3D;lowestCommonAncestor(root.left,p,q);</span><br><span class="line">         TreeNode right&#x3D;lowestCommonAncestor(root.right,p,q);</span><br><span class="line">         TreeNode result&#x3D;null;</span><br><span class="line">         if(left&#x3D;&#x3D;null)&#123;</span><br><span class="line">             result&#x3D; right;</span><br><span class="line">         &#125;else if(right&#x3D;&#x3D;null)&#123;</span><br><span class="line">             result&#x3D; left;</span><br><span class="line">         &#125;else if(left!&#x3D;null&amp;&amp;right!&#x3D;null)&#123;</span><br><span class="line">            result&#x3D;root;</span><br><span class="line">         &#125;</span><br><span class="line">         return result;</span><br><span class="line">    &#125;</span><br><span class="line">    taps:因为递归最终是从下往上返回的,所以返回的一定是最近公共祖先.</span><br><span class="line">3.二叉搜索树的公共祖先.</span><br><span class="line">  bst由于大小可以判断,先序遍历(从上往下)。普通的二叉树后序遍历(从下往上).</span><br><span class="line">  public TreeNode lowestCommonAncestor(TreeNode root,TreeNode p,TreeNode q)&#123;</span><br><span class="line">      TreeNode result&#x3D;null;</span><br><span class="line">      if(p.val&lt;root.val&lt;q.val)&#123;</span><br><span class="line">          result&#x3D; root;</span><br><span class="line">      &#125;else if(p.val&lt;root.val&amp;&amp;q.val&lt;root.val)&#123;</span><br><span class="line">          result&#x3D; lowestCommonAncestor(root.left,p,q);</span><br><span class="line">      &#125;else if(root.val&lt;p.val&amp;&amp;root.val&lt;q.val)&#123;</span><br><span class="line">          result&#x3D; lowestCommonAncestor(root.right,p,q);</span><br><span class="line">      &#125;</span><br><span class="line">      return result;</span><br><span class="line">  &#125;</span><br><span class="line">4.二叉树层次遍历-按层输出.</span><br><span class="line">    1</span><br><span class="line">  2   3     -&gt; [[1],[2,3]]</span><br><span class="line">  解法一:  queue</span><br><span class="line">     queue的节点额外的记录层数(子节点加入queue的时候为节点的level+1)</span><br><span class="line">  解法二: batch process</span><br><span class="line">   while queue: #队列不为空</span><br><span class="line">     for _ in range(len(queue)):  &#x2F;&#x2F;len(queue) -&gt;batch size -&gt; 每层的数量</span><br><span class="line">        node &#x3D; queue.popleft()</span><br><span class="line">        current_result.append(node.val)</span><br><span class="line">        if node.left: queue.append(node.left)</span><br><span class="line">        if node.right: queue.append(node.right)</span><br><span class="line">    result.append(current_result)</span><br><span class="line">  解法三: DFS</span><br><span class="line">         DFS每层记录层数,将每层的节点加入对应的list中.</span><br><span class="line">5.二叉树的最大&#x2F;最小深度.</span><br><span class="line">  1.BFS</span><br><span class="line">    终止条件.....   </span><br><span class="line">    leftDepth&#x3D;maxDepth(root.left);</span><br><span class="line">    rightDepth&#x3D;maxDepth(root.right);</span><br><span class="line">    return leftDepth&gt;rightDepth?leftDepth+1:rigthDepth+1;</span><br><span class="line">  2.DFS</span><br><span class="line">    batch process.</span><br><span class="line">    最大深度看循环终止.</span><br><span class="line">    最小深度看第一个叶子节点所在的层数.</span><br></pre></td></tr></table></figure>
+<h3 id="分治-递归"><a href="#分治-递归" class="headerlink" title="分治/递归"></a>分治/递归</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">1.递归  -&gt;  1.并行计算.2.解决复杂的问题.</span><br><span class="line">  def recursion(level,param1,param2,...)&#123;</span><br><span class="line">      #recursion terminator</span><br><span class="line">      if level &gt; MAX_LEVEL:</span><br><span class="line">         print_result</span><br><span class="line">         return</span><br><span class="line">         </span><br><span class="line">      #process logic in current level</span><br><span class="line">      process_data(level,data...)</span><br><span class="line">      </span><br><span class="line">      #drill down</span><br><span class="line">      self.recursion(level+1,p1,...)</span><br><span class="line">      </span><br><span class="line">      #reverse the current level status if needed</span><br><span class="line">      reverse_state(level)</span><br><span class="line">  &#125;</span><br><span class="line">2.分治 -&gt; Divide &amp; Conquer</span><br><span class="line">  def divide_conquer(problem,param1,param2,...):</span><br><span class="line">    </span><br><span class="line">    #recursion terminator</span><br><span class="line">    if problem is None:</span><br><span class="line">        print_result</span><br><span class="line">        return</span><br><span class="line">    </span><br><span class="line">    #prepare data</span><br><span class="line">    data&#x3D;prepare_data(problem)</span><br><span class="line">    subproblems&#x3D;split_problem(problem,data)</span><br><span class="line">    </span><br><span class="line">    #conquer subproblems</span><br><span class="line">    subresult1&#x3D;self.divide_conquer(subproblems[0],p1,....)</span><br><span class="line">    subresult2&#x3D;self.divide_conquer(subproblems[1],p1,....)</span><br><span class="line">    subresult3&#x3D;self.divide_conquer(subproblems[2],p1,....)</span><br><span class="line">    .....</span><br><span class="line">    #process and generate the final result</span><br><span class="line">    result&#x3D;process_result(subresult1,subresult2,subresult3...)</span><br></pre></td></tr></table></figure>
+<h4 id="分治法相关题目"><a href="#分治法相关题目" class="headerlink" title="分治法相关题目"></a>分治法相关题目</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1.pow(x,n)</span><br><span class="line">  pow(x,n) -&gt; pow(x,n&#x2F;2)*pow(x,n&#x2F;2) 或者 pow(x,n&#x2F;2)*pow(x,n&#x2F;2+1)</span><br><span class="line">  优化 -&gt; dp(动态规划) -&gt; pow(x,n&#x2F;2)^2</span><br><span class="line">  O(logn)</span><br><span class="line">2.求众数.</span><br><span class="line">  众数 -&gt; 数组中出现次数大于n&#x2F;2的数.哈哈,大于n&#x2F;2的好像只能有一个.</span><br><span class="line">  解法1.hashmap</span><br><span class="line">  解法2.sort -&gt; 中间的数即为众数.</span><br><span class="line">  解法3. 分治法.</span><br><span class="line">       majority(arr,i,j,n) -&gt;</span><br><span class="line">         (i,icount)&#x3D;max( majority(arr,i,(i+j)&#x2F;2,n)  (j,jcount)&#x3D;majority(arr,(i+j)&#x2F;2+1,j),n);</span><br><span class="line">         if(i&#x3D;&#x3D;j) return (i,icount+jcount)</span><br><span class="line">         if(icount&#x3D;&#x3D;jcount) return ((i,icount),(j,jcount)) &#x2F;&#x2F;这里必须fan返回2个数及其数量.</span><br><span class="line">         if(icount&gt;jcount) return (i,icount)</span><br><span class="line">         if(icount&lt;jcount) return (j,jcount)</span><br></pre></td></tr></table></figure>
+<h3 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.原问题分解子问题。</span><br><span class="line">2.子问题最优解 -&gt;  最终问题最优解.</span><br><span class="line">  最优子结构.</span><br><span class="line">3.与动态规划法区别.</span><br><span class="line">  动态规划可以回退,并且保留之前的结果.</span><br></pre></td></tr></table></figure>
+<h4 id="贪心法相关题目"><a href="#贪心法相关题目" class="headerlink" title="贪心法相关题目"></a>贪心法相关题目</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1.买卖股票最佳时机.</span><br><span class="line">  场景一:一共只能买一次.</span><br><span class="line">   动态规范</span><br><span class="line">      min -&gt; 记录之前最小的股价.</span><br><span class="line">      sell -&gt; 记录之前的最大收益</span><br><span class="line">      min &#x3D;min(min,price[i])</span><br><span class="line">      sell &#x3D; max(sell,price[i]-min)</span><br><span class="line">  场景二:可以买多次.</span><br><span class="line">      例如: [8,1,5,3,6,4]  -&gt; 1买进,5卖出,3买进,6卖出  -&gt; 一共赚了 7元.</span><br><span class="line">      解法一:DFS(暴力)</span><br><span class="line">         每一天可以选择买(持股0)或卖(持股1).</span><br><span class="line">         o(2^n)</span><br><span class="line">      解法二:贪心法</span><br><span class="line">         arr[i+1]&gt;arr[i]的话,在i买进,在i+1卖出.否则就别买(买的话后面涨也涨幅低).</span><br></pre></td></tr></table></figure>
+<h3 id="分支限界"><a href="#分支限界" class="headerlink" title="分支限界"></a>分支限界</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">减枝  -&gt;  递归终止条件.</span><br></pre></td></tr></table></figure>
+<h4 id="分支限界相关题目"><a href="#分支限界相关题目" class="headerlink" title="分支限界相关题目"></a>分支限界相关题目</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">1.生成有效的括号.</span><br><span class="line">  n&#x3D;1  -&gt;   ()</span><br><span class="line">  n&#x3D;2  -&gt;   ()()&#x2F; (())</span><br><span class="line">  n&#x3D;3  -&gt;   ()()()&#x2F;()(())&#x2F;((()))&#x2F;(())()&#x2F;(()())&#x2F;</span><br><span class="line"> 解法:</span><br><span class="line">   一共有2N个括号.</span><br><span class="line"> 1.暴力:</span><br><span class="line">   2^2N -&gt; 随机生成后判断是否合法</span><br><span class="line"> 2.减枝:</span><br><span class="line">   1.局部不合法,直接返回false. </span><br><span class="line">     left括号用了多少,right括号用了多少.若单独的括号数量&gt;n,则不合法.</span><br><span class="line">     left&#x3D;&#x3D;right&#x3D;&#x3D;n,递归终止,将路径记录(后面要判断括号是否合法)</span><br><span class="line">2.n皇后问题.</span><br><span class="line">  n皇后 -&gt; n个皇后摆在棋盘上,彼此之间不能相互攻击.</span><br><span class="line">  解法一: DFS</span><br><span class="line">    1.终止条件</span><br><span class="line">      1.记录已经走的路径(path),判断当前位置是否错误.</span><br><span class="line">        对角线判断斜率.</span><br><span class="line">      2.判断是否到底.</span><br><span class="line">    2.走的时候往下走,不走当前位置的对角线,正下方.</span><br><span class="line">    3.回溯,恢复.</span><br><span class="line">      &#x2F;&#x2F;r-&gt; 层数, cols-&gt; 走过的列 d1,d2 -&gt; 走过的对角线 ，board -&gt; 每行的棋谱,Q是皇后,.是空白.res是结果. </span><br><span class="line">      private void helper(int r,boolean[]cols,boolean[]d1,boolean[]d2,String[]board,List&lt;String[]&gt;res)&#123;</span><br><span class="line">        if(r &#x3D;&#x3D; board.length) </span><br><span class="line">           res.add(board.clone());</span><br><span class="line">        else&#123;</span><br><span class="line">            for(int c&#x3D;0;c&lt;board.length;c++)&#123;</span><br><span class="line">                int id1 &#x3D; r - c + board.length, id2 &#x3D; 2*board.length - r - c - 1;</span><br><span class="line">                if(!cols[c] &amp;&amp; !d1[id1] &amp;&amp; !d2[id2])&#123;</span><br><span class="line">                    char[] row&#x3D;new char[board.length];</span><br><span class="line">                    Arrays.fill(row,&#39;.&#39;);</span><br><span class="line">                    row[c]&#x3D; &#39;Q&#39;;</span><br><span class="line">                    board[r] &#x3D; new String(row);</span><br><span class="line">                    cols[c]&#x3D;true,d1[id1]&#x3D;true;d2[id2]&#x3D;true;</span><br><span class="line">                    helper(r+1,cols,d1,d2,board,res);</span><br><span class="line">                    cols[c] &#x3D; false;d1[id1] &#x3D; false;d2[id2] &#x3D; false;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">3.数独问题.</span><br><span class="line">  9*9 -&gt;  每行每列出现一次1-9</span><br><span class="line">          将9*9分成9个3*3,里面为1-9</span><br><span class="line">  解法一:</span><br><span class="line">    DFS -&gt; 往空格子里面填写数字.</span><br><span class="line">           数字填完后判断,若成功,则继续往下走.</span><br><span class="line">                         若失败,则回溯.</span><br><span class="line">    优化: 1.从数字多的行出发(分支少).</span><br><span class="line">          2.将每个位置的可选数选出来,而不是随机1-9</span><br><span class="line">    public boolean solve(char[][] board)&#123;</span><br><span class="line">        for(int i&#x3D;0;i&lt;board.length;i++)&#123;</span><br><span class="line">           for(int j&#x3D;0;j&lt;board.length;j++)&#123;</span><br><span class="line">               if(board[i][j]&#x3D;&#x3D;&#39;.&#39;)&#123;</span><br><span class="line">                   for(char c&#x3D;&#39;1&#39;;c&lt;&#39;9&#39;;c++)&#123;</span><br><span class="line">                       if( isValid(boadr,i,j,c))&#123;</span><br><span class="line">                           board[j][j]&#x3D;c;</span><br><span class="line">                           if(solve(board))</span><br><span class="line">                              return true; #这里可以将board作为一种解保留下.</span><br><span class="line">                           else</span><br><span class="line">                              board[i][j]&#x3D;&#39;.&#39;;</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">              return false;</span><br><span class="line">        &#125;</span><br><span class="line">        return true; #走完最下层.</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1.约束.</span><br><span class="line">  1.Sorted.  有序</span><br><span class="line">  2.Bounded.   有界</span><br><span class="line">  3.Accessible by index.  通过索引访问.</span><br><span class="line"> log2(n) &gt; n</span><br><span class="line">伪代码</span><br><span class="line">  left,right &#x3D; 0 , len(array) -1</span><br><span class="line">  while left &lt;&#x3D; right:</span><br><span class="line">    mid&#x3D;(left+right) &#x2F; 2</span><br><span class="line">    if array[mid] &#x3D;&#x3D; target:</span><br><span class="line">        break and return result</span><br><span class="line">    else if array[mid] &lt; target:</span><br><span class="line">        left &#x3D; mid + 1</span><br><span class="line">    else :</span><br><span class="line">        right &#x3D; mid - 1</span><br></pre></td></tr></table></figure>
+<h4 id="二分查找题目"><a href="#二分查找题目" class="headerlink" title="二分查找题目"></a>二分查找题目</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">1.实现int sqrt(int x) 函数.</span><br><span class="line"> 解法一: 二分  y&#x3D;x^2是单调递增的. (不太推荐)</span><br><span class="line">     public int sqrt(int x,double i,double j)&#123;</span><br><span class="line">         &#x2F;&#x2F;终止条件</span><br><span class="line">          if(equals(Math.round(i),Math.round(j)))&#123;</span><br><span class="line">                if(equals(Math.floor(j),Math.ceil(i)))&#123;</span><br><span class="line">                    &#x2F;&#x2F; i &lt;&#x3D; integer &lt;&#x3D; j</span><br><span class="line">                    if(Math.round(i)*Math.round(i)&gt;x)&#123;</span><br><span class="line">                        return (int )i;</span><br><span class="line">                    &#125; else&#123;</span><br><span class="line">                        &#x2F;&#x2F;返回integer</span><br><span class="line">                        return (int) Math.round(i);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">              </span><br><span class="line">                return (int)i;</span><br><span class="line">            &#125;</span><br><span class="line">            double mid&#x3D;(i+j)&#x2F;2;</span><br><span class="line">            if( mid*mid-x&gt;1e-10)&#123;</span><br><span class="line">                return sqrt(x,i,mid);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                return sqrt(x,mid,j);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="字典树"><a href="#字典树" class="headerlink" title="字典树"></a>字典树</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.Tire树,单词查找树或键树,哈希树的变种. -&gt; 搜索引擎,文本词频.</span><br><span class="line">  最大限度地减少无谓的字符串比较,查询效率比哈希表高.</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/06/23/algorithm-geek/tire.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">边  -&gt;  字母.</span><br><span class="line">空间换时间.</span><br><span class="line">结构</span><br><span class="line">static final int ALPHABET_SIZE&#x3D;26</span><br><span class="line">static class TrieNode&#123;</span><br><span class="line">    TireNode[] children&#x3D;new TireNode[ALPHABET_SIZE]; &#x2F;&#x2F;有序的数组可以当map使用,即index与value一一对应.</span><br><span class="line">    boolean isEndOfWord&#x3D;false;</span><br><span class="line">    char value&#x3D;null;</span><br><span class="line">    TrieNode(char value)&#123;</span><br><span class="line">        this.value&#x3D;value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="字典树相关面试题"><a href="#字典树相关面试题" class="headerlink" title="字典树相关面试题"></a>字典树相关面试题</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">1.实现字典树.</span><br><span class="line">  Trie -&gt;  insert </span><br><span class="line">           search</span><br><span class="line">           startsWith</span><br><span class="line">    &#x2F;** Inserts a word into the trie. *&#x2F;</span><br><span class="line">    public void insert(String word) &#123;</span><br><span class="line">        TrieNode p&#x3D;root;</span><br><span class="line">        for(int i&#x3D;0;i&lt;word.length();i++)&#123;</span><br><span class="line">            char c&#x3D;word.charAt(i);</span><br><span class="line">            if(p.children[c-&#39;a&#39;]!&#x3D;null)&#123;</span><br><span class="line">                p&#x3D;p.children[c-&#39;a&#39;];</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                boolean end&#x3D; i&#x3D;&#x3D;word.length()-1;</span><br><span class="line">                p.children[c-&#39;a&#39;]&#x3D;new TrieNode(c);</span><br><span class="line">                p&#x3D;p.children[c-&#39;a&#39;];</span><br><span class="line">            &#125;</span><br><span class="line">            if(i&#x3D;&#x3D;word.length()-1)&#123;</span><br><span class="line">                p.isEndOfWord&#x3D;true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">2.二维网格中的单词搜索问题.</span><br><span class="line">   o   a   a   n</span><br><span class="line">   e   t   a   e   ，[oath,pea,eat,rain]     -&gt;      eat,oath</span><br><span class="line">   i   h   k   r</span><br><span class="line">   i   f   l   v</span><br><span class="line">   taps: 字母必须连在一起.</span><br><span class="line">  解法一: DFS+回溯.</span><br><span class="line">      优化: 将oath,pea,eat,rain加入字典树,DFS根据字典树判断当前路径是否合法.</span><br><span class="line">           当路径对应字典树叶子节点时候,说明word存在.</span><br><span class="line">  public void dfs(char[][] board, boolean[][] visited,String str, int x, int y, Trie trie)&#123;</span><br><span class="line">      &#x2F;&#x2F;失败</span><br><span class="line">      if(x &lt; 0 || x &gt;&#x3D; board.length || y&lt;0 || y &gt;&#x3D; board[0].length)</span><br><span class="line">         return;</span><br><span class="line">      if(visited[x][y]) return;</span><br><span class="line">      str+&#x3D;board[x][y];</span><br><span class="line">      if(!trie.startsWith(str)) return;</span><br><span class="line">      &#x2F;&#x2F;成功</span><br><span class="line">      if(trie.search(str))  res.add(str);</span><br><span class="line">      &#x2F;&#x2F;dfs</span><br><span class="line">      visited[x][y]&#x3D;true;</span><br><span class="line">      dfs(board,visited,str,x-1,y,trie);</span><br><span class="line">      dfs(board,visited,str,x+1,y,trie);</span><br><span class="line">      dfs(baord,visited,str,x,y-1,trie);</span><br><span class="line">      dfs(board,visited,str,x,y+1,trie);</span><br><span class="line">     &#x2F;&#x2F;回溯</span><br><span class="line">      visited[x][y]&#x3D;false;  </span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1.^</span><br><span class="line">    x^0 -&gt; 1</span><br><span class="line">    x^1 -&gt; ~x</span><br><span class="line">    x^~x -&gt; 1</span><br><span class="line">    x^x -&gt;0</span><br><span class="line">    a^b -&gt; c, a^c-&gt;b,b^c-&gt;a</span><br><span class="line">2.常用的位运算.</span><br><span class="line">  x &amp; 1 &#x3D;&#x3D; 1 or &#x3D;&#x3D;0  -&gt;  x是奇数还是偶数</span><br><span class="line">  x &#x3D; x &amp; (x+1) &#x2F; x &amp; (x-1)  </span><br><span class="line">    x &amp; (x-1) 去除最后(从后往前第一个)1</span><br><span class="line">    100 &amp; 011 -&gt; 000</span><br><span class="line">    011 &amp; 010 -&gt; 010</span><br><span class="line">    010 &amp; 001 -&gt; 000</span><br><span class="line">  x&amp;-x -&gt; 最低位的1</span><br><span class="line">  2  -&gt; 00000010</span><br><span class="line">  -2 -&gt; 11111110</span><br></pre></td></tr></table></figure>
+<h4 id="位运算相关题目"><a href="#位运算相关题目" class="headerlink" title="位运算相关题目"></a>位运算相关题目</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">1.统计位1的个数.</span><br><span class="line">  解法一: %2,&#x2F;2</span><br><span class="line">  解法二: 位运算.</span><br><span class="line">         while (x !&#x3D; 0)&#123;</span><br><span class="line">             count++;</span><br><span class="line">             x&#x3D;x&amp;(x-1);</span><br><span class="line">         &#125;</span><br><span class="line">  解法三: 动态规划法+ 位运算.</span><br><span class="line">   count[i] &#x3D; count[ i &amp; (i-1) ] +1 ;</span><br><span class="line">2.2的幂   .</span><br><span class="line">    x &amp; (x-1) &#x3D;&#x3D; 0 &amp;&amp; x&gt; 0</span><br><span class="line">3.n皇后问题.</span><br><span class="line">  解法一: DFS (见上文)</span><br><span class="line">  解法二: 位运算.</span><br><span class="line">    void dfs(int r,int cols,int pies,int nas,</span><br><span class="line">                    ArrayList&lt;String&gt; board,List&lt;List&lt;String&gt;&gt; res,int n)&#123;</span><br><span class="line">        if( r &#x3D;&#x3D; n)&#123;</span><br><span class="line">            &#x2F;&#x2F;终止条件</span><br><span class="line">            res.add((List&lt;String&gt;)board.clone());</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            &#x2F;&#x2F;找到可以不受攻击的位置(0的位置)</span><br><span class="line">            int bits &#x3D; ( ~(cols | pies | nas)) &amp; (( 1 &lt;&lt; n ) - 1 );</span><br><span class="line">            while( bits !&#x3D; 0)&#123;</span><br><span class="line">                char [] row &#x3D;new char[n];</span><br><span class="line">                Arrays.fill(row,&#39;.&#39;);</span><br><span class="line">                int pos &#x3D;bits &amp; -bits;</span><br><span class="line">                &#x2F;&#x2F;n&#x3D;4, pos -&gt; 1,2,4,8</span><br><span class="line">                &#x2F;&#x2F;将皇后放在pos上</span><br><span class="line">                row[(int)(Math.log10(pos)&#x2F;Math.log10(2))]&#x3D;&#39;Q&#39;;</span><br><span class="line">                board.add(new String(row));</span><br><span class="line">                </span><br><span class="line">                &#x2F;&#x2F;dfs</span><br><span class="line">                dfs(r+1,cols|pos,(pies|pos)&lt;&lt;1,(nas|pos)&gt;&gt;1,board,res,n);</span><br><span class="line">                </span><br><span class="line">                &#x2F;&#x2F;回溯</span><br><span class="line">                for(int i&#x3D;r;i&lt;board.size();i++)&#123;</span><br><span class="line">                    board.remove(i);</span><br><span class="line">                &#125;</span><br><span class="line">                bits&#x3D;bits&amp;(bits-1);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1.最优子结构.</span><br><span class="line">2.状态定义.</span><br><span class="line">3.状态转移方程.</span><br><span class="line">    opt[n] &#x3D; best_of(opt[n-1],opt[n-2],...)</span><br><span class="line"> 还有一种</span><br><span class="line">   opt[n] &#x3D; best_of(opt[n+1],.....)</span><br><span class="line"> 这种逆过来的递推关系要注意.</span><br></pre></td></tr></table></figure>
+<h4 id="动态规范相关题目"><a href="#动态规范相关题目" class="headerlink" title="动态规范相关题目"></a>动态规范相关题目</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line">1.斐波拉契</span><br><span class="line">  f(n) &#x3D; f(n-1) + f(n-2)</span><br><span class="line">2.count the paths.</span><br><span class="line">  起点在(0,0),终点在(n,n),坐标上的石头是不能走的位置,问有多少种走法(向下,向右 )能够从[0,0]到[n,n].</span><br><span class="line">  path(0,0)&#x3D;path(0,1)+path(1,0)</span><br><span class="line">      解法一:DFS</span><br><span class="line">      int countPaths(boolean[][] grid, int row, int col)&#123;</span><br><span class="line">          if(!isvalidSquare(grid,row,col))</span><br><span class="line">            return 0;</span><br><span class="line">          if(isAtEnd(grid,row,col))</span><br><span class="line">            return 1;</span><br><span class="line">          return countPath(grid,row+1,col)+countPath(grid,row,col+1);</span><br><span class="line">      &#125;</span><br><span class="line">     解法二:DP</span><br><span class="line">     &#x2F;&#x2F;走下到上,从右到左.</span><br><span class="line">     for(int i&#x3D;m-1;i&gt;&#x3D;0;i--)&#123;</span><br><span class="line">         for(int j&#x3D;n-1;j&gt;&#x3D;0;j--)&#123;</span><br><span class="line">             if(i&#x3D;&#x3D;m-1&amp;&amp;j&#x3D;&#x3D;n-1||isRock(i,j))&#123;</span><br><span class="line">                 path[i][j]&#x3D;0;</span><br><span class="line">             &#125;else if(i&#x3D;&#x3D;m-1)&#123;</span><br><span class="line">                 path[i][j]&#x3D;path[i][j+1];</span><br><span class="line">             &#125;else if(j&#x3D;&#x3D;n-1)&#123;</span><br><span class="line">                 path[i][j]&#x3D;path[i+1][j];</span><br><span class="line">             &#125;else&#123;</span><br><span class="line">                 path[i][j]&#x3D;path[i+1][j]+path[j][j+1];</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">3.爬楼梯.</span><br><span class="line">  只能走1步或2步,求走上楼顶一共有多少种走法.</span><br><span class="line">  解法一: DP</span><br><span class="line">    f(n)&#x3D;f(n-1)+f(n-2); &#x2F;&#x2F;不理解可以用数学归纳法推一下</span><br><span class="line">3.三角形的最小路径和.</span><br><span class="line">   只能向下和向右走,求走过的路径最小值(有点像树到叶子节点的最小路径).</span><br><span class="line">  解法一: DFS</span><br><span class="line">     T(n)&#x3D;O(n^2)</span><br><span class="line">  解法二: DP</span><br><span class="line">    dp[level][j]&#x3D;min(dp[level+1][j],dp[level+1][j+1])+val[level][j];</span><br><span class="line">    从下往上进行遍历</span><br><span class="line">4.求最长公共子序列.</span><br><span class="line">  a  -&gt; abbccc</span><br><span class="line">  b  -&gt; fcgcc    -&gt; ccc</span><br><span class="line">       a  b  b  c  c  c</span><br><span class="line">   f   0  0  0  0  0  0</span><br><span class="line">   c   0  0  0  1  1  1</span><br><span class="line">   g   0  0  0  1  1  1</span><br><span class="line">   c   0  0  0  1  2  2</span><br><span class="line">   c   0  0  0  1  2  3</span><br><span class="line">   if(a.charAt(i)&#x3D;&#x3D;b.charAt(j))  dp[i][j] &#x3D; dp[i-1][j-1]+1;;</span><br><span class="line">   else   dp[i][j] &#x3D; max(dp[i-1][j],dp[i][j-1]);</span><br><span class="line">8.乘积最大子序列(连续).</span><br><span class="line">    2 3 -1 4 8   -&gt; 32</span><br><span class="line">    public int maxProduct(int[] nums) &#123;</span><br><span class="line">        int []max&#x3D;new int[nums.length];</span><br><span class="line">        int []minus_max&#x3D;new int[nums.length];</span><br><span class="line">        if(nums.length&#x3D;&#x3D;1) return nums[0];</span><br><span class="line">        max[0]&#x3D;nums[0]&gt;0?nums[0]:0;</span><br><span class="line">        minus_max[0]&#x3D;nums[0]&lt;0?nums[0]:0;</span><br><span class="line">        for(int i&#x3D;1;i&lt;nums.length;i++)&#123;</span><br><span class="line">           if(nums[i]&gt;0)&#123;</span><br><span class="line">               max[i]&#x3D;Math.max(nums[i],nums[i]*max[i-1]);</span><br><span class="line">               minus_max[i]&#x3D;Math.min(nums[i],nums[i]*minus_max[i-1]);</span><br><span class="line">           &#125;else&#123;</span><br><span class="line">               max[i]&#x3D;Math.max(nums[i],nums[i]*minus_max[i-1]);</span><br><span class="line">               minus_max[i]&#x3D;Math.min(nums[i],nums[i]*max[i-1]);</span><br><span class="line">           &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return Arrays.stream(max).max().getAsInt();</span><br><span class="line">    &#125;</span><br><span class="line">9.买卖股票最佳时期.</span><br><span class="line"> 1.只能买卖一次.  </span><br><span class="line">   profit[i]&#x3D;Math.max(profit[i-1],prices[i]-min);</span><br><span class="line">   min&#x3D;Math.min(min,prices[i]);</span><br><span class="line"> 2.可以买多次. </span><br><span class="line">   贪心法.</span><br><span class="line">10.最长上升子序列的长度.</span><br><span class="line">  解法一: DP</span><br><span class="line">    dp[i] -&gt; 表示包含第i个元素的最长子序列.</span><br><span class="line">    dp[i] &#x3D; max &#123;dp[0]+1,dp[1],dp[2],dp[3]+1.....arr[i-1]&#125; -&gt; +1  arr[i] &gt;arr[j]时候</span><br><span class="line">   T(n)&#x3D;O(n^2)</span><br><span class="line">  解法二: 递归</span><br><span class="line">    T(n)&#x3D;O(2^2)</span><br><span class="line">11.零钱兑换.</span><br><span class="line">   解法一: DP</span><br><span class="line">     &#x2F;&#x2F; count[i] &#x3D; min &#123; count[i-coins[j]]&#125; + 1 ;</span><br><span class="line">      public int coinChange(int[] coins, int amount) &#123;</span><br><span class="line">        int [] count&#x3D;new int[1+amount];</span><br><span class="line">        Arrays.fill(count,-1);</span><br><span class="line">        count[0]&#x3D;0;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;amount;i++)&#123;</span><br><span class="line">            int min&#x3D;9999999;</span><br><span class="line">            for(int j&#x3D;0;j&lt;coins.length;j++)&#123;</span><br><span class="line">                if(i&lt;coins[j]) continue;</span><br><span class="line">                if(i&gt;&#x3D;coins[j]&amp;&amp;count[i-coins[j]]!&#x3D;-1)&#123;</span><br><span class="line">                    min&#x3D;Math.min(count[i-coins[j]],min);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            count[i]&#x3D;min&#x3D;&#x3D;9999999?-1:min+1;</span><br><span class="line">        &#125;</span><br><span class="line">        return count[amount];</span><br><span class="line">    &#125;</span><br><span class="line">12.Edit Distance.</span><br><span class="line">   word1 , word2 -&gt; 对 word1 进行 增、删、改操作使得word1变成word2.求最小编辑次数.</span><br><span class="line">   DP[i][j] &#x3D;  DP[i-1][j-1]  w1[i]&#x3D;&#x3D;w2[j]</span><br><span class="line">              min(1+DP[i-1][j],1+DP[i][j-1],1+DP[i-1][j-1])</span><br><span class="line">              DP[i-1][j]是m在i位置增加一个字母 -&gt; 增加了,原来i与j匹配,现在i与j-1匹配.</span><br><span class="line">              DP[i][j-1]是m在i位置删除一个字母 -&gt; 删除了,原来i与j匹配,现在i+1与j匹配即i与j-1匹配 </span><br><span class="line">              DP[i-1][j-1]是m在i位置替换一个字母</span><br></pre></td></tr></table></figure>
+<h3 id="并查集"><a href="#并查集" class="headerlink" title="并查集"></a>并查集</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">1.并查集(union &amp; find)是一种树形的数据结构,用于处理一些不交集(Disjoint Sets)的合并及查询问题.</span><br><span class="line">   Find  -&gt;  元素属于哪个子集,确定两个元素是否属于同一子集.</span><br><span class="line">   Union -&gt;  将两个子集合并成一个集合.</span><br><span class="line"> &#x2F;&#x2F;数组的实现很巧妙,用Node的方式可读性会更好 Node -&gt; parent,val</span><br><span class="line"> public class QuickUnionUF &#123;</span><br><span class="line">     private int[] roots;</span><br><span class="line">     &#x2F;&#x2F;root[i] &#x3D; j 表示i的根为j 初始指向自身</span><br><span class="line">     public QuickUnionUF(int n)&#123;</span><br><span class="line">         roots&#x3D;new int[n];</span><br><span class="line">         for( int i &#x3D; 0; i &lt; N; i++)&#123;</span><br><span class="line">             roots[i] &#x3D; i;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     </span><br><span class="line">     private int findRoot(int i)&#123;</span><br><span class="line">         int root &#x3D; i;</span><br><span class="line">         while( root !&#x3D; roots[root])&#123; &#x2F;&#x2F;根节点的root是指向自身的.</span><br><span class="line">             root &#x3D; roots[root];  &#x2F;&#x2F;迭代,往根节点走,直到找到gen根节点为止.</span><br><span class="line">         &#125;</span><br><span class="line">         while( i !&#x3D; roots[i] )&#123; &#x2F;&#x2F;将路径的每一个节点都直接指向路径的根节点.一种优化</span><br><span class="line">             int tmp &#x3D; roots[i];</span><br><span class="line">             roots[i] &#x3D; root;</span><br><span class="line">             i &#x3D; tmp;</span><br><span class="line">         &#125;</span><br><span class="line">         return root;</span><br><span class="line">     &#125;</span><br><span class="line">     </span><br><span class="line">     public boolean connected ( int p,int q)&#123;</span><br><span class="line">         return findRoot(p) &#x3D;&#x3D; findRoot(q);</span><br><span class="line">     &#125;</span><br><span class="line">     </span><br><span class="line">     public void union(int p , int q)&#123;</span><br><span class="line">         int qroot&#x3D; findRoot(q);</span><br><span class="line">         int proot&#x3D; findRoot(p);</span><br><span class="line">         roots[proot]&#x3D;qroot;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line">2.并查集优化.</span><br><span class="line">    1.减少树高度,快速查询.</span><br><span class="line">      1.查询时候,可以将路径上的节点都直接与根节点进行重连.(路径压缩)</span><br><span class="line">      2.合并时候,将高度低的树合并到高的树上.</span><br></pre></td></tr></table></figure>
+<h4 id="并查集相关面试题目"><a href="#并查集相关面试题目" class="headerlink" title="并查集相关面试题目"></a>并查集相关面试题目</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1.岛屿的个数.</span><br><span class="line">  1是陆地,2是水,若陆地附近全是水,那么陆地就是岛屿.</span><br><span class="line">  解法一: 并查集</span><br><span class="line">    1.将所有相邻的陆地合并成一个并查集.</span><br><span class="line">    2.返回并查集的数量.</span><br><span class="line">  解法二: queue及BFS&#x2F;DFS,染色.</span><br><span class="line">       1.从陆地出发,将陆地直接相邻的陆地加入queue中,借助queue找到所有相邻的陆地.</span><br><span class="line">       2.将所有相邻的陆地标记为0.</span><br><span class="line">       3.count++.</span><br><span class="line">2.朋友圈.</span><br><span class="line">  二维矩阵  -&gt; arr[i][j] 表示i用户与j用户的关系,1表示认识,0表示不认识.</span><br><span class="line">  这个就是岛屿的个数问题,哈哈.</span><br></pre></td></tr></table></figure>
+<h3 id="LRUCache"><a href="#LRUCache" class="headerlink" title="LRUCache"></a>LRUCache</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1.Least recently used (最近最少使用).</span><br><span class="line">2.Double LikedList.</span><br><span class="line">  左insert,右remove.</span><br><span class="line">  list尾巴是最近最久未使用的.</span><br><span class="line">3.查询,修改，更新 O(1).</span><br><span class="line"></span><br><span class="line">实现:</span><br><span class="line">  Double LikedList&lt;key&gt; -&gt;实现LRU Cache</span><br><span class="line">  Map  -&gt; key,value -&gt; 存value</span><br></pre></td></tr></table></figure>
+<h3 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Bloom Filter -&gt; 判断元素在不在集合中.</span><br><span class="line">1.二进制向量(很长) + 映射函数.</span><br><span class="line">    x -&gt;  映射函数会将其映射到二进制向量的某些位上.</span><br><span class="line">2.x是否存在-&gt;看x的映射位是否都为1.</span><br><span class="line">   taps: 只能判断不存在.判断存在可能存在误差.</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+		<div>
+			
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+			
+		</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/23/linux-course-design/" rel="prev" title="linux-course-design">
+      <i class="fa fa-chevron-left"></i> linux-course-design
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/02/wx-mini-program/" rel="next" title="wx-mini-program">
+      wx-mini-program <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#综述"><span class="nav-number">1.</span> <span class="nav-text">综述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#时间复杂度"><span class="nav-number">1.1.</span> <span class="nav-text">时间复杂度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#理论讲解"><span class="nav-number">2.</span> <span class="nav-text">理论讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数值-amp-链表"><span class="nav-number">2.1.</span> <span class="nav-text">数值&amp;链表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#链表相关题目"><span class="nav-number">2.1.1.</span> <span class="nav-text">链表相关题目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#堆栈-队列"><span class="nav-number">2.2.</span> <span class="nav-text">堆栈&#x2F;队列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#栈-队列相关题目"><span class="nav-number">2.2.1.</span> <span class="nav-text">栈\队列相关题目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优先级队列"><span class="nav-number">2.3.</span> <span class="nav-text">优先级队列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优先级队列相关题目"><span class="nav-number">2.3.1.</span> <span class="nav-text">优先级队列相关题目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#哈希表"><span class="nav-number">2.4.</span> <span class="nav-text">哈希表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#哈希表相关题目"><span class="nav-number">2.4.1.</span> <span class="nav-text">哈希表相关题目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#树、二叉树、二叉搜索树"><span class="nav-number">2.5.</span> <span class="nav-text">树、二叉树、二叉搜索树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#树相关的面试题"><span class="nav-number">2.5.1.</span> <span class="nav-text">树相关的面试题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分治-递归"><span class="nav-number">2.6.</span> <span class="nav-text">分治&#x2F;递归</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分治法相关题目"><span class="nav-number">2.6.1.</span> <span class="nav-text">分治法相关题目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#贪心算法"><span class="nav-number">2.7.</span> <span class="nav-text">贪心算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#贪心法相关题目"><span class="nav-number">2.7.1.</span> <span class="nav-text">贪心法相关题目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分支限界"><span class="nav-number">2.8.</span> <span class="nav-text">分支限界</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分支限界相关题目"><span class="nav-number">2.8.1.</span> <span class="nav-text">分支限界相关题目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二分查找"><span class="nav-number">2.9.</span> <span class="nav-text">二分查找</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#二分查找题目"><span class="nav-number">2.9.1.</span> <span class="nav-text">二分查找题目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字典树"><span class="nav-number">2.10.</span> <span class="nav-text">字典树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字典树相关面试题"><span class="nav-number">2.10.1.</span> <span class="nav-text">字典树相关面试题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位运算"><span class="nav-number">2.11.</span> <span class="nav-text">位运算</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#位运算相关题目"><span class="nav-number">2.11.1.</span> <span class="nav-text">位运算相关题目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态规划"><span class="nav-number">2.12.</span> <span class="nav-text">动态规划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#动态规范相关题目"><span class="nav-number">2.12.1.</span> <span class="nav-text">动态规范相关题目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并查集"><span class="nav-number">2.13.</span> <span class="nav-text">并查集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#并查集相关面试题目"><span class="nav-number">2.13.1.</span> <span class="nav-text">并查集相关面试题目</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LRUCache"><span class="nav-number">2.14.</span> <span class="nav-text">LRUCache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#布隆过滤器"><span class="nav-number">2.15.</span> <span class="nav-text">布隆过滤器</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="vicyor"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">vicyor</p>
+  <div class="site-description" itemprop="description">大路且慢慢,咱一步一步走完.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vicyor" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vicyor" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2457569580@qq.com" title="E-Mail → mailto:2457569580@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vicyor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">819k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">12:25</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = visitors.getAttribute('id').trim();
+      var title = visitors.getAttribute('data-flag-title').trim();
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.log('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return element.getAttribute('id').trim();
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=m9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'm9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz',
+            'X-LC-Key': 'g7WSuE6aDmunoX4rgyBN7SJa',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'qQhr9rNGJh6YalJA0mfaaurx-gzGzoHsz',
+    appKey: 'kJy8NJeOTMPnxQ3zLihOcnw3',
+    placeholder: "请留下您的宝贵评论",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+	
+		 <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		 <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://vicyor.gitee.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="linux 常用的指令合集">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux-command">
+<meta property="og:url" content="http://vicyor.gitee.io/2020/05/17/linux-command/index.html">
+<meta property="og:site_name" content="Vicyor">
+<meta property="og:description" content="linux 常用的指令合集">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-17T01:57:49.000Z">
+<meta property="article:modified_time" content="2020-07-11T01:00:40.738Z">
+<meta property="article:author" content="vicyor">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="command">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://vicyor.gitee.io/2020/05/17/linux-command/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>linux-command | Vicyor</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vicyor</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">40</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">38</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/05/17/linux-command/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="vicyor">
+      <meta itemprop="description" content="大路且慢慢,咱一步一步走完.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vicyor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          linux-command
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-17 09:57:49" itemprop="dateCreated datePublished" datetime="2020-05-17T09:57:49+08:00">2020-05-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-11 09:00:40" itemprop="dateModified" datetime="2020-07-11T09:00:40+08:00">2020-07-11</time>
+              </span>
+
+          
+            <span id="/2020/05/17/linux-command/" class="post-meta-item leancloud_visitors" data-flag-title="linux-command" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/05/17/linux-command/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/17/linux-command/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>linux 常用的指令合集</p>
+<a id="more"></a>
+<h2 id="运行指令"><a href="#运行指令" class="headerlink" title="运行指令"></a>运行指令</h2><h3 id="linux运行指令"><a href="#linux运行指令" class="headerlink" title="linux运行指令"></a>linux运行指令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. nohup -&gt; no hang up(不挂起),交互命令行退出时候,程序还要在。</span><br><span class="line">   &amp;  -&gt;  后台运行。</span><br><span class="line">   nohup command &gt; out.file 2&gt;&amp;1 &amp;</span><br><span class="line">   1 -&gt; 标准输出</span><br><span class="line">   2 -&gt; 标准错误输出</span><br><span class="line">   2&gt;&amp;1 -&gt; 标准输出与标准错误输出合并</span><br><span class="line">   &amp; -&gt; 后台执行</span><br></pre></td></tr></table></figure>
+<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><h3 id="用户操作指令"><a href="#用户操作指令" class="headerlink" title="用户操作指令"></a>用户操作指令</h3><h4 id="useradd"><a href="#useradd" class="headerlink" title="useradd"></a>useradd</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd -G vicyor vicyor   添加一个用户,并且其属组为vicyor</span><br></pre></td></tr></table></figure>
+<h4 id="passwd"><a href="#passwd" class="headerlink" title="passwd"></a>passwd</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &#39;vicyor&#39; | passwd vicyor    给vicyor用户设置vicyor密码</span><br></pre></td></tr></table></figure>
+<h4 id="id"><a href="#id" class="headerlink" title="id"></a>id</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id vicyor  id-&gt;identify 身份查看</span><br></pre></td></tr></table></figure>
+<h2 id="时间"><a href="#时间" class="headerlink" title="时间"></a>时间</h2><h3 id="时间指令"><a href="#时间指令" class="headerlink" title="时间指令"></a>时间指令</h3><h4 id="date"><a href="#date" class="headerlink" title="date"></a>date</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">date &quot;+当前时间: %Y-%m-%d %H:%M:%S&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="cal"><a href="#cal" class="headerlink" title="cal"></a>cal</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cal 5 2020</span><br></pre></td></tr></table></figure>
+<h3 id="开关机指令"><a href="#开关机指令" class="headerlink" title="开关机指令"></a>开关机指令</h3><h4 id="shutdown"><a href="#shutdown" class="headerlink" title="shutdown"></a>shutdown</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shutdown -h 1:30</span><br><span class="line">shutdown now</span><br></pre></td></tr></table></figure>
+<h4 id="reboot"><a href="#reboot" class="headerlink" title="reboot"></a>reboot</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reboot -&gt;重启</span><br></pre></td></tr></table></figure>
+<h2 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h2><h3 id="帮助指令"><a href="#帮助指令" class="headerlink" title="帮助指令"></a>帮助指令</h3><h4 id="man"><a href="#man" class="headerlink" title="man"></a>man</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">man gzip</span><br></pre></td></tr></table></figure>
+<h4 id="info"><a href="#info" class="headerlink" title="info"></a>info</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">info gzip</span><br></pre></td></tr></table></figure>
+<h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><h3 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h3><h4 id="su"><a href="#su" class="headerlink" title="su"></a>su</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su [user]切换用户，未指定用户则切换到root</span><br></pre></td></tr></table></figure>
+<h4 id="chgrp"><a href="#chgrp" class="headerlink" title="chgrp"></a>chgrp</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chgrp -&gt; 改变文件属组. </span><br><span class="line">chgrp -R GROUP FILE....  -R --&gt;递归</span><br><span class="line">GROUP必须再&#x2F;etc&#x2F;group中出现</span><br></pre></td></tr></table></figure>
+<h4 id="chown"><a href="#chown" class="headerlink" title="chown"></a>chown</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown  -R user:group 文件或目录</span><br></pre></td></tr></table></figure>
+<h4 id="chmod"><a href="#chmod" class="headerlink" title="chmod"></a>chmod</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 755 文件或目录</span><br><span class="line">r-&gt;4</span><br><span class="line">w-&gt;2</span><br><span class="line">x-&gt;1</span><br><span class="line">chmod u&#x3D;rwx,go+w,o-x .bashrc</span><br><span class="line">&#x2F;&#x2F;特殊权限</span><br><span class="line">chmod u&#x3D;rws,go&#x3D;rws,o&#x3D;rwt  file</span><br></pre></td></tr></table></figure>
+<h4 id="umask"><a href="#umask" class="headerlink" title="umask"></a>umask</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">umask -&gt;文件预设权限</span><br><span class="line">umask -&gt;默认022 即666-022 -&gt;644(其实运算并不是-,是&amp;和！)</span><br><span class="line">umask -S -&gt;人类友好显示</span><br><span class="line">文件默认 644</span><br><span class="line">目录默认 755</span><br><span class="line">umask 003 -&gt;设置新的默认权限</span><br><span class="line">文件 -&gt; 666-003&#x3D;663 不对的，因该是664(这点可以理解为原理没有x的权限).</span><br></pre></td></tr></table></figure>
+<h4 id="chattr"><a href="#chattr" class="headerlink" title="chattr"></a>chattr</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">chattr [+-&#x3D;][ASacdistu]</span><br><span class="line">A -&gt; atime不会变,可以减少并发量大时候修改磁盘次数。</span><br><span class="line">S -&gt; 文件修改立刻同步到内存</span><br><span class="line">a -&gt; 文件只能增加数据</span><br><span class="line">c -&gt; 存储自动压缩,读取自动解压</span><br><span class="line">d -&gt; 不会被dump备份</span><br><span class="line">i -&gt; 不可变</span><br><span class="line">s -&gt; 删除会彻底删除</span><br><span class="line">u -&gt; 删除进回收站</span><br></pre></td></tr></table></figure>
+<h4 id="lsattr"><a href="#lsattr" class="headerlink" title="lsattr"></a>lsattr</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lsattr [-adR] 文件&#x2F;目录 xi显示文件隐藏信息</span><br><span class="line">-a -&gt; 隐藏属性</span><br><span class="line">-d -&gt; 仅目录</span><br><span class="line">-R -&gt; 递归</span><br></pre></td></tr></table></figure>
+<h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3><h4 id="ls"><a href="#ls" class="headerlink" title="ls"></a>ls</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ls -al    查看所有文件(包含隐藏文件)的信息,包含硬链接的数量</span><br><span class="line">d -&gt; 目录</span><br><span class="line">- -&gt; 文件</span><br><span class="line">l -&gt; 连接</span><br><span class="line">b -&gt; 可随机存储装置</span><br><span class="line">c -&gt; 一次性读取装置,键盘,鼠标。</span><br><span class="line">快设备(可随机存储)-&gt;cache,外设和内存使用定长的数据包传递。</span><br><span class="line">字符设备(一次性读取设备)-&gt;每次I&#x2F;O操作只传输一个字符。</span><br><span class="line">ls -i  -&gt; -i inode</span><br></pre></td></tr></table></figure>
+<h4 id="cd"><a href="#cd" class="headerlink" title="cd"></a>cd</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd -&gt; change directory</span><br><span class="line">. -&gt; 当前目录</span><br><span class="line">.. -&gt; 父目录(&#x2F;的父目录为本身)</span><br><span class="line">-  -&gt; 上一个目录</span><br></pre></td></tr></table></figure>
+<h4 id="pwd"><a href="#pwd" class="headerlink" title="pwd"></a>pwd</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pwd -&gt; print work directory</span><br><span class="line">pwd -P   -&gt; -P 会显示连接档指向的文件路径</span><br></pre></td></tr></table></figure>
+<h4 id="mkdir"><a href="#mkdir" class="headerlink" title="mkdir"></a>mkdir</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir  -p &#x2F;path&#x2F;to&#x2F;dir  -p 递归创建</span><br><span class="line">mkdir  -m 711 dir   -m -&gt; 权限</span><br></pre></td></tr></table></figure>
+<h4 id="rmdir"><a href="#rmdir" class="headerlink" title="rmdir"></a>rmdir</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rmdir -p &#x2F;path&#x2F;to&#x2F;dir  -R 递归删除</span><br></pre></td></tr></table></figure>
+<h4 id="cp"><a href="#cp" class="headerlink" title="cp"></a>cp</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp -&gt; copy</span><br><span class="line">cp -l -&gt; -l 硬链接</span><br><span class="line">cp -s -&gt; -s 软连接</span><br><span class="line">cp -p -&gt; -p 身份&#x2F;权限&#x2F;时间</span><br><span class="line">cp -r -&gt; 复制目录</span><br></pre></td></tr></table></figure>
+<h4 id="mv"><a href="#mv" class="headerlink" title="mv"></a>mv</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv -&gt; move 移动&#x2F;更名</span><br></pre></td></tr></table></figure>
+<h4 id="basename"><a href="#basename" class="headerlink" title="basename"></a>basename</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">basename -&gt; 档名</span><br></pre></td></tr></table></figure>
+<h4 id="dirname"><a href="#dirname" class="headerlink" title="dirname"></a>dirname</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirname -&gt; 目录名</span><br></pre></td></tr></table></figure>
+<h4 id="touch"><a href="#touch" class="headerlink" title="touch"></a>touch</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">touch aFile -&gt; 创建文件</span><br><span class="line">mtime,atime,ctime</span><br><span class="line">touch -d &quot;2 days ago&quot; file 可以指定文件的创建ctime</span><br><span class="line">touch -t 201406150202 file 这个更狠,也是指定ctime</span><br></pre></td></tr></table></figure>
+<h4 id="file"><a href="#file" class="headerlink" title="file"></a>file</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file -&gt; 观察文件类型</span><br></pre></td></tr></table></figure>
+<h4 id="ln"><a href="#ln" class="headerlink" title="ln"></a>ln</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">硬链接: 多个文件档名对应一个inode.</span><br><span class="line"> ln file link-file  taps: 不改变inode与block数量，只是在目录的data block中建立新的档名与inode关系.不能跨文件系统.</span><br><span class="line"> taps:不能对目录建立硬链接.</span><br><span class="line"> taps:硬链接删除-&gt; rm 文件</span><br><span class="line">符号(symbolic)链接: data block中存储文件的真实path.</span><br><span class="line"> ln -s file link-file</span><br><span class="line"> taps:软链接删除 -&gt; rm 文件</span><br><span class="line">taps: . 为当前目录的硬链接 ..为上层目录的硬链接</span><br></pre></td></tr></table></figure>
+<h3 id="文件内容查阅"><a href="#文件内容查阅" class="headerlink" title="文件内容查阅"></a>文件内容查阅</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cat</span><br><span class="line">tac -&gt;cat反义词</span><br><span class="line">nl  -&gt;显示行号 </span><br><span class="line">more -&gt;分页</span><br><span class="line">less&#x2F;more -&gt;可以向前翻页</span><br><span class="line">head </span><br><span class="line">tail </span><br><span class="line">od   -&gt;二进制形式读取文件内容(0,1)</span><br><span class="line">od -t o -&gt;8进制</span><br><span class="line">例子: 取一个文件第10行-第20行内容</span><br><span class="line">head -n 20 &#x2F;etc&#x2F;man_db.conf | tail -n 10    -&gt; | &#x3D;&gt;是指管道</span><br></pre></td></tr></table></figure>
+<h4 id="tail"><a href="#tail" class="headerlink" title="tail"></a>tail</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f 可以一直监测文件新增加的内容，效果很nice</span><br></pre></td></tr></table></figure>
+<h3 id="查日志相关指令"><a href="#查日志相关指令" class="headerlink" title="查日志相关指令"></a>查日志相关指令</h3><h4 id="last"><a href="#last" class="headerlink" title="last"></a>last</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">last -&gt; 显示用户最近登录信息。</span><br><span class="line">对应 &#x2F;var&#x2F;log&#x2F;wtmp文件</span><br></pre></td></tr></table></figure>
+<h3 id="文件搜索指令"><a href="#文件搜索指令" class="headerlink" title="文件搜索指令"></a>文件搜索指令</h3><h4 id="which"><a href="#which" class="headerlink" title="which"></a>which</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">which [-a] command 从$PATH下寻找指令</span><br><span class="line">ps: which找不到bash内建的指令,如history.</span><br></pre></td></tr></table></figure>
+<h4 id="find"><a href="#find" class="headerlink" title="find"></a>find</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">find &#x2F; -name&#x3D;&#39;*.txt&#39;</span><br><span class="line">find直接搜索硬盘,查询太慢了.</span><br><span class="line">find &#x2F; -mtime 4   找第4-第5之内修改的文件</span><br><span class="line">find &#x2F; -mtime +4  4天外</span><br><span class="line">find &#x2F; -mtime -4  4天内</span><br><span class="line">find &#x2F;etc -newer &#x2F;etc&#x2F;passwd 找比passwd更新的文件</span><br><span class="line">find &#x2F;home -user vicyor</span><br><span class="line">find &#x2F; -nouser  </span><br><span class="line">find &#x2F;run -type s -&gt;socket文件</span><br><span class="line">find &#x2F; -perm &#x2F;777 查找rwx-rwx-rwx</span><br><span class="line">find &#x2F; -perm &#x2F;7000 四位的话第一位是特殊权限的和   rws-rws-rwt</span><br></pre></td></tr></table></figure>
+<h4 id="whereis"><a href="#whereis" class="headerlink" title="whereis"></a>whereis</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">whereis -&gt;由一些特定的目录中寻找文件文件名</span><br><span class="line">-l :可以列出 whereis 会去查询的几个主要目录而已</span><br><span class="line"> 主要是&#x2F;bin,&#x2F;sbin,以及&#x2F;usr&#x2F;share&#x2F;man</span><br><span class="line">-b :只找 binary 格式的文件</span><br><span class="line">-m :只找在说明文件 manual 路径下的文件</span><br><span class="line">-s :只找 source 来源文件</span><br><span class="line">-u :搜寻不在上述三个项目当中的其他特殊文件</span><br></pre></td></tr></table></figure>
+<h4 id="locate"><a href="#locate" class="headerlink" title="locate"></a>locate</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">locate 是从已建的数据库 &#x2F;var&#x2F;lib&#x2F;mlocate&#x2F;中寻找</span><br><span class="line">updatedb -&gt;更新数据库</span><br><span class="line">默认每天更新一次数据库</span><br></pre></td></tr></table></figure>
+<h3 id="文件系统-1"><a href="#文件系统-1" class="headerlink" title="文件系统"></a>文件系统</h3><h4 id="blkid"><a href="#blkid" class="headerlink" title="blkid"></a>blkid</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">blkid  -&gt;  查看所有的文件系统及其对应id</span><br></pre></td></tr></table></figure>
+<h4 id="dumpe2fs"><a href="#dumpe2fs" class="headerlink" title="dumpe2fs"></a>dumpe2fs</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dumpe2fs  &#x2F;dev&#x2F;sda1-&gt; 查看ext文件系统超级块信息</span><br></pre></td></tr></table></figure>
+<h4 id="xfs-info"><a href="#xfs-info" class="headerlink" title="xfs_info"></a>xfs_info</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xfs_info &#x2F;dev&#x2F;sda2 -&gt;查看xfs文件系统超级块信息</span><br></pre></td></tr></table></figure>
+
+<h4 id="磁盘与目录容量"><a href="#磁盘与目录容量" class="headerlink" title="磁盘与目录容量"></a>磁盘与目录容量</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">df - 文件系统使用量.</span><br><span class="line">    df -Th   -&gt; -T 显示文件系统类型  </span><br><span class="line">    df -Th &#x2F;dev&#x2F;shm -&gt; &#x2F;dev&#x2F;shm为虚拟出来的磁盘，大小为物理内存一半。</span><br><span class="line">    [root@VM_0_16_centos abc]# df  -hT &#x2F;dev&#x2F;shm </span><br><span class="line">    Filesystem     Type   Size  Used Avail Use% Mounted on</span><br><span class="line">    tmpfs          tmpfs  920M   24K  920M   1% &#x2F;dev&#x2F;shm</span><br><span class="line">du - 目录磁盘使用量.</span><br><span class="line">    du -s   -&gt; -s 只列出当前目录,不列出子目录</span><br></pre></td></tr></table></figure>
+<h4 id="sync"><a href="#sync" class="headerlink" title="sync"></a>sync</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sync -&gt; 将内存中已修改未刷新到磁盘的脏数据刷新到磁盘</span><br><span class="line">非root用户只能刷自己产生的脏页</span><br><span class="line">root用户可以刷所有脏页</span><br></pre></td></tr></table></figure>
+<h3 id="磁盘分区、格式化、检验与挂载"><a href="#磁盘分区、格式化、检验与挂载" class="headerlink" title="磁盘分区、格式化、检验与挂载"></a>磁盘分区、格式化、检验与挂载</h3><h4 id="lsblk"><a href="#lsblk" class="headerlink" title="lsblk"></a>lsblk</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lsblk -&gt; list block device 列出所有块设备</span><br><span class="line">lsblk -p &#x2F;dev&#x2F;vda  -&gt; -p   显示装置的完整文件名</span><br></pre></td></tr></table></figure>
+<h4 id="blkid-1"><a href="#blkid-1" class="headerlink" title="blkid"></a>blkid</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">blkid   -   列出装置的UUID参数</span><br></pre></td></tr></table></figure>
+<h4 id="parted"><a href="#parted" class="headerlink" title="parted"></a>parted</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">parted  列出磁盘的分区表类型与分区信息</span><br><span class="line">parted &lt;device_name&gt; print</span><br></pre></td></tr></table></figure>
+<h4 id="gdisk-fdisk"><a href="#gdisk-fdisk" class="headerlink" title="gdisk/fdisk"></a>gdisk/fdisk</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fdisk -&gt; MBR</span><br><span class="line">gdisk -&gt; GPT</span><br><span class="line">partprobe -&gt; 立刻更新磁盘的新修改的分区信息</span><br></pre></td></tr></table></figure>
+<h4 id="mkfs"><a href="#mkfs" class="headerlink" title="mkfs"></a>mkfs</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">分区格式化(格式化为文件系统).</span><br><span class="line">mkfs.xfs [-b bsize] [-d params] [-i params] [-l params] [-L label] [-f] [-r params] 分区</span><br><span class="line">    -b -&gt; blocksize 512b ~64k</span><br><span class="line">    -d -&gt; data section(资料区)</span><br><span class="line">         agcount&#x3D;数值 ：设定需要几个储存群组的意思(AG)，通常与 CPU 有关</span><br><span class="line">         agsize&#x3D;数值 ：每个 AG 设定为多少容量的意思，通常 agcount&#x2F;agsize 只选一个设定即可</span><br><span class="line">         file ：指的是『格式化的装置是个文件而不是个装置』的意思！(例如虚拟磁盘)</span><br><span class="line">         size&#x3D;数值 ：data section 的容量，亦即你可以不将全部的装置容量用完的意思</span><br><span class="line">         su&#x3D;数值 ：当有 RAID 时，那个 stripe 数值的意思，与底下的 sw 搭配使用</span><br><span class="line">         sw&#x3D;数值 ：当有 RAID 时，用于储存数据的磁盘数量(须扣除备份碟与备用碟)</span><br><span class="line">         sunit&#x3D;数值 ：与 su 相当，不过单位使用的是『几个 sector(512bytes 大小)』的意思</span><br><span class="line">         swidth&#x3D;数值 ：就是 su*sw 的数值，但是以『几个 sector(512bytes 大小)』来设定</span><br><span class="line">    -f -&gt; 强制格式化</span><br><span class="line">    -i -&gt; inode</span><br><span class="line">    -L -&gt; Label name</span><br><span class="line">    -r -&gt; realtime section</span><br><span class="line">mkfs.ext4 [-b size] [-L label] 装置名称</span><br><span class="line">mkfs -t vfat 分区</span><br></pre></td></tr></table></figure>
+<h4 id="文件系统检验"><a href="#文件系统检验" class="headerlink" title="文件系统检验"></a>文件系统检验</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ps: 检查文件系统必须先卸载文件系统</span><br><span class="line">xfs_repair 处理xfs文件系统</span><br><span class="line">fsck.ext4</span><br><span class="line">fsck.ext4 -b 32768 &#x2F;dev&#x2F;vda5</span><br><span class="line">-b指定super block备份位置,修复superblock</span><br></pre></td></tr></table></figure>
+<h4 id="文件系统挂载与卸除"><a href="#文件系统挂载与卸除" class="headerlink" title="文件系统挂载与卸除"></a>文件系统挂载与卸除</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">1.mount </span><br><span class="line">    taps: 一个文件系统不能被多次挂载;挂载点应该是空目录;单一目录不该重复挂载多个文件系统.</span><br><span class="line">    mount [-t 文件系统] UUID&#x3D;&#39;&#39; 挂载点 -&gt;UUID 可以通过blkid去查看</span><br><span class="line">    mount [-t 文件系统] 装置文件名 挂载点</span><br><span class="line">    mount -a -&gt; 参考&#x2F;etc&#x2F;fstab文件，挂载&#x2F;etc&#x2F;fstab里的文件设备(已挂载就不会再挂载)</span><br><span class="line">    -o 额外权限</span><br><span class="line">        async&#x2F;sync  文件系统是否使用同步写入&#x2F;异步的内存机制. -&gt;异步,内存有缓存.</span><br><span class="line">        atime&#x2F;noatime 每次读取文件是否修改atime,建议noatime</span><br><span class="line">        ro&#x2F;rw         ro(read only),rw(k可擦写)</span><br><span class="line">        auto&#x2F;noauto   </span><br><span class="line">        auto,noauto   mount -a 是否挂载该文件系统</span><br><span class="line">        user,nouser   可以使得非root用户亦能挂载</span><br><span class="line">        defaults      默认值为rw,suid,dev,exec,auto,nouser,async</span><br><span class="line">        remount       重新挂载</span><br><span class="line">    #光盘挂载</span><br><span class="line">    mkdir &#x2F;data&#x2F;cdrom  &amp;&amp; mount &#x2F;dev&#x2F;sr0 &#x2F;data&#x2F;cdrom</span><br><span class="line">    #USB挂载</span><br><span class="line">    mkdir &#x2F;data&#x2F;usb &amp;&amp; mount -o codepage&#x3D;950,iocharset&#x3D;utf8  -t vfat  UUID&#x3D;&quot;35BC-6D6B&quot; &#x2F;data&#x2F;usb</span><br><span class="line">    #若根目录出现只读状态时候,可以将根目录重新挂载.</span><br><span class="line">    mount -o remount,rw,auto &#x2F;</span><br><span class="line">2.umount [-fn] 装置文件名&#x2F;挂载点</span><br><span class="line">    -f -&gt; 强制卸除; -n -&gt; 不更新&#x2F;etc&#x2F;mtab</span><br><span class="line">    taps:卸载文件系统必须确保没有用户在中文件系统对应的挂载目录中.</span><br><span class="line">3.mknod 装置文件名 [bcp] [Major] [Minor]</span><br><span class="line">  -b    设定装置名称成为一个周边储存设备文件  磁盘</span><br><span class="line">  -c    设定装置名称成为一个周边输入设备文件  鼠标&#x2F;键盘</span><br><span class="line">  -p    设定装置名称成为一个 FIFO 文件</span><br><span class="line">  mknod &#x2F;dev&#x2F;vda10 b 252 10</span><br><span class="line">4.xfs_admin 修改XFS文件系统UUID和Label Name.</span><br><span class="line">    xfs_admin -L    vbird_xfs &#x2F;dev&#x2F;vda4</span><br><span class="line">    xfs_admin -U newUUID &#x2F;dev&#x2F;vda4</span><br><span class="line">5.tune2fs修改ext4的label name与UUID.</span><br><span class="line">  tune2fs [-l] [-L Label] [-U uuid] 装置文件名</span><br><span class="line">  tune2fs -L vbird_ext4 &#x2F;dev&#x2F;vda5</span><br></pre></td></tr></table></figure>
+<h3 id="shell-三剑客"><a href="#shell-三剑客" class="headerlink" title="shell 三剑客"></a>shell 三剑客</h3><h4 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">grep  -  显示匹配pattern的行</span><br><span class="line">grep pattern  -&gt; pattern 正则表达式</span><br><span class="line">grep &#39;\Wword\W&#39; file</span><br><span class="line">    -A n   -&gt;额外显示匹配的后n行</span><br><span class="line">    -B n   -&gt;额外显示匹配的前n行</span><br><span class="line">    -i     -&gt;ignore 字符大小写</span><br><span class="line">    -n     -&gt;显示行号</span><br><span class="line">    -o     -&gt;只显示匹配内容</span><br><span class="line">    -r     -&gt;recursive</span><br></pre></td></tr></table></figure>
+<h4 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">sed  -   stream editor for filtering and transforming text  -&gt;   流编辑器用于过滤和处理文本</span><br><span class="line">sed操作并不会修改源文件.</span><br><span class="line">sed -n -e&lt;script&gt; -f&lt;script文件&gt; 文本文件</span><br><span class="line">  -n -&gt; 仅显示处理后的结果</span><br><span class="line">  -i -&gt; </span><br><span class="line">动作说明:</span><br><span class="line">    a  -&gt;  新增</span><br><span class="line">    c  -&gt;  取代</span><br><span class="line">    d  -&gt;  删除</span><br><span class="line">    i  -&gt;  插入</span><br><span class="line">    p  -&gt;  打印</span><br><span class="line">    s  -&gt;  取代</span><br><span class="line">实例:</span><br><span class="line">1.增加.</span><br><span class="line">  sed -e &#39;4a newLine&#39; testfile  &#x2F;&#x2F;插入到第5行</span><br><span class="line">  sed -e &#39;4i newline&#39; testfile  &#x2F;&#x2F;插入到第4行</span><br><span class="line">  sed -e &#39;4b newline&#39; testfile  &#x2F;&#x2F;插入到第3行</span><br><span class="line">  添加多行数据,用反斜杠作为分隔符.</span><br><span class="line">  sed -e &#39;2 a  oneline \</span><br><span class="line">  twoline \</span><br><span class="line">  threeline \</span><br><span class="line">  &#39; testfile</span><br><span class="line">2.删除.</span><br><span class="line">  sed -e &#39;2,3d&#39; testfile  #删除2,3行</span><br><span class="line">  sed -e &#39;2,$d&#39; testfile  #删除2-最后一行  $-&gt;最后一行</span><br><span class="line">3.以行为单位的替换与显示.</span><br><span class="line">  sed -e &#39;2,5c 替换&#39; testfile</span><br><span class="line">  sed -n &#39;2,5p&#39; 只显示 2-5行</span><br><span class="line">4.数据的搜索并显示.</span><br><span class="line">  nl &#x2F;etc&#x2F;passwd | sed  &#39;&#x2F;root&#x2F;p&#39;</span><br><span class="line">5.数据的搜索并删除.</span><br><span class="line">  nl &#x2F;etc&#x2F;passwd | sed &#39;&#x2F;root&#x2F;d&#39;</span><br><span class="line">6.数据搜索并替换.</span><br><span class="line">  sed &#39;s&#x2F;原字符串&#x2F;新字符串&#x2F;g&#39;</span><br><span class="line">  ifconfig eth0 | sed &#39;1,2s&#x2F;255&#x2F;111&#x2F;g&#39; #替换1,2行的255为111</span><br><span class="line">7.直接修改文件的内容.</span><br><span class="line">  sed -i &#39;s&#x2F;\.$&#x2F;\!&#x2F;g&#39; file</span><br><span class="line">  sed -i &#39;$a # This is a test&#39; regular_express.txt</span><br></pre></td></tr></table></figure>
+<h4 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">1.用法一.</span><br><span class="line">    awk &#39;[pattern] &#123; action&#125;&#39; &#123;filenames&#125;</span><br><span class="line">    awk &#39;&#123;print $1,$4&#125;&#39; log.txt #按空格和TAB分割,显示每行的第一项与第四项</span><br><span class="line">    awk &#39;&#123;printf &quot;%-8s %-10s\n&quot;,$1,$4&#125;&#39; log.txt #格式化输出</span><br><span class="line">2.用法二.</span><br><span class="line">    awk -F 指定分隔符</span><br><span class="line">    awk -F 分隔符 OFS&#x3D;输出分割符</span><br><span class="line">    echo &#39;a,b,c,d,e,f,g&#39; | awk -F &#39;,&#39; &#39;&#123;printf &quot;-8s %-10s\n&quot;,$1,$4&#125;&#39;</span><br><span class="line">3.用法三.</span><br><span class="line">    awk -v #设置变量</span><br><span class="line">    awk -va&#x3D;1 &#39;&#123;print $a,$4&#125;&#39; log.txt  </span><br><span class="line">    awk -va&#x3D;1 -vb&#x3D;3 &#39;&#123;print $a,$b&#125;&#39; log.txt</span><br><span class="line">4.用法四.</span><br><span class="line">    awk -f &#123;awk脚本&#125; &#123;文件名&#125;</span><br><span class="line">5.运算符.</span><br><span class="line">    awk &#39;$1&gt;2  &#123;print $1,$3&#125;&#39; log.txt</span><br><span class="line">    awk &#39;$1&gt;2 &amp;&amp; $1&#x3D;&#x3D;&quot;Are&quot; &#123;print $1,$2,$3&#125;&#39; log.txt</span><br><span class="line">6.内建变量(选几个常用的).</span><br><span class="line">  $n    -&gt;   一行记录的第n个字段</span><br><span class="line">  $0    -&gt;   完整的行记录</span><br><span class="line">  FILENAME -&gt; 当前文件名</span><br><span class="line">  FS       -&gt; 字段分隔符</span><br><span class="line">  NR       -&gt; 行号</span><br><span class="line">  NF    -&gt;    一条记录字段的数目</span><br><span class="line">  length -&gt; 行长度</span><br><span class="line">    awk &#39;BEGIN&#123;  printf &quot;%4s %4s %4s %4s %4s %4s\n&quot;,&quot;FILENAME&quot;,&quot;ARGC&quot;,&quot;FNR&quot;,&quot;FS&quot;,&quot;NF&quot;,&quot;NR&quot;;printf &quot;---------------------------------------------\n&quot;&#125;</span><br><span class="line">        &#123;printf &quot;%4s %4s %4s %4s %4s %4s\n&quot;,FILENAME,ARGC,FNR,FS,NF,NR&#125;&#39;  log.txt</span><br><span class="line">    BEGIN -&gt;相当于表格表头.</span><br><span class="line">7.使用正则,字符串匹配.</span><br><span class="line">    &#x2F;&#x2F;中的是模式.若做比较,需要加~</span><br><span class="line">    awk &#39;$2 ~&#x2F;th&#x2F; &#123;print $2,$4&#125;&#39; new.txt</span><br><span class="line">    awk &#39;$2 !~ &#x2F;th&#x2F; &#123;print $2,$4&#125;&#39; log.txt  #取反</span><br><span class="line">    awk &#39; &#x2F;^hel&#x2F; &#123;print $0&#125;&#39; new.txt</span><br><span class="line">    awk &#39;!&#x2F;^hel&#x2F;&#123;print $0&#125;&#39; new.txt</span><br><span class="line">8.awk脚本.</span><br><span class="line">  awk -&gt; BEGIN&#123;执行前的语句&#125; &#123;每一行需要执行的处理语句&#125; END &#123;每一行处理完后执行的语句&#125;</span><br><span class="line">文件 -&gt; score.txt</span><br><span class="line">    Marry   2143 78 84 77</span><br><span class="line">    Jack    2321 66 78 45</span><br><span class="line">    Tom     2122 48 77 71</span><br><span class="line">    Mike    2537 87 97 95</span><br><span class="line">    Bob     2415 40 57 62</span><br><span class="line"> awk脚本</span><br><span class="line">    BEGIN &#123;</span><br><span class="line">        math &#x3D; 0</span><br><span class="line">        english &#x3D; 0</span><br><span class="line">        computer &#x3D; 0</span><br><span class="line">     </span><br><span class="line">        printf &quot;NAME    NO.   MATH  ENGLISH  COMPUTER   TOTAL\n&quot;</span><br><span class="line">        printf &quot;---------------------------------------------\n&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    #运行中</span><br><span class="line">    &#123;</span><br><span class="line">        math+&#x3D;$3</span><br><span class="line">        english+&#x3D;$4</span><br><span class="line">        computer+&#x3D;$5</span><br><span class="line">        printf &quot;%-6s %-6s %4d %8d %8d %8d\n&quot;, $1, $2, $3,$4,$5, $3+$4+$5</span><br><span class="line">    &#125;</span><br><span class="line">    #运行后</span><br><span class="line">    END &#123;</span><br><span class="line">        printf &quot;---------------------------------------------\n&quot;</span><br><span class="line">        printf &quot;  TOTAL:%10d %8d %8d \n&quot;, math, english, computer</span><br><span class="line">        printf &quot;AVERAGE:%10.2f %8.2f %8.2f\n&quot;, math&#x2F;NR, english&#x2F;NR, computer&#x2F;NR</span><br><span class="line">    &#125;</span><br><span class="line"> 执行脚本.</span><br><span class="line">    awk -f cal.awk score.txt</span><br><span class="line">9.打印9*9乘法表.</span><br><span class="line">    seq 9 | sed &#39;H;g&#39; | awk -v RS&#x3D;&#39;&#39; &#39;&#123;for(i&#x3D;1;i&lt;&#x3D;NF;i++)printf(&quot;%dx%d&#x3D;%d%s&quot;, i, NR, i*NR, i&#x3D;&#x3D;NR?&quot;\n&quot;:&quot;\t&quot;)&#125;&#39;</span><br><span class="line">    NF -&gt;字段数</span><br><span class="line">    NR -&gt;行号</span><br><span class="line">    RS -&gt;行记录分隔符,注意不以回车作为换行符了.</span><br><span class="line">    seq 9 | sed &#39;H;g&#39; | awk  -v RS&#x3D;&#39;&#39;  &#39;&#123;print $0 , NR ,NF&#125;&#39;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+		<div>
+			
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+			
+		</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/command/" rel="tag"># command</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/01/k8s/" rel="prev" title="k8s">
+      <i class="fa fa-chevron-left"></i> k8s
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/21/linux/" rel="next" title="linux">
+      linux <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#运行指令"><span class="nav-number">1.</span> <span class="nav-text">运行指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#linux运行指令"><span class="nav-number">1.1.</span> <span class="nav-text">linux运行指令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户"><span class="nav-number">2.</span> <span class="nav-text">用户</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用户操作指令"><span class="nav-number">2.1.</span> <span class="nav-text">用户操作指令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#useradd"><span class="nav-number">2.1.1.</span> <span class="nav-text">useradd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#passwd"><span class="nav-number">2.1.2.</span> <span class="nav-text">passwd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#id"><span class="nav-number">2.1.3.</span> <span class="nav-text">id</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间"><span class="nav-number">3.</span> <span class="nav-text">时间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#时间指令"><span class="nav-number">3.1.</span> <span class="nav-text">时间指令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#date"><span class="nav-number">3.1.1.</span> <span class="nav-text">date</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cal"><span class="nav-number">3.1.2.</span> <span class="nav-text">cal</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开关机指令"><span class="nav-number">3.2.</span> <span class="nav-text">开关机指令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#shutdown"><span class="nav-number">3.2.1.</span> <span class="nav-text">shutdown</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#reboot"><span class="nav-number">3.2.2.</span> <span class="nav-text">reboot</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#帮助"><span class="nav-number">4.</span> <span class="nav-text">帮助</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#帮助指令"><span class="nav-number">4.1.</span> <span class="nav-text">帮助指令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#man"><span class="nav-number">4.1.1.</span> <span class="nav-text">man</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#info"><span class="nav-number">4.1.2.</span> <span class="nav-text">info</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件系统"><span class="nav-number">5.</span> <span class="nav-text">文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件权限"><span class="nav-number">5.1.</span> <span class="nav-text">文件权限</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#su"><span class="nav-number">5.1.1.</span> <span class="nav-text">su</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chgrp"><span class="nav-number">5.1.2.</span> <span class="nav-text">chgrp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chown"><span class="nav-number">5.1.3.</span> <span class="nav-text">chown</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chmod"><span class="nav-number">5.1.4.</span> <span class="nav-text">chmod</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#umask"><span class="nav-number">5.1.5.</span> <span class="nav-text">umask</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chattr"><span class="nav-number">5.1.6.</span> <span class="nav-text">chattr</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lsattr"><span class="nav-number">5.1.7.</span> <span class="nav-text">lsattr</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件操作"><span class="nav-number">5.2.</span> <span class="nav-text">文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ls"><span class="nav-number">5.2.1.</span> <span class="nav-text">ls</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cd"><span class="nav-number">5.2.2.</span> <span class="nav-text">cd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pwd"><span class="nav-number">5.2.3.</span> <span class="nav-text">pwd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mkdir"><span class="nav-number">5.2.4.</span> <span class="nav-text">mkdir</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rmdir"><span class="nav-number">5.2.5.</span> <span class="nav-text">rmdir</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cp"><span class="nav-number">5.2.6.</span> <span class="nav-text">cp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mv"><span class="nav-number">5.2.7.</span> <span class="nav-text">mv</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#basename"><span class="nav-number">5.2.8.</span> <span class="nav-text">basename</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dirname"><span class="nav-number">5.2.9.</span> <span class="nav-text">dirname</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#touch"><span class="nav-number">5.2.10.</span> <span class="nav-text">touch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#file"><span class="nav-number">5.2.11.</span> <span class="nav-text">file</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ln"><span class="nav-number">5.2.12.</span> <span class="nav-text">ln</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件内容查阅"><span class="nav-number">5.3.</span> <span class="nav-text">文件内容查阅</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tail"><span class="nav-number">5.3.1.</span> <span class="nav-text">tail</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查日志相关指令"><span class="nav-number">5.4.</span> <span class="nav-text">查日志相关指令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#last"><span class="nav-number">5.4.1.</span> <span class="nav-text">last</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件搜索指令"><span class="nav-number">5.5.</span> <span class="nav-text">文件搜索指令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#which"><span class="nav-number">5.5.1.</span> <span class="nav-text">which</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#find"><span class="nav-number">5.5.2.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#whereis"><span class="nav-number">5.5.3.</span> <span class="nav-text">whereis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#locate"><span class="nav-number">5.5.4.</span> <span class="nav-text">locate</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件系统-1"><span class="nav-number">5.6.</span> <span class="nav-text">文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#blkid"><span class="nav-number">5.6.1.</span> <span class="nav-text">blkid</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dumpe2fs"><span class="nav-number">5.6.2.</span> <span class="nav-text">dumpe2fs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#xfs-info"><span class="nav-number">5.6.3.</span> <span class="nav-text">xfs_info</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#磁盘与目录容量"><span class="nav-number">5.6.4.</span> <span class="nav-text">磁盘与目录容量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sync"><span class="nav-number">5.6.5.</span> <span class="nav-text">sync</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#磁盘分区、格式化、检验与挂载"><span class="nav-number">5.7.</span> <span class="nav-text">磁盘分区、格式化、检验与挂载</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#lsblk"><span class="nav-number">5.7.1.</span> <span class="nav-text">lsblk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#blkid-1"><span class="nav-number">5.7.2.</span> <span class="nav-text">blkid</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#parted"><span class="nav-number">5.7.3.</span> <span class="nav-text">parted</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gdisk-fdisk"><span class="nav-number">5.7.4.</span> <span class="nav-text">gdisk&#x2F;fdisk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mkfs"><span class="nav-number">5.7.5.</span> <span class="nav-text">mkfs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件系统检验"><span class="nav-number">5.7.6.</span> <span class="nav-text">文件系统检验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件系统挂载与卸除"><span class="nav-number">5.7.7.</span> <span class="nav-text">文件系统挂载与卸除</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell-三剑客"><span class="nav-number">5.8.</span> <span class="nav-text">shell 三剑客</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#grep"><span class="nav-number">5.8.1.</span> <span class="nav-text">grep</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sed"><span class="nav-number">5.8.2.</span> <span class="nav-text">sed</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#awk"><span class="nav-number">5.8.3.</span> <span class="nav-text">awk</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="vicyor"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">vicyor</p>
+  <div class="site-description" itemprop="description">大路且慢慢,咱一步一步走完.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vicyor" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vicyor" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2457569580@qq.com" title="E-Mail → mailto:2457569580@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vicyor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">819k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">12:25</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = visitors.getAttribute('id').trim();
+      var title = visitors.getAttribute('data-flag-title').trim();
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.log('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return element.getAttribute('id').trim();
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=m9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'm9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz',
+            'X-LC-Key': 'g7WSuE6aDmunoX4rgyBN7SJa',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'qQhr9rNGJh6YalJA0mfaaurx-gzGzoHsz',
+    appKey: 'kJy8NJeOTMPnxQ3zLihOcnw3',
+    placeholder: "请留下您的宝贵评论",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+	
+		 <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		 <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://vicyor.gitee.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="kubernates是一个开源的,用于管理云平台中多个主机上的容器化的应用,kubernates目标是让部署容器化应用简单且高效(powerful).">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s">
+<meta property="og:url" content="http://vicyor.gitee.io/2020/05/01/k8s/index.html">
+<meta property="og:site_name" content="Vicyor">
+<meta property="og:description" content="kubernates是一个开源的,用于管理云平台中多个主机上的容器化的应用,kubernates目标是让部署容器化应用简单且高效(powerful).">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/05/01/k8s/arch.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/05/01/k8s/master.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/05/01/k8s/node.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/05/01/k8s/object.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/05/01/k8s/pod.png">
+<meta property="article:published_time" content="2020-05-01T12:27:20.000Z">
+<meta property="article:modified_time" content="2020-07-11T01:00:40.732Z">
+<meta property="article:author" content="vicyor">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vicyor.gitee.io/2020/05/01/k8s/arch.png">
+
+<link rel="canonical" href="http://vicyor.gitee.io/2020/05/01/k8s/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>k8s | Vicyor</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vicyor</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">40</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">38</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/05/01/k8s/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="vicyor">
+      <meta itemprop="description" content="大路且慢慢,咱一步一步走完.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vicyor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          k8s
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-01 20:27:20" itemprop="dateCreated datePublished" datetime="2020-05-01T20:27:20+08:00">2020-05-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-11 09:00:40" itemprop="dateModified" datetime="2020-07-11T09:00:40+08:00">2020-07-11</time>
+              </span>
+
+          
+            <span id="/2020/05/01/k8s/" class="post-meta-item leancloud_visitors" data-flag-title="k8s" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/05/01/k8s/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/01/k8s/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>kubernates是一个开源的,用于管理云平台中多个主机上的容器化的应用,kubernates目标是让部署容器化应用简单且高效(powerful).</p>
+<a id="more"></a>
+<h2 id="Kubernates基础-开启云原生之门"><a href="#Kubernates基础-开启云原生之门" class="headerlink" title="Kubernates基础,开启云原生之门"></a>Kubernates基础,开启云原生之门</h2><h3 id="云原生"><a href="#云原生" class="headerlink" title="云原生"></a>云原生</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1.应用部署模式变迁.</span><br><span class="line">  1.物理单机 </span><br><span class="line">   1.IBM&#x2F;SUN    </span><br><span class="line">  2.虚拟化</span><br><span class="line">   1.VMware(提生计算资源利用率,降低使用成本)</span><br><span class="line">   2.Iaas(基础设施-开发者),Paas(软件环境,开发软件安装好-开发者).Saas(交互软件-客户).      </span><br><span class="line">  3.云原生</span><br><span class="line">    1.应用容器化和微服务化.</span><br><span class="line">    2.容器作为部署、运行和管理的基本单元.</span><br><span class="line">    3.借助容器管理自动化平台进行动态编排和资源优化利用.</span><br><span class="line">    编排:通过工作流的方式将调用先后关系的应用串起来.</span><br><span class="line">    治理: 根据路由,容错,负载选取合适的调用关系.</span><br></pre></td></tr></table></figure>
+<h3 id="kubernates-面向云原生技术新平台"><a href="#kubernates-面向云原生技术新平台" class="headerlink" title="kubernates-面向云原生技术新平台"></a>kubernates-面向云原生技术新平台</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1.kubernates是google内部容器编排管理平台Borg为原型的开源实现.</span><br><span class="line">    1.以Pod(容器组)为基本的编排和调度单元以及声明式对象配置模型(控制器,configmap,secret等).</span><br><span class="line">    2.资源配置与分配管理.</span><br><span class="line">    3.健康检查、自愈、伸缩与滚动升级.</span><br><span class="line">2.kubernates提供了对微服务的支持.</span><br><span class="line">    1.服务发现、服务路由、与内部路由支持.</span><br><span class="line">    2.服务快速部署与自动负载均衡.</span><br><span class="line">    3.对有状态服务支持</span><br><span class="line">3.可移植云平台&lt;-&gt;传统云平台之上的Linux</span><br><span class="line">    1.k8s成为面向云原生应用的新可移植层.</span><br><span class="line">    2.为用户提供简单且一致的容器化应用部署、伸缩、管理机制.</span><br><span class="line">    3.云厂商锁定的问题得以解决,云应用支持跨云迁移.</span><br></pre></td></tr></table></figure>
+<h3 id="kubernates-架构与组件"><a href="#kubernates-架构与组件" class="headerlink" title="kubernates 架构与组件"></a>kubernates 架构与组件</h3><h4 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h4><p><img src="/2020/05/01/k8s/arch.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.k8s集群由一组节点nodes组成,节点可以是物理服务器,虚拟机.k8s运行在这些节点之上.</span><br><span class="line">2.每个节点都安装node组件(kublet,kube-proxy).</span><br><span class="line">3.数据存储中心 etcd,是一个数据库,存储了所有对象和状态.</span><br><span class="line">4.集群维护的命令行工具kubectl,用户以命令行方式与集群交互，操作集群.</span><br><span class="line">5.miniNodes的node组件的kubelet跟master node交互，维护miniNodes的pod的生命周期。</span><br></pre></td></tr></table></figure>
+<h4 id="master组件简单介绍"><a href="#master组件简单介绍" class="headerlink" title="master组件简单介绍"></a>master组件简单介绍</h4><p><img src="/2020/05/01/k8s/master.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1.所有集群的控制命令都传递给Master组件并在其上执行.</span><br><span class="line">2.每个Kubernetes集群至少有一套Master组件. </span><br><span class="line">3.master组件包括三个核心组件:apiserver,scheduler,controller-manager以及集群数据配置中心etcd.</span><br><span class="line">API Server:</span><br><span class="line">  1.集群控制唯一入口,提供kubernetes集群控制RESTful API的核心组件.</span><br><span class="line">  2.集群内各个组件之间数据交互和通信的中枢.</span><br><span class="line">  3.提供集群控制的安全机制(身份认证、授权、admission control).</span><br><span class="line">Scheduler:</span><br><span class="line">  1.通过API Server 的 watch 接口监听新建Pod副本信息,并通过调度算法为新建Pod选择一个合适的NODE.</span><br><span class="line">  2.支持自定义调度算法provider.</span><br><span class="line">  3.默认调度算法内置预选策略和优选策略,决策考量资源需求、服务质量、软硬件约束、亲缘性、数据局部性等指标参数.</span><br><span class="line">ControllerManager:</span><br><span class="line">  1.集群内各种资源controller的核心管理者.</span><br><span class="line">  2.每一种具体的资源,都会有相应的controller.</span><br><span class="line">  3.保证其下管理的每个controllers所对应的资源始终处于期望状态.</span><br><span class="line">Etcd:</span><br><span class="line">  1.Kubernetes集群主数据库,存储着所有资源对象及状态.</span><br><span class="line">  2.默认与Master组件部署在一个Node上.</span><br><span class="line">  3.Etcd的数据变更都是通过API Server进行.</span><br></pre></td></tr></table></figure>
+<h4 id="Node组件"><a href="#Node组件" class="headerlink" title="Node组件"></a>Node组件</h4><p><img src="/2020/05/01/k8s/node.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.k8s集群中真正的工作负载节点,Pod被分配到Node上执行.</span><br><span class="line">2.k8s通过node controller 对 node资源进行管理,支持动态在集群中添加或删除node.</span><br><span class="line">3.每个集群Node上都会部署Kublet和Kube-proxy的两个组件.</span><br><span class="line">Kublet:</span><br><span class="line">  1.位于集群中每个Node上的非容器形式的服务进程组件,Master与Node之间的桥梁.</span><br><span class="line">  2.处理Master下发到本Node上的Pod创建、启停等管理服务；向API-server注册Node信息.</span><br><span class="line">  3.监控本Node上容器和节点资源情况,并定期向Master汇报节点资源占用情况.</span><br><span class="line">Kube-proxy: </span><br><span class="line">  1.Service抽象概念的实现,将service的请求按照策略(负载均衡)算法分到后端Pot(Endpoint)上.</span><br><span class="line">  2.默认使用iptables mode实现.</span><br><span class="line">  3.支持nodeport模式,实现从外部访问集群内的service.</span><br></pre></td></tr></table></figure>
+<h3 id="kubernetes-基础概念"><a href="#kubernetes-基础概念" class="headerlink" title="kubernetes 基础概念"></a>kubernetes 基础概念</h3><h4 id="Kubernetes对象"><a href="#Kubernetes对象" class="headerlink" title="Kubernetes对象"></a>Kubernetes对象</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Kubernetes对象: 持久化,用于表示集群状态的实体.</span><br><span class="line">    1.声明式意图的记录,使用yaml文件描述对象.</span><br><span class="line">    2.Kubernetes集群使用kubernetes对象表示集群的状态.</span><br><span class="line">    3.通过API&#x2F;kubectl管理kubernetes对象.</span><br></pre></td></tr></table></figure>
+<h4 id="Kubernetes对象模型"><a href="#Kubernetes对象模型" class="headerlink" title="Kubernetes对象模型"></a>Kubernetes对象模型</h4><p><img src="/2020/05/01/k8s/object.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">1.kind -&gt; 对象类型</span><br><span class="line">Pod,Service,Deployment,StatefulSet,DaemonSet</span><br><span class="line">2.Metadata -&gt; 元数据</span><br><span class="line">Name,UID,Namespace,Labels,Annotations.</span><br><span class="line">    1.API中对象访问路径:</span><br><span class="line">        &#x2F;api&#x2F;&#123;version&#125;&#x2F;namespaces&#x2F;&#123;namespace&#125;&#x2F;&#123;object-kind&#125;&#x2F;name</span><br><span class="line">    2.Namespace -&gt; 将物理集群划分为多个虚拟集群.</span><br><span class="line">      内置名字空间: default,kube-system,kube-public.</span><br><span class="line">    3.label用于建立集群对象之间灵活的、松耦合的多维关联关系.</span><br><span class="line">      1.label是一个键值对,key,value均由用户自定义.</span><br><span class="line">      2.label可以附着任何对象上,每个对象也可以有任意个标签,标签可以在对象定义时附加上,也可以通过命令动态管理标签.</span><br><span class="line">      3.label可以有组织目的的结构映射到集群对象上,形成一个与现实世界管理同步对应松耦合、多维度的对象管理结构.</span><br><span class="line">    4.Annotations 可以将任意非标识性元数据附加到对象上.</span><br><span class="line">      1.Annotations以键值对形式呈现.</span><br><span class="line">      2.工具和库可以检索并使用Annotations元数据.</span><br><span class="line">      3.将数据作为Annotation附加到对象上,有利于创建一些用于部署、管理、和做内部检查的共享工具或客户端.</span><br><span class="line">3.Spec -&gt; 规格</span><br><span class="line">Replicas,Selector,Templete,Containers.</span><br><span class="line">4.Operation -&gt;对象操作 -&gt; kubectl   </span><br><span class="line">Create,Get,Update,Delete.</span><br><span class="line">5.Status -&gt; 状态 -&gt;etcd 动态信息.</span><br><span class="line">Conditions.</span><br></pre></td></tr></table></figure>
+<h4 id="K8s对象分类"><a href="#K8s对象分类" class="headerlink" title="K8s对象分类"></a>K8s对象分类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1.workload.</span><br><span class="line">  工作负载: Pod,Controllers:Deployment&#x2F;StatefulSet&#x2F;DaemonSet&#x2F;Job</span><br><span class="line">2.discovery&amp;loadbalance</span><br><span class="line">  Service,Endpoint,Ingress</span><br><span class="line">3.config&amp;store</span><br><span class="line">  Configmap,Secret,Volume,PersistentVolumeClaim</span><br><span class="line">4.cluster</span><br><span class="line"> Node&#x2F;Namespace PersistentVolume ClusterRole&#x2F;ClusterRoleBinding ResourceQuota.</span><br></pre></td></tr></table></figure>
+<h4 id="Pod对象"><a href="#Pod对象" class="headerlink" title="Pod对象"></a>Pod对象</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Pod -&gt; 集群调度基本单元</span><br><span class="line"> 1.Pod是集群中可以创建和部署的最小且最简的k8s对象单元.</span><br><span class="line"> 2.Pod是封装.它封装了应用容器,存储资源,独立的网络IP以及决定网络如何运行的策略选项.  </span><br><span class="line"> 3.每个Pod预置一个Pause容器,名字空间,IPC资源,网络和存储资源被Pod内其它容器共享.Pod中所有容器紧密协作,并且作为一个整体被管理、调度、运行.</span><br></pre></td></tr></table></figure>
+<h4 id="Pod对象生命周期"><a href="#Pod对象生命周期" class="headerlink" title="Pod对象生命周期"></a>Pod对象生命周期</h4><p><img src="/2020/05/01/k8s/pod.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="service"><a href="#service" class="headerlink" title="service"></a>service</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Service:与云原生应用中微服务概念一一对应.</span><br><span class="line">1.k8s集群为每一个Service分配一个集群唯一IP地址,在Service的生命周期内,该IP地址不变,</span><br><span class="line">  在内部DNS的支持下,轻松实现服务发现机制.</span><br><span class="line">2.Service通过Label selector关联到实际支撑业务运行的Pod上,并通过集群内置的服务负载均衡将服务请求分发到后端Pod上.</span><br><span class="line">3.设置nodeport或loadbalancer机制实现集群外部对Service的访问.</span><br></pre></td></tr></table></figure>
+<h4 id="controllers"><a href="#controllers" class="headerlink" title="controllers"></a>controllers</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">1.Controller用于保证集群内一组Pod能始终按照某种期望的状态(desired state)正常运行.</span><br><span class="line">2.状态-&gt;Pod副本数量、节点选择、资源约束、持久化数据维持.</span><br><span class="line">3.K8s支持多种Controller,常用的Deployment、replicaset、stateful、daemonset等.</span><br><span class="line">ReplicaSet:确保健康Pod的副本数量始终满足用户定义的数量.</span><br><span class="line">    1.前身: ReplicationController(rc).</span><br><span class="line">    2.相比rc,增加集合式label selector支持.</span><br><span class="line">    3.支持单独使用,但更多隐藏在Deployment控制器后面,由deployment自动管理.     </span><br><span class="line">Deployment:为Pod和ReplicaSet提供了声明式的定义(declarative).</span><br><span class="line">    1.用户在deployment文件中描述期望状态,Deployment controller会自动将Pod和Replica Set的实际状态改变为期望状态.</span><br><span class="line">    2.Deployment支持Pod的RollingUpdate,并自动管理ReplicaSet. </span><br><span class="line">    3.Deployment支持将pod rollback到之前任意version(仅限于pod-templete模板改动).</span><br><span class="line">StatefulSet:提供对有状态应用部署和控制支持.</span><br><span class="line">    1.适用场景:稳定的持久化存储、稳定的网络标志、有序部署有序扩展、有序收缩、有序删除、有序自动滚动升级等.</span><br><span class="line">    2.Pod存储必须由PersistentVolume Provisioner根据请求的Storage class进行配置,或由管理员预先配置好.</span><br><span class="line">    3.考虑数据安全性,伸缩与删除StatefulSet不会删除关联的存储;另外statefulset目前要求headless Service负责Pod网络身份,用户有责任创建此服务.</span><br><span class="line">DaemonSet: 保证在每个Node上运行一个Pod副本.</span><br><span class="line">    1.适用场景: 系统Daemon程序,监控跟踪,日志收集.</span><br><span class="line">    2.kubernates 1.6后,可设置更新策略:支持滚动更新.</span><br><span class="line">    3.可指定Node:nodeSelector,nodeAffinity,podAffinity.</span><br><span class="line">ConfigMap: 向Pod提供非敏感的配置信息.</span><br><span class="line">    1.configmap保持配置数据键值对,可以保存单个属性,也可以用来保存配置文件.</span><br><span class="line">    2.configmap通过命令行基于字面值、文件、或目录创建或通过configmap对象定义文件创建.</span><br><span class="line">    3.configmap可以通过三种方式在Pod中使用:环境变量、容器命令行参数、或以文件形式通过数据卷插件挂载到Pod中.</span><br><span class="line">Secret解决的是集群内密码、token、密钥等敏感数据的配置问题.</span><br><span class="line">    1.常用于ServiceAccount关联,存储在tmpfs文件系统中,Pod删除后,Secret文件也会对应删除.</span><br><span class="line">    2.支持Opaque,kubernates.io&#x2F;Service Account,kubernetes.io&#x2F;dockerconfigjson三种类型.</span><br><span class="line">    3.secret可以以volume或者环境变量方式使用.</span><br></pre></td></tr></table></figure>
+<h2 id="k8s实战"><a href="#k8s实战" class="headerlink" title="k8s实战"></a>k8s实战</h2><h3 id="k8s集群按照-搭建"><a href="#k8s集群按照-搭建" class="headerlink" title="k8s集群按照,搭建"></a>k8s集群按照,搭建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">1.安装准备.</span><br><span class="line">  1.集群划分</span><br><span class="line">      192.168.78.3 -&gt; k8s-master</span><br><span class="line">      192.168.79.4 -&gt; k8s-n1</span><br><span class="line">      192.168.79.5 -&gt; k8s-n2</span><br><span class="line">  2.linux环境配置</span><br><span class="line">      #配置域名</span><br><span class="line">      vi &#x2F;etc&#x2F;hosts</span><br><span class="line">      192.168.78.3  k8s-master</span><br><span class="line">      192.168.78.4  k8s-n1</span><br><span class="line">      192.168.78.5  k8s-n2</span><br><span class="line">      #修改主机名</span><br><span class="line">      [192.168.78.3]$&gt;hostnamectl set-hostname k8s-master</span><br><span class="line">      [192.168.78.4]hostnamectl set-hostname k8s-n1</span><br><span class="line">      [192.168.78.5]hostnamectl set-hostname k8s-n2</span><br><span class="line">      #关闭防火墙</span><br><span class="line">      $&gt;systemctl stop firewalld</span><br><span class="line">      $&gt;systemctl disable firewalld</span><br><span class="line">      #禁用selinux</span><br><span class="line">      $&gt;setenforce 0</span><br><span class="line">      $&gt;vi &#x2F;etc&#x2F;selinux&#x2F;config</span><br><span class="line">        SELINUX&#x3D;disabled</span><br><span class="line">      #关闭swap</span><br><span class="line">      vim &#x2F;etc&#x2F;fstab 或swapoff -a</span><br><span class="line">  3.配置阿里云yum源,docker yum源,k8s yum源.</span><br><span class="line">    #k8s源</span><br><span class="line">    cat &lt;&lt;EOF &gt; &#x2F;etc&#x2F;yum.repos.d&#x2F;kubernetes.repo</span><br><span class="line">    [kubernetes]</span><br><span class="line">    name&#x3D;Kubernetes</span><br><span class="line">    baseurl&#x3D;http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;kubernetes&#x2F;yum&#x2F;repos&#x2F;kubernetes-el7-x86_64</span><br><span class="line">    enabled&#x3D;1</span><br><span class="line">    gpgcheck&#x3D;1</span><br><span class="line">    repo_gpgcheck&#x3D;1</span><br><span class="line">    gpgkey&#x3D;http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;kubernetes&#x2F;yum&#x2F;doc&#x2F;yum-key.gpg</span><br><span class="line">         http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;kubernetes&#x2F;yum&#x2F;doc&#x2F;rpm-package-key.gpg</span><br><span class="line">    EOF</span><br><span class="line">   #docker yum源</span><br><span class="line">   yum-config-manager --add-repo http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;docker-ce&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo</span><br><span class="line">   #centos</span><br><span class="line">   wget -O &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-Base.repo http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;repo&#x2F;Centos-7.repo</span><br><span class="line">   yum cleanall &amp;&amp; yum makecache</span><br><span class="line">2.安装docker.</span><br><span class="line">  yum install -y --setopt&#x3D;obsoletes&#x3D;0 docker-ce</span><br><span class="line">3.安装k8s组件.  </span><br><span class="line">  k8s-master</span><br><span class="line">   #安装etcd</span><br><span class="line">   $&gt;yum install etcd.x86_64 -y</span><br><span class="line">   $&gt;vi &#x2F;etc&#x2F;etcd&#x2F;etcd.conf</span><br><span class="line">   ETCD_LISTEN_CLIENT_URLS&#x3D;&quot;http:&#x2F;&#x2F;0.0.0.0:2379&quot;</span><br><span class="line">   ETCD_ADVERTISE_CLIENT_URLS&#x3D;&quot;http:&#x2F;&#x2F;192.168.6.129:2379&quot;</span><br><span class="line">   $&gt;service etcd start</span><br><span class="line">   安装kubernetes</span><br><span class="line">   $&gt; yum install kubernetes-master.x86_64 -y  #依赖有docker</span><br><span class="line">   $&gt; vim &#x2F;etc&#x2F;kubernetes&#x2F;apiserver</span><br><span class="line">      KUBE_API_ADDRESS&#x3D;&quot;--insecure-bind-address&#x3D;0.0.0.0&quot;</span><br><span class="line">      KUBE_ETCD_SERVERS&#x3D;&quot;--etcd-servers&#x3D;http:&#x2F;&#x2F;192.168.78.1:2379&quot;</span><br><span class="line">   $&gt; vim &#x2F;etc&#x2F;kubernetes&#x2F;config</span><br><span class="line">      KUBE_MASTER&#x3D;&quot;--master&#x3D;http:&#x2F;&#x2F;192.168.6.129:8080&quot;</span><br><span class="line">   启动k8s</span><br><span class="line">   $&gt; systemctl start kube-apiserver.service</span><br><span class="line">   $&gt; systemctl start kube-controller-manager.service</span><br><span class="line">   $&gt; systemctl start kube-scheduler.service</span><br><span class="line">  k8s-node</span><br><span class="line">   $&gt; yum install kubernetes-node.x86_64 -y</span><br><span class="line">   $&gt; vi &#x2F;etc&#x2F;kubernetes&#x2F;config</span><br><span class="line">     KUBE_MASTER&#x3D;&quot;--master&#x3D;http:&#x2F;&#x2F;192.168.78.3:8080&quot;</span><br><span class="line">   $&gt; vi &#x2F;etc&#x2F;kubernetes&#x2F;kubelet</span><br><span class="line">     KUBELET_ADDRESS&#x3D;&quot;--address&#x3D;0.0.0.0&quot;</span><br><span class="line">     KUBELET_HOSTNAME&#x3D;&quot;--hostname-override&#x3D;k8s-n1&quot;</span><br><span class="line">     KUBELET_API_SERVER&#x3D;&quot;--api-servers&#x3D;http:&#x2F;&#x2F;192.168.78.3:8080&quot;</span><br><span class="line">   $&gt;systemctl start kubelet.service</span><br><span class="line">   $&gt;systemctl start kube-proxy.service</span><br><span class="line">3.k8s服务器配置网络</span><br><span class="line">  yum install -y flannel</span><br><span class="line">  sed -i &#39;s#http:&#x2F;&#x2F;127.0.0.1:2379#http:&#x2F;&#x2F;192.168.78.3:2379#g&#39; &#x2F;etc&#x2F;sysconfig&#x2F;flanneld</span><br><span class="line">  master节点</span><br><span class="line">  etcdctl mk &#x2F;atomic.io&#x2F;network&#x2F;config &#39;&#123; &quot;Network&quot;: &quot;172.16.0.0&#x2F;16&quot; &#125;&#39;</span><br><span class="line">4.查看集群节点状态</span><br><span class="line">  $&gt;kubectl get nodes</span><br></pre></td></tr></table></figure>
+<h3 id="k8s集群探索"><a href="#k8s集群探索" class="headerlink" title="k8s集群探索"></a>k8s集群探索</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+		<div>
+			
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+			
+		</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/k8s/" rel="tag"># k8s</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/01/springboot-kubernetes-cloudprimary/" rel="prev" title="springboot_kubernetes_cloudprimary">
+      <i class="fa fa-chevron-left"></i> springboot_kubernetes_cloudprimary
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/17/linux-command/" rel="next" title="linux-command">
+      linux-command <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kubernates基础-开启云原生之门"><span class="nav-number">1.</span> <span class="nav-text">Kubernates基础,开启云原生之门</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#云原生"><span class="nav-number">1.1.</span> <span class="nav-text">云原生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kubernates-面向云原生技术新平台"><span class="nav-number">1.2.</span> <span class="nav-text">kubernates-面向云原生技术新平台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kubernates-架构与组件"><span class="nav-number">1.3.</span> <span class="nav-text">kubernates 架构与组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#整体架构"><span class="nav-number">1.3.1.</span> <span class="nav-text">整体架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#master组件简单介绍"><span class="nav-number">1.3.2.</span> <span class="nav-text">master组件简单介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Node组件"><span class="nav-number">1.3.3.</span> <span class="nav-text">Node组件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kubernetes-基础概念"><span class="nav-number">1.4.</span> <span class="nav-text">kubernetes 基础概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Kubernetes对象"><span class="nav-number">1.4.1.</span> <span class="nav-text">Kubernetes对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Kubernetes对象模型"><span class="nav-number">1.4.2.</span> <span class="nav-text">Kubernetes对象模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#K8s对象分类"><span class="nav-number">1.4.3.</span> <span class="nav-text">K8s对象分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pod对象"><span class="nav-number">1.4.4.</span> <span class="nav-text">Pod对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pod对象生命周期"><span class="nav-number">1.4.5.</span> <span class="nav-text">Pod对象生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#service"><span class="nav-number">1.4.6.</span> <span class="nav-text">service</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#controllers"><span class="nav-number">1.4.7.</span> <span class="nav-text">controllers</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k8s实战"><span class="nav-number">2.</span> <span class="nav-text">k8s实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s集群按照-搭建"><span class="nav-number">2.1.</span> <span class="nav-text">k8s集群按照,搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s集群探索"><span class="nav-number">2.2.</span> <span class="nav-text">k8s集群探索</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="vicyor"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">vicyor</p>
+  <div class="site-description" itemprop="description">大路且慢慢,咱一步一步走完.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vicyor" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vicyor" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2457569580@qq.com" title="E-Mail → mailto:2457569580@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vicyor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">819k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">12:25</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = visitors.getAttribute('id').trim();
+      var title = visitors.getAttribute('data-flag-title').trim();
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.log('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return element.getAttribute('id').trim();
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=m9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'm9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz',
+            'X-LC-Key': 'g7WSuE6aDmunoX4rgyBN7SJa',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'qQhr9rNGJh6YalJA0mfaaurx-gzGzoHsz',
+    appKey: 'kJy8NJeOTMPnxQ3zLihOcnw3',
+    placeholder: "请留下您的宝贵评论",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+	
+		 <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		 <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
