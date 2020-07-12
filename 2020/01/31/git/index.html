@@ -53,7 +53,7 @@
 <meta property="og:description" content="Git是目前世界上最先进的分布式版本控制系统">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-01-31T04:12:06.000Z">
-<meta property="article:modified_time" content="2020-07-11T01:00:41.364Z">
+<meta property="article:modified_time" content="2020-07-12T13:41:10.981Z">
 <meta property="article:author" content="vicyor">
 <meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary">
@@ -206,7 +206,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-11 09:00:41" itemprop="dateModified" datetime="2020-07-11T09:00:41+08:00">2020-07-11</time>
+                <time title="修改时间：2020-07-12 21:41:10" itemprop="dateModified" datetime="2020-07-12T21:41:10+08:00">2020-07-12</time>
               </span>
 
           
@@ -236,14 +236,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.5k</span>
+              <span>3.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -265,9 +265,9 @@
 <h4 id="git-冲突解决"><a href="#git-冲突解决" class="headerlink" title="git 冲突解决"></a>git 冲突解决</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1.冲突产生的情况.</span><br><span class="line">  1.A某修改 push a文件了.     -&gt;&quot;abc&quot;</span><br><span class="line">  2.B某未pull,修改 a文件,并add,commit,push.   -&gt;&quot;hello&quot;</span><br><span class="line">  3.B报错</span><br><span class="line">2.解决方式</span><br><span class="line">  1.B 通过git pull </span><br><span class="line">  2.git将冲突合并到a文件.</span><br><span class="line">    &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line">    hello     #B改的</span><br><span class="line">    &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">    abc       #A改的</span><br><span class="line">    &gt;&gt;&gt;&gt;&gt;&gt;&gt; a216729b592cf2a0800f2a2fe012a003fdca523f</span><br><span class="line">  3.解决方式,B主动与A商量,在B上改好,然后由B提交</span><br><span class="line">    git add a文件</span><br><span class="line">    git commit</span><br><span class="line">    git push</span><br></pre></td></tr></table></figure>
 <h4 id="git-忽略文件"><a href="#git-忽略文件" class="headerlink" title="git 忽略文件"></a>git 忽略文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.gitignore</span><br><span class="line">1.格式.</span><br><span class="line">  &#x2F;dir&#x2F;   忽略dir目录及其子文件</span><br><span class="line">  *.zip   忽略zip文件</span><br><span class="line">  &#x2F;path&#x2F;file 过滤某个具体的文件</span><br><span class="line">  !index.html 不过滤index.html</span><br></pre></td></tr></table></figure>
 <h4 id="git-远程分支拉取"><a href="#git-远程分支拉取" class="headerlink" title="git 远程分支拉取"></a>git 远程分支拉取</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">taps:不要本地通过 git branch创建分支,要拉取.</span><br><span class="line">git fetch origin developer #拉取developer分支</span><br><span class="line">git branch -a #查看所有分支</span><br><span class="line">git checkout remotes&#x2F;origin&#x2F;developer #切换远程分支</span><br></pre></td></tr></table></figure>
-
-
-
+<h2 id="git进阶"><a href="#git进阶" class="headerlink" title="git进阶"></a>git进阶</h2><h3 id="git"><a href="#git" class="headerlink" title=".git"></a>.git</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.git文件夹存储了git本地仓库master分支的 commit ID 和 跟踪的远程仓库(可以有多个远程仓库)分支orign&#x2F;master的commit ID.</span><br><span class="line">.git&#x2F;refs&#x2F;head -&gt; 本地分支</span><br><span class="line">.git&#x2F;refs&#x2F;remotes -&gt; 远程分支</span><br></pre></td></tr></table></figure>
+<h3 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge"></a>git merge</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">将某个分支与当前分支合并.</span><br><span class="line">例子: </span><br><span class="line">当master代码改动了，需要更新开发分支（dev）上的代码</span><br><span class="line">    git checkout master </span><br><span class="line">    git pull </span><br><span class="line">    git checkout dev</span><br><span class="line">    git merge master </span><br><span class="line">    git push -u origin dev</span><br><span class="line">开发分支（dev）上的代码达到上线的标准后，要合并到 master 分支</span><br><span class="line">    git checkout dev</span><br><span class="line">    git pull</span><br><span class="line">    git checkout master</span><br><span class="line">    git merge dev</span><br><span class="line">    git push -u origin master</span><br></pre></td></tr></table></figure>
+<h3 id="git-fetch-与-git-pull"><a href="#git-fetch-与-git-pull" class="headerlink" title="git fetch 与   git pull"></a>git fetch 与   git pull</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.fetch  -&gt;  从远程获取最新版本到本地,不会自动merge.</span><br><span class="line">  git fetch orgin master             &#x2F;&#x2F;将远程仓库的master分支下载到本地当前branch中</span><br><span class="line">  git log -p master origin&#x2F;master    &#x2F;&#x2F;比较本地的master分支和origin&#x2F;master分支的差别</span><br><span class="line">  git merge origin&#x2F;master            &#x2F;&#x2F;合并</span><br><span class="line">2.pull  -&gt;  fetch + merge.</span><br><span class="line">    不推荐.</span><br></pre></td></tr></table></figure>
 
 
 
@@ -354,7 +354,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Git基础"><span class="nav-number">1.</span> <span class="nav-text">Git基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍"><span class="nav-number">1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git和GitHub"><span class="nav-number">1.2.</span> <span class="nav-text">Git和GitHub</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git的使用"><span class="nav-number">1.3.</span> <span class="nav-text">Git的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#工作流程"><span class="nav-number">1.3.1.</span> <span class="nav-text">工作流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#本地仓库操作"><span class="nav-number">1.3.2.</span> <span class="nav-text">本地仓库操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分支管理"><span class="nav-number">1.3.3.</span> <span class="nav-text">分支管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#git-冲突解决"><span class="nav-number">1.3.4.</span> <span class="nav-text">git 冲突解决</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#git-忽略文件"><span class="nav-number">1.3.5.</span> <span class="nav-text">git 忽略文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#git-远程分支拉取"><span class="nav-number">1.3.6.</span> <span class="nav-text">git 远程分支拉取</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Git基础"><span class="nav-number">1.</span> <span class="nav-text">Git基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍"><span class="nav-number">1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git和GitHub"><span class="nav-number">1.2.</span> <span class="nav-text">Git和GitHub</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git的使用"><span class="nav-number">1.3.</span> <span class="nav-text">Git的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#工作流程"><span class="nav-number">1.3.1.</span> <span class="nav-text">工作流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#本地仓库操作"><span class="nav-number">1.3.2.</span> <span class="nav-text">本地仓库操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分支管理"><span class="nav-number">1.3.3.</span> <span class="nav-text">分支管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#git-冲突解决"><span class="nav-number">1.3.4.</span> <span class="nav-text">git 冲突解决</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#git-忽略文件"><span class="nav-number">1.3.5.</span> <span class="nav-text">git 忽略文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#git-远程分支拉取"><span class="nav-number">1.3.6.</span> <span class="nav-text">git 远程分支拉取</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git进阶"><span class="nav-number">2.</span> <span class="nav-text">git进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#git"><span class="nav-number">2.1.</span> <span class="nav-text">.git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-merge"><span class="nav-number">2.2.</span> <span class="nav-text">git merge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-fetch-与-git-pull"><span class="nav-number">2.3.</span> <span class="nav-text">git fetch 与   git pull</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -426,7 +426,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">12:27</span>
+    <span title="站点阅读时长">12:28</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
   </div>
