@@ -139,12 +139,12 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">40</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">41</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">38</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">39</span></a>
 
   </li>
   </ul>
@@ -169,6 +169,122 @@
             
 
   <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/07/11/apollo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="vicyor">
+      <meta itemprop="description" content="大路且慢慢,咱一步一步走完.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vicyor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/11/apollo/" class="post-title-link" itemprop="url">apollo</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-11 11:27:22" itemprop="dateCreated datePublished" datetime="2020-07-11T11:27:22+08:00">2020-07-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-12 19:04:03" itemprop="dateModified" datetime="2020-07-12T19:04:03+08:00">2020-07-12</time>
+              </span>
+
+          
+            <span id="/2020/07/11/apollo/" class="post-meta-item leancloud_visitors" data-flag-title="apollo" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/07/11/apollo/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/11/apollo/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="灰度发布"><a href="#灰度发布" class="headerlink" title="灰度发布"></a>灰度发布</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">灰度发布 - 黑和白之间,平滑过渡的一种方式.</span><br><span class="line">使用灰度发布进行A&#x2F;B testing,让一部分用户继续用产品特性A,一部分用户用产品特性B.</span><br><span class="line">若用户对B没有啥反对意见,就扩大B的范围,将所有用户迁移到B上面.</span><br><span class="line">灰度发布确保系统的稳定,在初始灰度的时候可以发现、调整问题，保证其影响速度.</span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line">### Apollo支持4个维度管理key-value格式的配置</span><br></pre></td></tr></table></figure>
+<p>1.application - 应用.<br>2.enviroment  - 环境.<br>3.cluster     - 集群.<br>4.namespace   - 命名空间.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### 配置基本概念</span><br></pre></td></tr></table></figure>
+<p>1.配置是独立于程序的只读变量.<br>   常见的配置有：DB Connection Str、Thread Pool Size、Buffer Size、Request Timeout、Feature Switch、Server Urls等.<br>2.配置的加载方式.<br>    程序内部hard code，配置文件，环境变量，启动参数，基于数据库.<br>3.配置的治理.<br>  1.权限的控制. 对配置的修改必须有比较完善的权限控制.<br>  2.不同环境、集群配置管理.<br>  3.框架类组件配置管理. - cat客户端的配置.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## Why Apollo</span><br></pre></td></tr></table></figure>
+<p>1.统一管理不同环境、不同集群的配置.<br>  namespace -&gt; 支持多个不同的应用共享同一份配置，允许应用对共享的配置进行覆盖.<br>2.配置修改实时生效.<br>    热发布<br>3.版本发布管理.<br>    版本  -&gt; 配置回滚.<br>4.灰度发布.<br>5.权限管理、发布审核、操作审计.<br>6.客户端配置信息监控.<br>7.java/.Net原生客户端.<br>  Spring PlaceHolder,Annotation,SpringBoot的ConfigurationProperties.<br>8.提供开发平台API.<br>9.部署简单.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## Apollo at a glance</span><br><span class="line">### 基础模型</span><br></pre></td></tr></table></figure>
+<p>1.用户在配置中心对配置进行修改并发布.<br>2.配置中心通知Apollo客户端有配置更新.<br>3.Apollo客户端从配置中心拉取最新的配置,更新本地配置并通知到应用.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## Apollo in depth</span><br><span class="line">### 核心概念</span><br></pre></td></tr></table></figure>
+<p>1.application.<br>  标识 – appId.<br>2.environment.<br>  环境 – Seystem Property 或 server.properties。<br>3.cluster.<br>  集群 – 按照数据中心划分.<br>  默认对应的配置为server.properties中的idc属性.<br>4.namespace.<br>  一个应用下不同配置的分组.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">## 微服务架构实战</span><br><span class="line">### 微服务配置中心Apollo架构和实践</span><br><span class="line">#### 业务需求</span><br></pre></td></tr></table></figure>
+<p>1.同一个配置在不同时间点的值不同.<br>    如商品如果卖的特别火爆,需要调整为每人限购2个.<br>2.传统应用配置问题.<br>   1.配置使用静态配置,无法动态修改.<br>   2.配置散乱,格式不标准.<br>     xml/properties/DB.<br>   3.容易发生生产事故.<br>          将非生产的配置带到生产上,引发事故.<br>   4.配置修改麻烦,周期长.<br>          修改配置并动态部署后,特别费时费力.<br>   5.配置信息缺少安全审计和版本控制功能.<br>3.配置中心对上述问题的解决.<br>   1.集中式配置,所有配置信息存放在配置中心.<br>   2.配置中心统一管理格式.<br>   3.环境隔离,不同的环境对应不同的配置,互不干扰.<br>   4.配置集中一次修改,实时通知所有客户端.<br>   5.所有修改存在历史记录,方便查找谁和时间.<br>     可按需回退到历史版本.<br>4.现在核心配置需求.<br>   1.交互件和配置分离.<br>   2.抽象标准化.<br>   3.集中式.<br>   4.高可用.<br>   5.实时性.<br>   6.治理.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### 配置定义和场景</span><br></pre></td></tr></table></figure>
+<p>1.静态配置.<br>  1.环境相关.<br>        数据库/中间件/其它服务的连接字符串.<br>  2.安全配置.<br>        用户名/密码/令牌/许可证书.<br>2.动态配置.<br>  1.应用配置.<br>        请求超时、线程池、队列、缓存、数据库连接池的容量、日志级别、限流熔断阈值、黑白名单.<br>  2.功能开关.<br>        蓝绿发布、灰度开关、降级开关，HA高可用开关，DB迁移.<br>        蓝绿发布   -&gt;  蓝色  -&gt; Version N ;<br>                绿色  -&gt; Version N+1 ;<br>                蓝色版本和绿色版本的完全切换(负载均衡、反向代理、路由).<br>    灰度发布   -&gt;  黑和白之间,平滑过渡(20%-80%-100%)的一种方式.<br>      AB测试  -&gt;  应用有2个或多个版本,让组成成分相同的访客群组(目标人群)随机访问这些版本.<br>                收集各群组用户体验和业务数据,最后分析并评估出最好的版本并采用(或针对人群使用不同的A/B版本).<br>    功能降级<br>       DDOS攻击  -&gt;  (Distributed Denial of Service),处于不同位置的多个攻击者同时向一个或数个目标发动攻击.<br>                     或者一个攻击者控制了位于不同位置的多台机器并利用这些机器对受害者同时实施攻击.<br>    DB/Schema迁移(Migration)<br>       feature flag - 功能开关标志位<br>    例子:<br>       将数据从mongoDB迁移到Dynamo数据库.<br>        状态                  mongoDB     Dynamo<br>        初始状态           读写 100%<br>        早期金丝雀写     读100%      。。。。。<br>        。。。。。。。<br>        。。。。。。<br>                            读写100%<br>  3.业务配置.<br>        促销规则、贷款额度、利率等业务参数、A/B测试.<br>```</p>
+
+      
+    </div>
+
+    
+    
+    
+		<div>
+			
+		</div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
   
   
@@ -1140,116 +1256,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/05/27/spring-security/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.png">
-      <meta itemprop="name" content="vicyor">
-      <meta itemprop="description" content="大路且慢慢,咱一步一步走完.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Vicyor">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/27/spring-security/" class="post-title-link" itemprop="url">spring-security</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-05-27 15:01:33" itemprop="dateCreated datePublished" datetime="2020-05-27T15:01:33+08:00">2020-05-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-11 09:00:39" itemprop="dateModified" datetime="2020-07-11T09:00:39+08:00">2020-07-11</time>
-              </span>
-
-          
-            <span id="/2020/05/27/spring-security/" class="post-meta-item leancloud_visitors" data-flag-title="spring-security" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/05/27/spring-security/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/27/spring-security/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>5.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>spring security 是一个功能强大的框架,致力于为java应用程序提供身份验证和授权.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/27/spring-security/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-		<div>
-			
-		</div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1300,14 +1306,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">41</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1350,13 +1356,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">819k</span>
+    <span title="站点总字数">821k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">12:25</span>
+    <span title="站点阅读时长">12:27</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
   </div>
