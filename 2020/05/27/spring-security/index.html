@@ -54,7 +54,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://vicyor.gitee.io/2020/05/27/spring-security/1.png">
 <meta property="article:published_time" content="2020-05-27T07:01:33.000Z">
-<meta property="article:modified_time" content="2020-07-11T01:00:39.707Z">
+<meta property="article:modified_time" content="2020-08-03T08:19:48.172Z">
 <meta property="article:author" content="vicyor">
 <meta property="article:tag" content="spring">
 <meta property="article:tag" content="security">
@@ -145,12 +145,12 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">41</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">45</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">39</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">45</span></a>
 
   </li>
   </ul>
@@ -209,7 +209,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-11 09:00:39" itemprop="dateModified" datetime="2020-07-11T09:00:39+08:00">2020-07-11</time>
+                <time title="修改时间：2020-08-03 16:19:48" itemprop="dateModified" datetime="2020-08-03T16:19:48+08:00">2020-08-03</time>
               </span>
 
           
@@ -239,14 +239,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.9k</span>
+              <span>6.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -273,6 +273,7 @@
 <h2 id="Oauth"><a href="#Oauth" class="headerlink" title="Oauth"></a>Oauth</h2><h3 id="四种授权模式"><a href="#四种授权模式" class="headerlink" title="四种授权模式"></a>四种授权模式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">taps:认证服务器如何判断用户是否登录?</span><br><span class="line">认证服务器和用户浏览器端存在唯一的cookie.ps:浏览器和每个服务器都会有cookie.所以和认证服务器之间也有cookie.</span><br><span class="line">taps:资源服务器如何判断用户是否登录?</span><br><span class="line">用户在认证服务器登陆后,会将token存到资源服务器session中.</span><br><span class="line">taps:如何做到单点登录?</span><br><span class="line">用户访问其它的资源，会触发去认证服务器登录,认证服务器发现其已登录(cookie),就直接返回token,其它资源服务器将token存入session中.</span><br><span class="line">1.授权码模式.</span><br><span class="line">  用户先在认证服务器登录后，资源服务器获取code,资源服务器再根据code去获取token，将token存到session.</span><br><span class="line">2.简化模式.</span><br><span class="line">  用户在认证服务器登录后,资源服务器直接获取token,并存到session中.</span><br><span class="line">3.密码模式.</span><br><span class="line">   资源服务器直接将认证信息发给认证服务器,认证服务器返回token.</span><br><span class="line">4.客户端模式(无用户模式).</span><br><span class="line">   资源服务器发自己的身份信息给认证服务器,认证服务器返回token.</span><br></pre></td></tr></table></figure>
 <h3 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">浏览器</span><br><span class="line">客户端服务器</span><br><span class="line">资源服务器</span><br><span class="line">认证服务器</span><br></pre></td></tr></table></figure>
 <h3 id="oauth单点登录过程"><a href="#oauth单点登录过程" class="headerlink" title="oauth单点登录过程"></a>oauth单点登录过程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">以授权码模式介绍.</span><br><span class="line">1.用户访问A服务器资源.A服务器判断用户有没有登录.</span><br><span class="line">2.用户未登录,则将用户引向认证服务器登录.</span><br><span class="line">3.用户登录后，认证服务器会重定向到A服务器的认证URL.</span><br><span class="line">4.A服务器处理重定向请求，获取URL中的code，根据code去认证服务器加载token,放入session中，认证成功.</span><br></pre></td></tr></table></figure>
+<h3 id="oauth单点登录补充"><a href="#oauth单点登录补充" class="headerlink" title="oauth单点登录补充"></a>oauth单点登录补充</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">已经登录的用户访问B服务器,B服务器如何操作?</span><br><span class="line">B会先判断用户没有登录(session中无token),随后重定向认证服务器.</span><br><span class="line">由于用户和认证服务器之间的session是浏览器与认证服务器关联的，保留之前A登录时候的token,所以全局登录成功,返回A之前登录的code,</span><br><span class="line">B拿到code后会申请token并放到自己的session中.</span><br></pre></td></tr></table></figure>
 <h3 id="oauth单点注销过程"><a href="#oauth单点注销过程" class="headerlink" title="oauth单点注销过程"></a>oauth单点注销过程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.用户在某客户端发起注销请求.</span><br><span class="line">2.某客户端服务器会向认证服务器请求注销.</span><br><span class="line">3.认证服务器根据客户端携带的token,去向所有具有该token的客户端发送销毁请求.</span><br><span class="line">4.其它客户端接收销毁请求,销毁对应的token.</span><br></pre></td></tr></table></figure>
 <h2 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h2><h3 id="角色-1"><a href="#角色-1" class="headerlink" title="角色"></a>角色</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">浏览器</span><br><span class="line">CAS Client</span><br><span class="line">CAS Server</span><br></pre></td></tr></table></figure>
 <h3 id="CAS登录过程"><a href="#CAS登录过程" class="headerlink" title="CAS登录过程"></a>CAS登录过程</h3><p><img src="/2020/05/27/spring-security/1.png" alt></p>
@@ -372,7 +373,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RBAC"><span class="nav-number">1.</span> <span class="nav-text">RBAC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#认证"><span class="nav-number">2.</span> <span class="nav-text">认证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#默认过滤器链顺序"><span class="nav-number">2.1.</span> <span class="nav-text">默认过滤器链顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它过滤器"><span class="nav-number">2.2.</span> <span class="nav-text">其它过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#认证过程"><span class="nav-number">2.3.</span> <span class="nav-text">认证过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权限管理"><span class="nav-number">3.</span> <span class="nav-text">权限管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#鉴权过程"><span class="nav-number">3.1.</span> <span class="nav-text">鉴权过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JWT"><span class="nav-number">4.</span> <span class="nav-text">JWT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringSecurity集成JWT"><span class="nav-number">4.1.</span> <span class="nav-text">SpringSecurity集成JWT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">4.1.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebSecurityConfiguration"><span class="nav-number">4.1.2.</span> <span class="nav-text">WebSecurityConfiguration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用密登录成功钩子"><span class="nav-number">4.1.3.</span> <span class="nav-text">用密登录成功钩子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JwtAuthenticationFilter"><span class="nav-number">4.1.4.</span> <span class="nav-text">JwtAuthenticationFilter</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Oauth"><span class="nav-number">5.</span> <span class="nav-text">Oauth</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#四种授权模式"><span class="nav-number">5.1.</span> <span class="nav-text">四种授权模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#角色"><span class="nav-number">5.2.</span> <span class="nav-text">角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oauth单点登录过程"><span class="nav-number">5.3.</span> <span class="nav-text">oauth单点登录过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oauth单点注销过程"><span class="nav-number">5.4.</span> <span class="nav-text">oauth单点注销过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS"><span class="nav-number">6.</span> <span class="nav-text">CAS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#角色-1"><span class="nav-number">6.1.</span> <span class="nav-text">角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS登录过程"><span class="nav-number">6.2.</span> <span class="nav-text">CAS登录过程</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RBAC"><span class="nav-number">1.</span> <span class="nav-text">RBAC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#认证"><span class="nav-number">2.</span> <span class="nav-text">认证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#默认过滤器链顺序"><span class="nav-number">2.1.</span> <span class="nav-text">默认过滤器链顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它过滤器"><span class="nav-number">2.2.</span> <span class="nav-text">其它过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#认证过程"><span class="nav-number">2.3.</span> <span class="nav-text">认证过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权限管理"><span class="nav-number">3.</span> <span class="nav-text">权限管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#鉴权过程"><span class="nav-number">3.1.</span> <span class="nav-text">鉴权过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JWT"><span class="nav-number">4.</span> <span class="nav-text">JWT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringSecurity集成JWT"><span class="nav-number">4.1.</span> <span class="nav-text">SpringSecurity集成JWT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">4.1.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebSecurityConfiguration"><span class="nav-number">4.1.2.</span> <span class="nav-text">WebSecurityConfiguration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用密登录成功钩子"><span class="nav-number">4.1.3.</span> <span class="nav-text">用密登录成功钩子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JwtAuthenticationFilter"><span class="nav-number">4.1.4.</span> <span class="nav-text">JwtAuthenticationFilter</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Oauth"><span class="nav-number">5.</span> <span class="nav-text">Oauth</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#四种授权模式"><span class="nav-number">5.1.</span> <span class="nav-text">四种授权模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#角色"><span class="nav-number">5.2.</span> <span class="nav-text">角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oauth单点登录过程"><span class="nav-number">5.3.</span> <span class="nav-text">oauth单点登录过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oauth单点登录补充"><span class="nav-number">5.4.</span> <span class="nav-text">oauth单点登录补充</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oauth单点注销过程"><span class="nav-number">5.5.</span> <span class="nav-text">oauth单点注销过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS"><span class="nav-number">6.</span> <span class="nav-text">CAS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#角色-1"><span class="nav-number">6.1.</span> <span class="nav-text">角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS登录过程"><span class="nav-number">6.2.</span> <span class="nav-text">CAS登录过程</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -388,14 +389,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -438,13 +439,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">822k</span>
+    <span title="站点总字数">860k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">12:28</span>
+    <span title="站点阅读时长">13:02</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
   </div>

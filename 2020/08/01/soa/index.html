@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://vicyor.gitee.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="关于dubbo的soaproxy,soa-mock,soa监控.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="soa-proxy">
+<meta property="og:url" content="http://vicyor.gitee.io/2020/08/01/soa/index.html">
+<meta property="og:site_name" content="Vicyor">
+<meta property="og:description" content="关于dubbo的soaproxy,soa-mock,soa监控.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/08/01/soa/soa-mock.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/08/01/soa/soa-monitor.png">
+<meta property="article:published_time" content="2020-08-01T04:51:48.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:25:00.048Z">
+<meta property="article:author" content="vicyor">
+<meta property="article:tag" content="dubbo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vicyor.gitee.io/2020/08/01/soa/soa-mock.png">
+
+<link rel="canonical" href="http://vicyor.gitee.io/2020/08/01/soa/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>soa-proxy | Vicyor</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vicyor</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">45</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">45</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/08/01/soa/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="vicyor">
+      <meta itemprop="description" content="大路且慢慢,咱一步一步走完.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vicyor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          soa-proxy
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-01 12:51:48" itemprop="dateCreated datePublished" datetime="2020-08-01T12:51:48+08:00">2020-08-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-03 09:25:00" itemprop="dateModified" datetime="2020-08-03T09:25:00+08:00">2020-08-03</time>
+              </span>
+
+          
+            <span id="/2020/08/01/soa/" class="post-meta-item leancloud_visitors" data-flag-title="soa-proxy" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/08/01/soa/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/01/soa/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>22k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>20 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>关于dubbo的soaproxy,soa-mock,soa监控.</p>
+<a id="more"></a>
+<h2 id="soa-proxy"><a href="#soa-proxy" class="headerlink" title="soa-proxy"></a>soa-proxy</h2><h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">前端&#x2F;php  send Http Request 向soa proxy 发送http request.</span><br><span class="line">    -&gt; soa proxy (dubbo Service).</span><br><span class="line">        -&gt; 从zookeeper上获取ProxyInvokeService的所有提供者,并过滤出真实服务的提供者(可能是路由过滤).</span><br><span class="line">        -&gt; 向provider发起dubbo调用.</span><br><span class="line">           -&gt; 服务提供者调用对应服务实现,返回结果.</span><br><span class="line">        -&gt; 返回provider提供的结果.</span><br></pre></td></tr></table></figure>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dubbo-provider.xml</span><br><span class="line"> &lt;bean id&#x3D;&quot;proxyInvokeService&quot; class&#x3D;&quot;com.xxx.soa.common.proxy.service.impl.ProxyInvokeServiceImpl&quot;&gt;&lt;&#x2F;bean&gt;</span><br><span class="line"> &lt;dubbo:service interface&#x3D;&quot;com.xxx.soa.common.proxy.service.ProxyInvokeService&quot;</span><br><span class="line">              ref&#x3D;&quot;proxyInvokeService&quot; proxyService&#x3D;&quot;com.xxx.AService&quot;&#x2F;&gt;</span><br><span class="line">前端请求格式</span><br><span class="line">  post请求:    http:&#x2F;&#x2F;soa-proxy.dev.internal.weimob.com&#x2F;soa-proxy</span><br><span class="line">        body -&gt; applicationName,serviceName,methodName,parameterInput.</span><br></pre></td></tr></table></figure>
+<h2 id="soa-mock"><a href="#soa-mock" class="headerlink" title="soa-mock"></a>soa-mock</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">服务开发过程中,对接双方需要联调接口，在服务提供方未开发部署好服务xxService时，可在mock服务配置xxService，并完善返回值信息。</span><br><span class="line">通过mock服务可为调用方提供一个完整的服务调用流程，使服务开发过程更加顺畅。</span><br></pre></td></tr></table></figure>
+<h3 id="服务调用流程"><a href="#服务调用流程" class="headerlink" title="服务调用流程"></a>服务调用流程</h3><p><img src="/2020/08/01/soa/soa-mock.png" alt></p>
+<h3 id="dubbo自带的mock机制"><a href="#dubbo自带的mock机制" class="headerlink" title="dubbo自带的mock机制"></a>dubbo自带的mock机制</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">1.mock其实是服务降级机制,及调用失败会调用mock.</span><br><span class="line">  mock对应的实现应该在consumer端存在.最好和接口放在一起.</span><br><span class="line"> &lt;dubbo:reference id&#x3D;&quot;helloService&quot; interface&#x3D;&quot;com.vicyor.service.HelloService&quot; mock&#x3D;&quot;true&quot; timeout&#x3D;&quot;1000&quot; check&#x3D;&quot;false&quot;&#x2F;&gt;</span><br><span class="line">实现原理.</span><br><span class="line">    classpath:&#x2F;META-INF&#x2F;dubbo&#x2F;internal&#x2F;com.alibaba.dubbo.rpc.cluster.Cluster中有: </span><br><span class="line">    -&gt;一种负载策略</span><br><span class="line">        mock&#x3D;com.alibaba.dubbo.rpc.cluster.support.wrapper.MockClusterWrapper</span><br><span class="line">        failover&#x3D;...</span><br><span class="line">        failfast&#x3D;...</span><br><span class="line">            String value &#x3D; url.getMethodParameter(invocation.getMethodName(), &quot;mock&quot;, Boolean.FALSE.toString()).trim();</span><br><span class="line">            if (value.length() !&#x3D; 0 &amp;&amp; !value.equalsIgnoreCase(&quot;false&quot;)) &#123;</span><br><span class="line">                if (value.startsWith(&quot;force&quot;)) &#123;</span><br><span class="line">                    &#x2F;&#x2F;强制 mock</span><br><span class="line">                    if (logger.isWarnEnabled()) &#123;</span><br><span class="line">                        logger.info(&quot;force-mock: &quot; + invocation.getMethodName() + &quot; force-mock enabled , url : &quot; + this.directory.getUrl());</span><br><span class="line">                    &#125;</span><br><span class="line">    </span><br><span class="line">                    result &#x3D; this.doMockInvoke(invocation, (RpcException)null);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        result &#x3D; this.invoker.invoke(invocation);</span><br><span class="line">                    &#125; catch (RpcException var6) &#123;</span><br><span class="line">                        &#x2F;&#x2F;调用失败用mock</span><br><span class="line">                        if (var6.isBiz()) &#123;</span><br><span class="line">                            throw var6;</span><br><span class="line">                        &#125;</span><br><span class="line">    </span><br><span class="line">                        if (logger.isWarnEnabled()) &#123;</span><br><span class="line">                            logger.info(&quot;fail-mock: &quot; + invocation.getMethodName() + &quot; fail-mock enabled , url : &quot; + this.directory.getUrl(), var6);</span><br><span class="line">                        &#125;</span><br><span class="line">    </span><br><span class="line">                        result &#x3D; this.doMockInvoke(invocation, var6);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                result &#x3D; this.invoker.invoke(invocation);</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="通过泛化调用实现服务测试平台"><a href="#通过泛化调用实现服务测试平台" class="headerlink" title="通过泛化调用实现服务测试平台"></a>通过泛化调用实现服务测试平台</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.服务端. -&gt;GenerticService的服务端.多个服务可以共用一个GenericService</span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericServiceImpl</span> <span class="keyword">implements</span> <span class="title">GenericService</span></span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> Object $invoke(String method, String[] parameterTypes, Object[] args) <span class="keyword">throws</span> GenericException &#123;</span><br><span class="line">            <span class="keyword">if</span> (method.equals(<span class="string">"delete"</span>)) &#123;</span><br><span class="line">            <span class="comment">// 可以从数据库中找对应的mock返回值</span></span><br><span class="line">                <span class="keyword">return</span> <span class="string">"hello, "</span> + args[<span class="number">0</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"no such method"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 服务暴露 - 硬编码</span></span><br><span class="line">    GenericService genericService = <span class="keyword">new</span> GenericServiceImpl();</span><br><span class="line">    ServiceConfig&lt;GenericService&gt; service = <span class="keyword">new</span> ServiceConfig&lt;GenericService&gt;();</span><br><span class="line">    service.setApplication(application);</span><br><span class="line">    service.setInterface(<span class="string">"com.alibaba.dubbo.samples.generic.api.HelloService"</span>);</span><br><span class="line">    service.setRef(genericService);</span><br><span class="line">    service.export();</span><br><span class="line">    ServiceConfig&lt;GenericService&gt; service2 = <span class="keyword">new</span> ServiceConfig&lt;GenericService&gt;();</span><br><span class="line">    service2.setApplication(application);</span><br><span class="line">    service2.setInterface(<span class="string">"com.alibaba.dubbo.samples.generic.api.HiService"</span>);</span><br><span class="line">    service2.setRef(genericService);</span><br><span class="line">    service2.export(); </span><br><span class="line">    ......</span><br><span class="line"> </span><br><span class="line">    在zookeeper上暴漏的是HelloService,....但是,客户端调用的是GenericService.</span><br><span class="line"><span class="number">2</span>.客户端.</span><br><span class="line">  普通调用: 推荐!!!</span><br><span class="line">    ReferenceConfig&lt;GenericService&gt; reference = <span class="keyword">new</span> ReferenceConfig&lt;GenericService&gt;();</span><br><span class="line">    <span class="comment">// 弱类型接口名</span></span><br><span class="line">    reference.setInterface(HiService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    reference.setApplication(application);</span><br><span class="line">    </span><br><span class="line">    HiService hiService = (HiService) reference.get();</span><br><span class="line">    System.out.println(hiService.hi(<span class="string">"dubbo"</span>));</span><br><span class="line"> 泛化调用.</span><br><span class="line">    ReferenceConfig&lt;GenericService&gt; reference = <span class="keyword">new</span> ReferenceConfig&lt;GenericService&gt;();</span><br><span class="line">    <span class="comment">// 弱类型接口名</span></span><br><span class="line">    reference.setInterface(HiService<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    reference.setApplication(application);</span><br><span class="line">    GenericService hiService= reference.get();    </span><br><span class="line">    hiService.$invoke("hi",new String[]&#123;String.class.getName()&#125;,new Object[]&#123;"dubbo"&#125;);</span><br><span class="line"> taps:</span><br><span class="line">    Consumer的GenericImplFilter  -&gt; 将普通调用转成泛化调用,methodName-&gt;$invoke,方法参数类型组装,方法参数组装.</span><br><span class="line">    Provider的GenericFilter      -&gt; 对入参进行序列化,对出参进行反序列化.</span><br></pre></td></tr></table></figure>
+<h3 id="公司实现"><a href="#公司实现" class="headerlink" title="公司实现"></a>公司实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">暂时不太懂,估计和soa-proxy一样.</span><br></pre></td></tr></table></figure>
+<h3 id="dubbo-链路追踪"><a href="#dubbo-链路追踪" class="headerlink" title="dubbo 链路追踪"></a>dubbo 链路追踪</h3><p><img src="/2020/08/01/soa/soa-monitor.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="soa-monitor"><a href="#soa-monitor" class="headerlink" title="soa monitor"></a>soa monitor</h2><h3 id="实现类"><a href="#实现类" class="headerlink" title="实现类"></a>实现类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Span,Tracer 记录链路信息.Tracer提供生成span的静态接口.</span><br><span class="line">TraceInitFilter 拦截http request. 从request header中获取globalticket等链路信息放入RpcContext中,若header中无信息,则生产链路信息.</span><br><span class="line">TraceContextFilter 拦截dubbo provider与consumer的invoke调用</span><br><span class="line">   consumer 从 rpcContext中将信息放到rpcInvocation中</span><br><span class="line">   provider 从rpcInvocation中将信息放入rpcContext中</span><br><span class="line">ConsumerContextFilter(consumer),ContextFilter(provider) 对rpcContext与invocation的处理.</span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line">#### Span</span><br><span class="line">&#96;&#96;&#96;java</span><br><span class="line">&#x2F;&#x2F;调用链传递的基本字段，其值都在 RpcContext中有添加，在rpc调用时，所有信息写入RpcContext</span><br><span class="line">&#x2F;&#x2F;方便解耦</span><br><span class="line">public class Span implements Cloneable&#123;   </span><br><span class="line">   &#x2F;&#x2F; 全局标识</span><br><span class="line">   private String globalTicket;</span><br><span class="line">   &#x2F;&#x2F; parentRpcId</span><br><span class="line">   private String parentRpcId;</span><br><span class="line">   &#x2F;&#x2F; RpcId</span><br><span class="line">   private String rpcId;</span><br><span class="line">   &#x2F;&#x2F; rpcIndex</span><br><span class="line">   private int rpcIndex &#x3D; 1; </span><br><span class="line">   &#x2F;&#x2F; 入口请求Url</span><br><span class="line">   private String rpcEntryUrl;</span><br><span class="line">｝</span><br></pre></td></tr></table></figure>
+<h4 id="Tracer"><a href="#Tracer" class="headerlink" title="Tracer"></a>Tracer</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Tracer</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String RPC_INDEX_DEFAULT = <span class="string">"1"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String RPC_ID_SUFFIX_DEFAULT = <span class="string">".1"</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Span <span class="title">genConsumerSpan</span><span class="params">(String rpcEntryUrl, String globalTicket, String parentRpcId)</span></span>&#123;</span><br><span class="line">        RpcContext rpcContext = RpcContext.getContext();</span><br><span class="line">        <span class="comment">//创建span</span></span><br><span class="line">        Span span = <span class="keyword">new</span> Span();</span><br><span class="line">        span.setRpcEntryUrl(rpcEntryUrl);</span><br><span class="line">        span.setGlobalTicket(globalTicket);</span><br><span class="line">        span.setParentRpcId(parentRpcId);</span><br><span class="line">        String rpcIndex = rpcContext.getRpcIndex();</span><br><span class="line">        <span class="keyword">if</span>(StringUtils.isBlank(rpcIndex))&#123;</span><br><span class="line">            rpcIndex = RPC_INDEX_DEFAULT;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//修改rpcIndex</span></span><br><span class="line">        rpcContext.setRpcIndex(String.valueOf(Integer.valueOf(rpcIndex) + <span class="number">1</span>));</span><br><span class="line">        span.setRpcId(parentRpcId + <span class="string">"."</span> + rpcIndex);</span><br><span class="line">        <span class="keyword">return</span> span;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Span <span class="title">genProviderSpan</span><span class="params">(String rpcEntryUrl, String globalTicket, String parentRpcId)</span></span>&#123;</span><br><span class="line">        <span class="comment">//创建span</span></span><br><span class="line">        Span span = <span class="keyword">new</span> Span();</span><br><span class="line">        span.setRpcEntryUrl(rpcEntryUrl);</span><br><span class="line">        span.setGlobalTicket(globalTicket);</span><br><span class="line">        span.setParentRpcId(parentRpcId);</span><br><span class="line">        span.setRpcId(parentRpcId + RPC_ID_SUFFIX_DEFAULT);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//设置context</span></span><br><span class="line">        RpcContext rpcContext = RpcContext.getContext();</span><br><span class="line">        rpcContext.setRpcEntryUrl(rpcEntryUrl);</span><br><span class="line">        rpcContext.setGlobalTicket(globalTicket);</span><br><span class="line">        rpcContext.setParentRpcId(parentRpcId);</span><br><span class="line">        rpcContext.setRpcId(parentRpcId + RPC_ID_SUFFIX_DEFAULT);</span><br><span class="line">        rpcContext.setRpcIndex(RPC_INDEX_DEFAULT);</span><br><span class="line">        rpcContext.setContextType(Constants.PROVIDER);</span><br><span class="line">        <span class="keyword">return</span> span;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">logLayerTrace</span><span class="params">(HttpServletRequest request, <span class="keyword">int</span> layer)</span></span>&#123;</span><br><span class="line">        logLayerTrace(request.getRequestURL().toString(), request.getHeader(Constants.TRACE_GLOBAL_TICKET_KEY), layer);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">logLayerTrace</span><span class="params">(String requestUrl, String globalTicket, <span class="keyword">int</span> layer)</span> </span>&#123;</span><br><span class="line">        Span span = Tracer.newLayerSpan(requestUrl, globalTicket, layer);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != span) &#123;</span><br><span class="line">            setAttachment(span);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Span <span class="title">newLayerSpan</span><span class="params">(String requestUrl, String globalTicket, <span class="keyword">int</span> layer)</span></span>&#123;</span><br><span class="line">        Span span = <span class="keyword">new</span> Span();</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">null</span> == globalTicket || globalTicket.length() == <span class="number">0</span>)&#123;</span><br><span class="line">            globalTicket = Tracer.createGlobalTicket();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//目前ngnix直接转发到后端服务，必须初始化rpcId，此时rpcId为nginx层所在rpcId，layer从0开始</span></span><br><span class="line">        <span class="keyword">if</span>(layer &lt; <span class="number">0</span>)&#123;</span><br><span class="line">            layer = <span class="number">1</span>;<span class="comment">//初始置为nginx层</span></span><br><span class="line">        &#125;</span><br><span class="line">        StringBuilder rpcId = <span class="keyword">new</span> StringBuilder(<span class="string">"0"</span>);</span><br><span class="line">        StringBuilder parentRpcId = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= layer; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(i == <span class="number">1</span>)&#123;</span><br><span class="line">                rpcId.append(<span class="string">".1"</span>);</span><br><span class="line">                parentRpcId.append(<span class="string">"0"</span>); </span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span> (i &gt; <span class="number">1</span>) &#123;</span><br><span class="line">                rpcId.append(<span class="string">".1"</span>);</span><br><span class="line">                parentRpcId.append(<span class="string">".1"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        span.setGlobalTicket(globalTicket);</span><br><span class="line">        span.setRpcId(rpcId.toString());</span><br><span class="line">        span.setParentRpcId(parentRpcId.toString());  </span><br><span class="line">        span.setRpcIndex(<span class="number">1</span>);</span><br><span class="line">        span.setRpcEntryUrl(genRpcEntryUrl(requestUrl));</span><br><span class="line">        <span class="keyword">return</span> span;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 调用链根节点</span></span><br><span class="line"><span class="comment">     * &lt;pre&gt;传递controller的HttpServletRequest对象进行记录调用链入口&lt;/pre&gt;</span></span><br><span class="line"><span class="comment">     * &lt;pre&gt;默认从head头取出globalTicket&lt;/pre&gt;</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> request</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">logRootTrace</span><span class="params">(HttpServletRequest request)</span> </span>&#123;</span><br><span class="line">        logRootTrace(request, request.getHeader(Constants.TRACE_GLOBAL_TICKET_KEY));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 调用链根节点</span></span><br><span class="line"><span class="comment">     * &lt;pre&gt;传递controller的HttpServletRequest对象进行记录调用链入口&lt;/pre&gt;</span></span><br><span class="line"><span class="comment">     * &lt;pre&gt;globalTicket为空则自动生成&lt;/pre&gt;</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> request</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> globalTicket</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">logRootTrace</span><span class="params">(HttpServletRequest request, String globalTicket)</span> </span>&#123;</span><br><span class="line">        logRootTrace(request.getRequestURL().toString(), globalTicket);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 调用链根节点</span></span><br><span class="line"><span class="comment">     * &lt;pre&gt;chainEntry调用链入口请求地址&lt;/pre&gt;</span></span><br><span class="line"><span class="comment">     * &lt;pre&gt;globalTicket为空则自动生成&lt;/pre&gt;</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> chainEntry</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">logRootTrace</span><span class="params">(String chainEntry)</span> </span>&#123;</span><br><span class="line">        logRootTrace(chainEntry, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 调用链根节点</span></span><br><span class="line"><span class="comment">     * &lt;pre&gt;chainEntry调用链入口请求地址&lt;/pre&gt;</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> chainEntry</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> globalTicket</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">logRootTrace</span><span class="params">(String chainEntry, String globalTicket)</span> </span>&#123;</span><br><span class="line">        Span span = Tracer.newRootSpan(chainEntry, globalTicket);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != span) &#123;</span><br><span class="line">            setAttachment(span);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置同一个线程传递参数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> span</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setAttachment</span><span class="params">(Span span)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">null</span> == span)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        RpcContext context = RpcContext.getContext();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 同一个线程间传递参数</span></span><br><span class="line">        context.setGlobalTicket(span.getGlobalTicket());</span><br><span class="line">        context.setRpcId(span.getRpcId());</span><br><span class="line">        context.setParentRpcId(span.getParentRpcId());</span><br><span class="line">        context.setRpcIndex(String.valueOf(span.getRpcIndex()));</span><br><span class="line">        context.setRpcEntryUrl(span.getRpcEntryUrl());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 生成全局唯一GlobalTicket</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">createGlobalTicket</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> UUID.randomUUID().toString().replaceAll(<span class="string">"-"</span>, <span class="string">""</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取单次调用唯一ID</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">createMonitorTrackId</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> UUID.randomUUID().toString();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取RootSpan</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> serviceName</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> methodName</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> globalTicket</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Span <span class="title">newRootSpan</span><span class="params">(String serviceName, String methodName, String globalTicket)</span> </span>&#123;</span><br><span class="line">        StringBuffer requestUrl = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        requestUrl.append(serviceName).append(<span class="string">"/"</span>).append(methodName);</span><br><span class="line">        <span class="keyword">return</span> newRootSpan(requestUrl.toString(), globalTicket);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取RootSpan</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> requestUrl</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Span <span class="title">newRootSpan</span><span class="params">(String requestUrl)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> newRootSpan(requestUrl, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取RootSpan</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> requestUrl</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> globalTicket</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Span <span class="title">newRootSpan</span><span class="params">(String requestUrl, String globalTicket)</span> </span>&#123;</span><br><span class="line">        Span span = <span class="keyword">new</span> Span();</span><br><span class="line">        </span><br><span class="line">        String rpcEntryUrl = genRpcEntryUrl(requestUrl);</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">null</span> == globalTicket || globalTicket.length() == <span class="number">0</span>)&#123;</span><br><span class="line">            globalTicket = Tracer.createGlobalTicket();</span><br><span class="line">        &#125;</span><br><span class="line">        span.setGlobalTicket(globalTicket);</span><br><span class="line">        <span class="comment">//后端服务根节点parentRpcId为0.1.1</span></span><br><span class="line">        span.setRpcId(Constants.TRACE_RPC_ID_INIT_VALUE);</span><br><span class="line">        <span class="comment">//后端服务父亲节点parentRpcId为0.1</span></span><br><span class="line">        span.setParentRpcId(Constants.TRACE_PARENT_RPC_ID_INIT_VALUE);  </span><br><span class="line">        span.setRpcIndex(<span class="number">1</span>);</span><br><span class="line">        span.setRpcEntryUrl(rpcEntryUrl);</span><br><span class="line">        <span class="keyword">return</span> span;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取调用链入口请求地址</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> requestUrl</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> ip</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">genRpcEntryUrl</span><span class="params">(String requestUrl)</span></span>&#123;</span><br><span class="line">        StringBuilder rpcEntryUrl = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</span><br><span class="line">        String beginTime = sdf.format(<span class="keyword">new</span> Date());</span><br><span class="line">        </span><br><span class="line">        rpcEntryUrl.append(requestUrl)</span><br><span class="line">                    .append(<span class="string">"?ip="</span>).append(ServerUtils.getLocalHostIp())</span><br><span class="line">                    .append(<span class="string">"&amp;beginTime="</span>).append(beginTime);</span><br><span class="line">        <span class="keyword">return</span> rpcEntryUrl.toString();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 计算调用链本地调用Span</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> globalTicket</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> parentRpcId</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> rpcId</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Span <span class="title">genRpcSpan</span><span class="params">(String globalTicket, String parentRpcId, String rpcId, String rpcIndex, String invokeType, String rpcEntryUrl)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">null</span> == globalTicket || <span class="keyword">null</span> == rpcId )&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        Span span = <span class="keyword">new</span> Span();</span><br><span class="line">        <span class="keyword">int</span> rpcIndexValue = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">null</span> != rpcIndex)&#123;</span><br><span class="line">            rpcIndexValue = Integer.valueOf(rpcIndex);</span><br><span class="line">        &#125;</span><br><span class="line">        String currentRpcId = Constants.TRACE_RPC_ID_INIT_VALUE;</span><br><span class="line">        <span class="keyword">if</span> (invokeType.equals(Constants.TRACE_RPC_INVOKE_TYPE_CONSUME)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="number">1</span> == rpcIndexValue) &#123;</span><br><span class="line">                currentRpcId = rpcId + <span class="string">"."</span> + rpcIndexValue;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">int</span> index = rpcId.lastIndexOf(<span class="string">"."</span>);</span><br><span class="line">                <span class="keyword">if</span> (index &gt; -<span class="number">1</span>) &#123;</span><br><span class="line">                    rpcId = rpcId.substring(<span class="number">0</span>, index);</span><br><span class="line">                    currentRpcId = rpcId + <span class="string">"."</span> + rpcIndexValue;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            rpcIndexValue = rpcIndexValue + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (invokeType.equals(Constants.TRACE_RPC_INVOKE_TYPE_PROVIDER)) &#123;</span><br><span class="line">            currentRpcId = rpcId + <span class="string">".1"</span>;</span><br><span class="line">            rpcIndexValue = <span class="number">1</span>; <span class="comment">//重置服务端index值</span></span><br><span class="line">        &#125;</span><br><span class="line">        span.setRpcIndex(rpcIndexValue);</span><br><span class="line">        span.setRpcId(currentRpcId);</span><br><span class="line">        span.setParentRpcId(rpcId);</span><br><span class="line">        span.setGlobalTicket(globalTicket);</span><br><span class="line">        span.setRpcEntryUrl(rpcEntryUrl);</span><br><span class="line">        <span class="keyword">return</span> span;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 计算调用链</span></span><br><span class="line"><span class="comment">     *   &lt;pre&gt;当该节点为root节点时，则使用rpcEntryUrl创建一个root节点&lt;/pre&gt;</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> rpcEntryUrl</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> invokeType</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Span <span class="title">computingCallchain</span><span class="params">(String requestUrl, String invokeType)</span> </span>&#123;</span><br><span class="line">        RpcContext context = RpcContext.getContext();</span><br><span class="line">        Span span = <span class="keyword">null</span>;</span><br><span class="line">        String globalTicket =  context.getGlobalTicket();</span><br><span class="line">        <span class="keyword">if</span> (globalTicket == <span class="keyword">null</span>) &#123; <span class="comment">// 为rootSpan</span></span><br><span class="line">            span = Tracer.newRootSpan(requestUrl, <span class="keyword">null</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            span = Tracer.genRpcSpan(globalTicket, context.getParentRpcId(), context.getRpcId(), context.getRpcIndex(), invokeType, context.getRpcEntryUrl());</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 同一个线程间传递参数</span></span><br><span class="line">        context.setGlobalTicket(span.getGlobalTicket());</span><br><span class="line">        context.setRpcId(span.getRpcId());</span><br><span class="line">        context.setParentRpcId(span.getParentRpcId());</span><br><span class="line">        context.setRpcIndex(String.valueOf(span.getRpcIndex()));</span><br><span class="line">        context.setRpcEntryUrl(span.getRpcEntryUrl());</span><br><span class="line">        <span class="keyword">return</span> span;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="TraceInitFilter"><a href="#TraceInitFilter" class="headerlink" title="TraceInitFilter"></a>TraceInitFilter</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 实现Servlet的filter接口，在项目的web拦截层接入</span><br><span class="line"> * 初始化调用链的信息，并将参数写进RpcContext中，保证dubbo层调用</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Override</span><br><span class="line">public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)</span><br><span class="line">        throws IOException, ServletException &#123;</span><br><span class="line">    final HttpServletRequest httpServletRequest &#x3D; (HttpServletRequest) request;</span><br><span class="line">    final HttpServletResponse httpServletResponse &#x3D; (HttpServletResponse) response;</span><br><span class="line"></span><br><span class="line">    Integer filterErrorCount &#x3D; filterErrorLimitCache.getIfPresent(FILTER_ERROR_LIMIT_KEY);</span><br><span class="line">    if (filterErrorCount &#x3D;&#x3D; null) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            this.doTracer(httpServletRequest, new TracerExecute() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void execute() throws Throwable &#123;</span><br><span class="line">                    boolean enableDetail &#x3D; ApolloConfigUtil.getBooleanConfig(&quot;weimob.tracing.http.server.log.detail.enable&quot;, false);</span><br><span class="line">                    if (enableDetail) &#123;</span><br><span class="line">                        if (supportContentType(httpServletRequest) &amp;&amp; containUrls(httpServletRequest)) &#123;</span><br><span class="line">                            doWrapperFilter(httpServletRequest, httpServletResponse, chain);</span><br><span class="line">                        &#125; else &#123;</span><br><span class="line">                            chain.doFilter(httpServletRequest, httpServletResponse);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        chain.doFilter(httpServletRequest, httpServletResponse);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            filterErrorLimitCache.put(FILTER_ERROR_LIMIT_KEY, 1);</span><br><span class="line">            throw e;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        chain.doFilter(httpServletRequest, httpServletResponse);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public void doTracer(T t, TracerExecute execute) throws RuntimeException &#123;</span><br><span class="line">    &#x2F;&#x2F;t -&gt;httpRequest</span><br><span class="line">    CatContext catContext &#x3D; this.resolveCatContext(t);</span><br><span class="line">    if (catContext !&#x3D; null) &#123;</span><br><span class="line">        Cat.logRemoteCallServer(catContext);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 从request中解析出globalTicket,这里不管是否为空.</span><br><span class="line">    TraceInfo traceInfo &#x3D; this.resolveTraceInfo(t);</span><br><span class="line">    Transaction transaction &#x3D; this.createTransaction(t);</span><br><span class="line">    &#x2F;&#x2F; provider -&gt; 处理http请求,所以是provider端.   </span><br><span class="line">    &#x2F;&#x2F; 若globalTicket为null，则会生成globalTicket，并将其放入到rpcContext中</span><br><span class="line">    Tracer.genProviderSpan(traceInfo.getRpcEntryUrl(), traceInfo.getGlobalTicket(), traceInfo.getParentRpcId());</span><br><span class="line">    ZipkinContext context &#x3D; ZipkinContext.getContext();</span><br><span class="line">    &#x2F;&#x2F; mdc -&gt;  Mapped Diagnostic Contexts ,logback或log4j支持.</span><br><span class="line">    this.trace2Mdc(context);</span><br><span class="line">    Throwable throwable &#x3D; null;</span><br><span class="line"></span><br><span class="line">    try &#123;</span><br><span class="line">        execute.execute();</span><br><span class="line">        if (transaction !&#x3D; null) &#123;</span><br><span class="line">            transaction.setStatus(&quot;0&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Throwable var19) &#123;</span><br><span class="line">        if (transaction !&#x3D; null) &#123;</span><br><span class="line">            throwable &#x3D; var19;</span><br><span class="line">            transaction.setStatus(var19);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        throw new RuntimeException(var19);</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        if (transaction !&#x3D; null) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                this.resolveTransaction(t, traceInfo, throwable, transaction);</span><br><span class="line">            &#125; catch (Exception var18) &#123;</span><br><span class="line">                log.warn(&quot;resolveTransaction exception&quot;, var18);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            try &#123;</span><br><span class="line">                transaction.addData(&quot;globalTicket&quot;, context.getGlobalTicket());</span><br><span class="line">                transaction.addData(&quot;monitorTrackId&quot;, context.getMonitorTrackId());</span><br><span class="line">                transaction.addData(&quot;rpcId&quot;, context.getRpcId());</span><br><span class="line">                transaction.addData(&quot;parentRpcId&quot;, context.getParentRpcId());</span><br><span class="line">                transaction.addData(&quot;rpcEntryUrl&quot;, context.getRpcEntryUrl());</span><br><span class="line">                transaction.complete();</span><br><span class="line">            &#125; catch (Exception var17) &#123;</span><br><span class="line">                log.warn(&quot;send log to cat exception&quot;, var17);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ZipkinContext.removeContext();</span><br><span class="line">        MDC.remove(&quot;globalTicket&quot;);</span><br><span class="line">        MDC.remove(&quot;trace_id&quot;);</span><br><span class="line">        MDC.remove(&quot;monitorTrackId&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="TraceContextFilter"><a href="#TraceContextFilter" class="headerlink" title="TraceContextFilter"></a>TraceContextFilter</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 如果上游没有获取到调用链信息，会在这里初始化调用链信息</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">// 拦截 provider与consumer.</span></span><br><span class="line"><span class="meta">@Activate</span>(group = &#123; Constants.PROVIDER, Constants.CONSUMER &#125;, order = -<span class="number">10</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TraceContextFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String DUBBO_SOA_MONITOR_LOG_SERVICE_KEY = <span class="string">"SoaMonitorLogService"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String DUBBO_MONITOR_SERVICE_KEY = <span class="string">"com.alibaba.dubbo.monitor.MonitorService"</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">invoke</span><span class="params">(Invoker&lt;?&gt; invoker, Invocation invocation)</span> <span class="keyword">throws</span> RpcException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (isMonitorService(invoker)) &#123;</span><br><span class="line">            <span class="keyword">return</span> invoker.invoke(invocation);</span><br><span class="line">        &#125;</span><br><span class="line">        RpcContext context = RpcContext.getContext(); <span class="comment">// 提供方必须在invoke()之前获取context信息</span></span><br><span class="line">        <span class="comment">// consumer</span></span><br><span class="line">        <span class="keyword">if</span> (context.isConsumerSide()) &#123;</span><br><span class="line">            computingConsumerTrace(invoker, context, invocation);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (context.isProviderSide()) &#123;</span><br><span class="line">            <span class="comment">// provider</span></span><br><span class="line">            computingProviderTrace(invoker, context, invocation);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> invoker.invoke(invocation); <span class="comment">// 让调用链往下执行</span></span><br><span class="line">        &#125; <span class="keyword">finally</span>&#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isMonitorService</span><span class="params">(Invoker&lt;?&gt; invoker)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (-<span class="number">1</span> == invoker.getUrl().getServiceInterface().indexOf(DUBBO_SOA_MONITOR_LOG_SERVICE_KEY) </span><br><span class="line">                &amp;&amp; -<span class="number">1</span> == invoker.getUrl().getServiceInterface().indexOf(DUBBO_MONITOR_SERVICE_KEY)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *  globalTicket,rpcEntryUrl,parentRpcId -&gt;  (context -&gt; invocation)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">computingConsumerTrace</span><span class="params">(Invoker&lt;?&gt; invoker, RpcContext context, Invocation invocation)</span></span>&#123;</span><br><span class="line">        String globalTicket = context.getGlobalTicket();</span><br><span class="line">        String rpcEntryUrl = context.getRpcEntryUrl();</span><br><span class="line">        String parentRpcId = context.getRpcId();</span><br><span class="line">        <span class="keyword">if</span> (StringUtils.isBlank(globalTicket) || StringUtils.isBlank(rpcEntryUrl) || StringUtils.isBlank(parentRpcId)) &#123; <span class="comment">// 为rootSpan</span></span><br><span class="line">            <span class="comment">//获取请求入口地址</span></span><br><span class="line">            String service = invoker.getInterface().getName(); <span class="comment">// 获取服务名称</span></span><br><span class="line">            String method = RpcUtils.getMethodName(invocation); <span class="comment">// 获取方法名</span></span><br><span class="line">            <span class="keyword">if</span> (ProxyRpcInvocation.INTERFACE_NAME.equals(service) &amp;&amp; method.equals(ProxyRpcInvocation.METHOD_NAME)</span><br><span class="line">                    &amp;&amp; invocation.getArguments().length == <span class="number">1</span></span><br><span class="line">                    &amp;&amp; invocation.getArguments()[<span class="number">0</span>] <span class="keyword">instanceof</span> ProxyRpcInvocation) &#123;</span><br><span class="line">                ProxyRpcInvocation proxyRpcInvocation = (ProxyRpcInvocation) invocation.getArguments()[<span class="number">0</span>];</span><br><span class="line">                service = proxyRpcInvocation.getServiceName(); <span class="comment">// 获取原始服务名称</span></span><br><span class="line">                method = proxyRpcInvocation.getMethodName(); <span class="comment">// 获取原始方法名</span></span><br><span class="line">            &#125;</span><br><span class="line">            StringBuilder requestUrl = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">            requestUrl.append(service).append(<span class="string">"/"</span>).append(method);</span><br><span class="line">            rpcEntryUrl = requestUrl.toString();</span><br><span class="line">            globalTicket = Tracer.createGlobalTicket();</span><br><span class="line">            parentRpcId = Constants.TRACE_RPC_ID_INIT_VALUE;<span class="comment">//0.1.1</span></span><br><span class="line">        &#125;</span><br><span class="line">        Span span = Tracer.genConsumerSpan(rpcEntryUrl, globalTicket, parentRpcId);</span><br><span class="line">        <span class="comment">// 同一个线程间传递参数,传递给下一个调用</span></span><br><span class="line">        setAttachment(span, (RpcInvocation) invocation);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * globalTicket,rpcEntryUrl,parentRpcId -&gt;  (invocation -&gt; context)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">computingProviderTrace</span><span class="params">(Invoker&lt;?&gt; invoker, RpcContext context, Invocation invocation)</span></span>&#123;</span><br><span class="line">        String rpcEntryUrl = ((RpcInvocation)invocation).getAttachment(Constants.TRACE_RPC_ENTRY_URL_KEY);</span><br><span class="line">        String globalTicket = ((RpcInvocation)invocation).getAttachment(Constants.TRACE_GLOBAL_TICKET_KEY);</span><br><span class="line">        <span class="comment">//provider取rpcId生成parentRpcId</span></span><br><span class="line">        String parentRpcId = ((RpcInvocation)invocation).getAttachment(Constants.TRACE_RPC_ID_KEY);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//计算当前调用关系</span></span><br><span class="line">        <span class="keyword">if</span> (StringUtils.isBlank(globalTicket) || StringUtils.isBlank(rpcEntryUrl) || StringUtils.isBlank(parentRpcId)) &#123;<span class="comment">// 为rootSpan</span></span><br><span class="line">            <span class="comment">//获取请求入口地址</span></span><br><span class="line">            String service = invoker.getInterface().getName(); <span class="comment">// 获取服务名称</span></span><br><span class="line">            String method = RpcUtils.getMethodName(invocation); <span class="comment">// 获取方法名</span></span><br><span class="line">            <span class="keyword">if</span> (ProxyRpcInvocation.INTERFACE_NAME.equals(service) &amp;&amp; method.equals(ProxyRpcInvocation.METHOD_NAME)</span><br><span class="line">                    &amp;&amp; invocation.getArguments().length == <span class="number">1</span></span><br><span class="line">                    &amp;&amp; invocation.getArguments()[<span class="number">0</span>] <span class="keyword">instanceof</span> ProxyRpcInvocation) &#123;</span><br><span class="line">                ProxyRpcInvocation proxyRpcInvocation = (ProxyRpcInvocation) invocation.getArguments()[<span class="number">0</span>];</span><br><span class="line">                service = proxyRpcInvocation.getServiceName(); <span class="comment">// 获取原始服务名称</span></span><br><span class="line">                method = proxyRpcInvocation.getMethodName(); <span class="comment">// 获取原始方法名</span></span><br><span class="line">            &#125;</span><br><span class="line">            StringBuilder requestUrl = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">            requestUrl.append(service).append(<span class="string">"/"</span>).append(method);</span><br><span class="line">            rpcEntryUrl = requestUrl.toString();</span><br><span class="line">            globalTicket = Tracer.createGlobalTicket();</span><br><span class="line">            parentRpcId = Constants.TRACE_PARENT_RPC_ID_INIT_VALUE;<span class="comment">//0.1</span></span><br><span class="line">        &#125; </span><br><span class="line">        Tracer.genProviderSpan(rpcEntryUrl, globalTicket, parentRpcId);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setAttachment</span><span class="params">(Span span, RpcInvocation invocation)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//用于MonitorFilter记日志</span></span><br><span class="line">        invocation.setAttachment(Constants.TRACE_RPC_ENTRY_URL_KEY, span.getRpcEntryUrl());</span><br><span class="line">        invocation.setAttachment(Constants.TRACE_GLOBAL_TICKET_KEY, span.getGlobalTicket());</span><br><span class="line">        invocation.setAttachment(Constants.TRACE_PARENT_RPC_ID_KEY, span.getParentRpcId());</span><br><span class="line">        invocation.setAttachment(Constants.TRACE_RPC_ID_KEY, span.getRpcId());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="CatTransactionFilter"><a href="#CatTransactionFilter" class="headerlink" title="CatTransactionFilter"></a>CatTransactionFilter</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 在dubbo服务调用的时候，会将调用信息打点到cat上去，</span><br><span class="line"> * 期间会将调用链的rpcId、globalTicket、rpcEntryUrl打进去</span><br><span class="line"> *&#x2F;</span><br></pre></td></tr></table></figure>
+<h3 id="ConsumerContextFilter"><a href="#ConsumerContextFilter" class="headerlink" title="ConsumerContextFilter"></a>ConsumerContextFilter</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">@Activate(group &#x3D; Constants.CONSUMER, order &#x3D; -10000)</span><br><span class="line">public class ConsumerContextFilter implements Filter &#123;</span><br><span class="line">    public Result invoke(Invoker&lt;?&gt; invoker, Invocation invocation) throws RpcException &#123;</span><br><span class="line">        RpcContext.getContext()</span><br><span class="line">                .setInvoker(invoker)</span><br><span class="line">                .setInvocation(invocation)</span><br><span class="line">                .setLocalAddress(NetUtils.getLocalHost(), 0)</span><br><span class="line">                .setRemoteAddress(invoker.getUrl().getHost(), </span><br><span class="line">                                  invoker.getUrl().getPort());</span><br><span class="line">        if (invocation instanceof RpcInvocation) &#123;</span><br><span class="line">            ((RpcInvocation)invocation).setInvoker(invoker);</span><br><span class="line">        &#125;</span><br><span class="line">        try &#123;</span><br><span class="line">            return invoker.invoke(invocation);</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            </span><br><span class="line">            RpcContext rpcContext &#x3D; RpcContext.getContext();</span><br><span class="line">            rpcContext.clearAttachments();</span><br><span class="line">            &#x2F;&#x2F;非provider产生的RpcContext需remove</span><br><span class="line">            String contextType &#x3D; RpcContext.getContext().getContextType();</span><br><span class="line">            if(StringUtils.isBlank(contextType) || !contextType.equals(Constants.PROVIDER))&#123;</span><br><span class="line">                &#x2F;&#x2F;重置rpcEntryUrl&#x2F;rpcId&#x2F;parentRpcId&#x2F;globalTicket&#x2F;RpcIndex&#x2F;</span><br><span class="line">                rpcContext.setRpcEntryUrl(null);</span><br><span class="line">                rpcContext.setRpcId(null);</span><br><span class="line">                rpcContext.setParentRpcId(null);</span><br><span class="line">                rpcContext.setGlobalTicket(null);</span><br><span class="line">                rpcContext.setRpcIndex(null);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+		<div>
+			
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+			
+		</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/dubbo/" rel="tag"># dubbo</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/23/spring-cloud/" rel="prev" title="spring-cloud">
+      <i class="fa fa-chevron-left"></i> spring-cloud
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/08/02/dubbo-RpcContext/" rel="next" title="dubbo-RpcContext">
+      dubbo-RpcContext <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#soa-proxy"><span class="nav-number">1.</span> <span class="nav-text">soa-proxy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#系统设计"><span class="nav-number">1.1.</span> <span class="nav-text">系统设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例子"><span class="nav-number">1.2.</span> <span class="nav-text">例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#soa-mock"><span class="nav-number">2.</span> <span class="nav-text">soa-mock</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">2.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务调用流程"><span class="nav-number">2.2.</span> <span class="nav-text">服务调用流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo自带的mock机制"><span class="nav-number">2.3.</span> <span class="nav-text">dubbo自带的mock机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过泛化调用实现服务测试平台"><span class="nav-number">2.4.</span> <span class="nav-text">通过泛化调用实现服务测试平台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#公司实现"><span class="nav-number">2.5.</span> <span class="nav-text">公司实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo-链路追踪"><span class="nav-number">2.6.</span> <span class="nav-text">dubbo 链路追踪</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#soa-monitor"><span class="nav-number">3.</span> <span class="nav-text">soa monitor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现类"><span class="nav-number">3.1.</span> <span class="nav-text">实现类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Tracer"><span class="nav-number">3.1.1.</span> <span class="nav-text">Tracer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TraceInitFilter"><span class="nav-number">3.1.2.</span> <span class="nav-text">TraceInitFilter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TraceContextFilter"><span class="nav-number">3.1.3.</span> <span class="nav-text">TraceContextFilter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CatTransactionFilter"><span class="nav-number">3.1.4.</span> <span class="nav-text">CatTransactionFilter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConsumerContextFilter"><span class="nav-number">3.2.</span> <span class="nav-text">ConsumerContextFilter</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="vicyor"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">vicyor</p>
+  <div class="site-description" itemprop="description">大路且慢慢,咱一步一步走完.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vicyor" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vicyor" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2457569580@qq.com" title="E-Mail → mailto:2457569580@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vicyor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">860k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">13:02</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = visitors.getAttribute('id').trim();
+      var title = visitors.getAttribute('data-flag-title').trim();
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.log('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return element.getAttribute('id').trim();
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=m9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'm9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz',
+            'X-LC-Key': 'g7WSuE6aDmunoX4rgyBN7SJa',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'qQhr9rNGJh6YalJA0mfaaurx-gzGzoHsz',
+    appKey: 'kJy8NJeOTMPnxQ3zLihOcnw3',
+    placeholder: "请留下您的宝贵评论",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+	
+		 <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		 <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
