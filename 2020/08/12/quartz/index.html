@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://vicyor.gitee.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Quartz -&gt; 任务调度框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="quartz">
+<meta property="og:url" content="http://vicyor.gitee.io/2020/08/12/quartz/index.html">
+<meta property="og:site_name" content="Vicyor">
+<meta property="og:description" content="Quartz -&gt; 任务调度框架">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/08/12/quartz/thread.png">
+<meta property="article:published_time" content="2020-08-12T12:26:28.000Z">
+<meta property="article:modified_time" content="2020-08-18T09:46:04.637Z">
+<meta property="article:author" content="vicyor">
+<meta property="article:tag" content="quartz">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vicyor.gitee.io/2020/08/12/quartz/thread.png">
+
+<link rel="canonical" href="http://vicyor.gitee.io/2020/08/12/quartz/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>quartz | Vicyor</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vicyor</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">46</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">48</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/08/12/quartz/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="vicyor">
+      <meta itemprop="description" content="大路且慢慢,咱一步一步走完.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vicyor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          quartz
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-12 20:26:28" itemprop="dateCreated datePublished" datetime="2020-08-12T20:26:28+08:00">2020-08-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-18 17:46:04" itemprop="dateModified" datetime="2020-08-18T17:46:04+08:00">2020-08-18</time>
+              </span>
+
+          
+            <span id="/2020/08/12/quartz/" class="post-meta-item leancloud_visitors" data-flag-title="quartz" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/08/12/quartz/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/12/quartz/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Quartz -&gt; 任务调度框架</p>
+<a id="more"></a>
+<h2 id="Quartz-ApI-相关接口"><a href="#Quartz-ApI-相关接口" class="headerlink" title="Quartz ApI 相关接口"></a>Quartz ApI 相关接口</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Scheduler -&gt; 调度程序交互,调度者.</span><br><span class="line">Schedule  -&gt; 调度方式,如corn,simple.</span><br><span class="line">Job       -&gt; Job</span><br><span class="line">JobDetail -&gt; warp Job</span><br><span class="line">Trigger   -&gt; 触发器,执行给定的作业</span><br><span class="line">JobBuilder -&gt; 定义&#x2F;构建JobDetail</span><br><span class="line">TriggerBuilder -&gt; 定义&#x2F;构建触发器实例</span><br><span class="line">JobExecutionContext -&gt; 保存job运行的一些信息</span><br><span class="line">JobDataMap -&gt; 存储Job实例状态信息,jobDetail与trigger都有jobDataMap</span><br><span class="line">Job与Trigger分离,当与Scheduler中的Job关联的trigger都过期时，可以配置Job稍后被重新调度，而不用重新定义Job.</span><br><span class="line">还有，可以修改或者替换Trigger，而不用重新定义与之关联的Job。</span><br></pre></td></tr></table></figure>
+<h3 id="Job与JobDetail"><a href="#Job与JobDetail" class="headerlink" title="Job与JobDetail"></a>Job与JobDetail</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Job -&gt; Job</span><br><span class="line">JobDetail -&gt; warp Job</span><br><span class="line">@PersistJobDataAfterExecution -&gt; 会在job执行后更新JobDataMap(更新-&gt;job可能修改map).</span><br><span class="line">@DisallowConcurrentExecution  -&gt; 禁止quartz的线程池并发执行</span><br><span class="line">  如: job -&gt; Thread.sleep(10000),而job是3000执行一次,不加注解是会3000秒后由其他线程执行.加注解是10s与3s的最小公倍数的下一个时间点.</span><br></pre></td></tr></table></figure>
+<h4 id="有状态的job"><a href="#有状态的job" class="headerlink" title="有状态的job"></a>有状态的job</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">StatefulJob</span><br><span class="line">当实现有状态接口,StatefulJob时,只有JobDetail的JobDataMap是共用的,其他的，比如,Job本身,Trigger等,仍然每次执行</span><br><span class="line">的时候是全新的对象。只有JobDetail的JobDataMap是共用的，其他的trigger.getJobDataMap(),context.getMergedJobDataMap(),等这些JobDataMap，任然是全新的</span><br></pre></td></tr></table></figure>
+<h4 id="可中断的job"><a href="#可中断的job" class="headerlink" title="可中断的job"></a>可中断的job</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">InterruptableJob -&gt; schedule.interrupt(job.getKey()); &#x2F;&#x2F; 进行中断</span><br></pre></td></tr></table></figure>
+<h3 id="Trigger"><a href="#Trigger" class="headerlink" title="Trigger"></a>Trigger</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1.公共属性.</span><br><span class="line">    1.jobkey -&gt; jobdetail 的 key</span><br><span class="line">    2.startTIme -&gt; job开始执行的时间</span><br><span class="line">    3.endTime  -&gt; job执行结束的时间</span><br><span class="line">2.priority.  优先级.</span><br><span class="line">   同时触发的trigger会比较优先级.</span><br><span class="line">3.misfire instruction.(有点像线程池的拒绝策略).</span><br><span class="line">  1.Quartz线程池中没有可用的线程来执行job或者scheduler关闭了.此时持久性的trigger就会错过(miss)其触发时间，即错过触发(misfire).</span><br><span class="line">  2.startTime为过去的时间.</span><br><span class="line">  misfire相关的配置.</span><br><span class="line">  org.quartz.jobStore.misfireThreshold -&gt; 60000(默认1分钟)</span><br><span class="line">4.Calandar功能.</span><br><span class="line">  Calandar接口可以判断日期是否Included,如HolidayCalendar,可以过滤掉节假日.</span><br></pre></td></tr></table></figure>
+<h4 id="优先级小例子"><a href="#优先级小例子" class="headerlink" title="优先级小例子"></a>优先级小例子</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">JobDetail job = newJob(TriggerEchoJob.class).withIdentity("TriggerEchoJob").build();</span><br><span class="line"><span class="comment">// First trigger has priority of 1, and will repeat after 5 seconds</span></span><br><span class="line">Trigger trigger1 = newTrigger().withIdentity(<span class="string">"Priority1Trigger5SecondRepeat"</span>).startAt(startTime)</span><br><span class="line">    .withSchedule(simpleSchedule().withRepeatCount(<span class="number">1</span>).withIntervalInSeconds(<span class="number">5</span>)).withPriority(<span class="number">1</span>).forJob(job).build();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Second trigger has default priority of 5 (default), and will repeat after 10 seconds</span></span><br><span class="line">Trigger trigger2 = newTrigger().withIdentity(<span class="string">"Priority5Trigger10SecondRepeat"</span>).startAt(startTime)</span><br><span class="line">    .withSchedule(simpleSchedule().withRepeatCount(<span class="number">1</span>).withIntervalInSeconds(<span class="number">10</span>)).forJob(job).build();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Third trigger has priority 10, and will repeat after 15 seconds</span></span><br><span class="line">Trigger trigger3 = newTrigger().withIdentity(<span class="string">"Priority10Trigger15SecondRepeat"</span>).startAt(startTime)</span><br><span class="line">    .withSchedule(simpleSchedule().withRepeatCount(<span class="number">1</span>).withIntervalInSeconds(<span class="number">15</span>)).withPriority(<span class="number">10</span>).forJob(job)</span><br><span class="line">    .build();</span><br></pre></td></tr></table></figure>
+<h4 id="Simple-Trigger"><a href="#Simple-Trigger" class="headerlink" title="Simple Trigger"></a>Simple Trigger</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.Simple Trigger  -&gt;  在具体的时间点执行一次,并且以指定的间隔重复执行若干次.(基于开始时间的调度策略).</span><br><span class="line"><span class="number">2</span>.举个例子: 基于简单调度(simple schedule)创建trigger.</span><br><span class="line">    trigger = newTrigger()</span><br><span class="line">              .withIdentity(<span class="string">"trigger8"</span>)</span><br><span class="line">              .startAt(evenHourDate(<span class="keyword">null</span>)) <span class="comment">//DateBuilder, next 奇数小时</span></span><br><span class="line">              .withSchedule(simpleSchedule()                </span><br><span class="line">                .withIntervalInHours(<span class="number">2</span>)   <span class="comment">//interval -  2小时</span></span><br><span class="line">                .repeatForever()          <span class="comment">//repartForever - 一直重复</span></span><br><span class="line">              )</span><br><span class="line">              .build();</span><br><span class="line">    scheduler.scheduleJob(trigger,job);</span><br><span class="line"><span class="number">3</span>.Simple Trigger Misfire策略.</span><br><span class="line">    MISFIRE_INSTRUCTION_IGNORE_MISFIRE_POLICY   -&gt;   引起misfire发生的job被ignore</span><br><span class="line">    MISFIRE_INSTRUCTION_FIRE_NOW                -&gt;   scheduler恢复后立刻执行</span><br><span class="line">    MISFIRE_INSTRUCTION_RESCHEDULE_NOW_WITH_EXISTING_REPEAT_COUNT</span><br><span class="line">    MISFIRE_INSTRUCTION_RESCHEDULE_NOW_WITH_REMAINING_REPEAT_COUNT</span><br><span class="line">    MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT</span><br><span class="line">    MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_EXISTING_COUNT  </span><br><span class="line">    trigger = newTrigger()</span><br><span class="line">                .withIdentity(<span class="string">"trigger7"</span>, <span class="string">"group1"</span>)</span><br><span class="line">            .withSchedule(simpleSchedule()</span><br><span class="line">                .withIntervalInMinutes(<span class="number">5</span>)</span><br><span class="line">                .repeatForever()</span><br><span class="line">                .withMisfireHandlingInstructionNextWithExistingCount())</span><br><span class="line">            .build();</span><br></pre></td></tr></table></figure>
+<h4 id="Corn-Trigger"><a href="#Corn-Trigger" class="headerlink" title="Corn Trigger"></a>Corn Trigger</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Corn Trigger 基于日历的概念进行作业启动计划.</span><br><span class="line"><span class="number">1</span>.<span class="function">Corn <span class="title">Expressions</span><span class="params">(用空格进行分割)</span>.</span></span><br><span class="line"><span class="function">  Seconds Minutes Hours Day-of-month Month Day-of-week <span class="title">Year</span><span class="params">(optional field)</span></span></span><br><span class="line"><span class="function">  *     该域的任意值.</span></span><br><span class="line"><span class="function">  ?     用于DayofMonth和DayofWeek两个域,目的是解决冲突.</span></span><br><span class="line"><span class="function">                如: 00 30 12 1 * ?  -&gt; 每月1日12:30触发,但不知道每月的1号是星期几.</span></span><br><span class="line"><span class="function">  -     表示范围.如minutes域使用5-20,表示从5分到20分钟每分钟触发一次.</span></span><br><span class="line"><span class="function">        5-20是包括20的<span class="params">(这个务必要注意)</span></span></span><br><span class="line"><span class="function">  /     starttime/interval,表示从starttime开始,每interval满足条件.</span></span><br><span class="line"><span class="function">  ,     列出枚举值,如5,20表示5和20分触发.</span></span><br><span class="line"><span class="function">  L     表示最后,只出现在DayofWeek,DayofMonth域,如果在DayofWeek域使用5L,表示最后一个星期四触发.</span></span><br><span class="line"><span class="function">  W     表示有效的工作日,只能出现在DayofMonth域.</span></span><br><span class="line"><span class="function">                会取指定日期的最近工作日,如5W,若5号是周6,则会取4号周五触发</span>;若<span class="number">5</span>号是周日,则会取<span class="number">6</span>号周一触发.</span><br><span class="line">  LW    某月的最后一个工作日.</span><br><span class="line">  #     某月的第几个星期几,如4#2,某月的第2个星期三. </span><br><span class="line"><span class="number">2</span>.Corn Trigger使用.</span><br><span class="line">   newTrigger()</span><br><span class="line">        .withIdentity(<span class="string">"trigger"</span>, <span class="string">"group"</span>)</span><br><span class="line">        .withSchedule(cronSchedule(<span class="string">"0/5 * 8-17 * * ?"</span>)) <span class="comment">// 每天的8点-17点,每5秒触发一次</span></span><br><span class="line">        .build();</span><br></pre></td></tr></table></figure>
+<h3 id="TriggerListener和JobListener"><a href="#TriggerListener和JobListener" class="headerlink" title="TriggerListener和JobListener"></a>TriggerListener和JobListener</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">TriggerListener</span><br><span class="line">    triggerComplete</span><br><span class="line">    triggerMisfired  -&gt; misfired会触发,这个会在下次能调度任务的时候触发</span><br><span class="line">    triggerFired</span><br><span class="line">    vetoJobExecution</span><br><span class="line">JobListener</span><br><span class="line">    jobToBeExecuted</span><br><span class="line">    jobWasExecuted</span><br><span class="line">    jobExecutionVetoed  -&gt; vetoJobExecution返回<span class="keyword">false</span></span><br><span class="line">使用样例.</span><br><span class="line">    scheduler.getListenerManager().addJobListener(myJobListener, allJobs());</span><br><span class="line">    scheduler.getListenerManager().addTriggerListener(myTriggerListener,allTriggers());</span><br><span class="line">    scheduler.getListenerManager().addSchedulerListener(mySchedulerListener);</span><br></pre></td></tr></table></figure>
+<h3 id="SchedulerListener"><a href="#SchedulerListener" class="headerlink" title="SchedulerListener"></a>SchedulerListener</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Scheduler的Listener</span><br></pre></td></tr></table></figure>
+<h3 id="Job-Execution-Exception"><a href="#Job-Execution-Exception" class="headerlink" title="Job Execution Exception"></a>Job Execution Exception</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">1.job执行过程中产生的异常有二种处理方式.</span><br><span class="line">    方式一: 解决异常.</span><br><span class="line">    方式二: UnRegister 所有的trigger.</span><br><span class="line">  举个例子:</span><br><span class="line">  @PersistJobDataAfterExecution  &#x2F;&#x2F; 刷新JobDataMap</span><br><span class="line">  @DisallowConcurrentExecution</span><br><span class="line">  public class BadJob implements Job&#123;</span><br><span class="line">    private int calculation;</span><br><span class="line">    public void setCalculation(int calculation)&#123;</span><br><span class="line">        this.calculation&#x3D;calculation;</span><br><span class="line">    &#125;</span><br><span class="line">    public void execute(JobExecutionContext context) throws JobExecutionException&#123;</span><br><span class="line">        JobDataMap dataMap&#x3D;context.getJobDetail().getJobDataMap();</span><br><span class="line">        int denominator&#x3D;dataMap.getInt(&quot;denominator&quot;);</span><br><span class="line">        try&#123;</span><br><span class="line">            this.calculation&#x3D; 1234&#x2F;denominator;</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            JobExecutionException e1&#x3D;new JobExecutionException(e);</span><br><span class="line">            &#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;解决异常</span><br><span class="line">            dataMap.put(&quot;denominator&quot;,&quot;1&quot;);</span><br><span class="line">            e1.setRefireImmediately(true);  &#x2F;&#x2F;  立刻触发</span><br><span class="line">            &#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F; 或 解绑定</span><br><span class="line">            e.setUnscheduleAllTriggers(true); </span><br><span class="line">            throw e1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Job-Stores"><a href="#Job-Stores" class="headerlink" title="Job Stores"></a>Job Stores</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">JobStore -&gt; 跟踪调度程序的所有工作数据:如job,triggers,Calendar,</span><br><span class="line">RAMJobStore -&gt; RAM(Random Access Memory),访问快速,缺点是调度信息容易丢失.</span><br><span class="line">JdbcJobStore -&gt; jdbc store.</span><br></pre></td></tr></table></figure>
+<h2 id="quartz原理"><a href="#quartz原理" class="headerlink" title="quartz原理"></a>quartz原理</h2><h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><p><img src="/2020/08/12/quartz/thread.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Regular Scheduler Thread  -&gt;  轮询trigger,如果有将要触发的trigger,则从任务线程池中获取一个空闲线程,执行与trigger关联的job.</span><br><span class="line">Misfire Scheduler Thread  -&gt;  扫描所有trigger,查看是否有错失的,若有错失，则根据一定的策略进行处理。</span><br></pre></td></tr></table></figure>
+<h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">JobStoreSupport  -&gt;  基于jdbc将trigger和job存储到数据库中.</span><br><span class="line">QRTZ_CALENDARS   -&gt;  存储Calenda信息.</span><br><span class="line">QRTZ_CRON_TRIGGERS -&gt; 存储CronTrigger,包括Cron表达式和时区信息.</span><br><span class="line">QRTZ_FIRED_TRIGGERS -&gt; 存储与已触发的Trigger相关的状态信息，以及相联Job的执行信息</span><br><span class="line">QRTZ_PAUSED_TRIGGER_GRPS -&gt; 存储已暂停的Trigger组的信息</span><br><span class="line">QRTZ_SCHEDULER_STATE -&gt; scheduler信息</span><br><span class="line">QRTZ_LOCKS  -&gt; 程序的锁信息</span><br><span class="line">QRTZ_JOB_DETAILS -&gt; job的详细信息</span><br><span class="line">QRTZ_SIMPLE_TRIGGERS -&gt; 存储简单的Trigger，包括重复次数、间隔、以及已触的次数</span><br><span class="line">QRTZ_BLOG_TRIGGERS -&gt; Trigger作为Blob类型存储</span><br><span class="line">QRTZ_TRIGGERS  -&gt;  存储已配置的Trigger的信息</span><br></pre></td></tr></table></figure>
+<h4 id="quartz的执行，暂停"><a href="#quartz的执行，暂停" class="headerlink" title="quartz的执行，暂停"></a>quartz的执行，暂停</h4><h3 id="quartz集群"><a href="#quartz集群" class="headerlink" title="quartz集群"></a>quartz集群</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Quartz集群中的节点之间并不通信,其是通过数据库表进行通信.</span><br></pre></td></tr></table></figure>
+<h3 id="quartz流程"><a href="#quartz流程" class="headerlink" title="quartz流程"></a>quartz流程</h3><h4 id="QuartzSchedulerThread-Regular-Scheduler-Thread"><a href="#QuartzSchedulerThread-Regular-Scheduler-Thread" class="headerlink" title="QuartzSchedulerThread - Regular Scheduler Thread"></a>QuartzSchedulerThread - Regular Scheduler Thread</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (!halted.get()) &#123;</span><br><span class="line">    <span class="keyword">int</span> availThreadCount = qsRsrcs.getThreadPool().blockForAvailableThreads(); <span class="comment">//获取可用线程的数量</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取30m内要执行的triggers</span></span><br><span class="line"><span class="comment">     * 若<span class="doctag">@ConcurrentExectionDisallowed</span>且trigger还没执行完(fired_trigger表有数据，且状态为xx),则跳过.</span></span><br><span class="line"><span class="comment">     * 向fired_trigger表中插入数据.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    triggers = qsRsrcs.getJobStore().acquireNextTriggers(now + idleWaitTime,</span><br><span class="line">            Math.min(availThreadCount, qsRsrcs.getMaxBatchSize()), qsRsrcs.getBatchTimeWindow());<span class="comment">//获取30m内要执行的triggers</span></span><br><span class="line">    <span class="keyword">long</span> triggerTime = triggers.get(<span class="number">0</span>).getNextFireTime().getTime();</span><br><span class="line">    <span class="keyword">long</span> timeUntilTrigger = triggerTime - now;</span><br><span class="line">    <span class="keyword">while</span> (timeUntilTrigger &gt; <span class="number">2</span>) &#123;</span><br><span class="line">        now = System.currentTimeMillis();</span><br><span class="line">        timeUntilTrigger = triggerTime - now;</span><br><span class="line">    &#125;</span><br><span class="line">    List&lt;TriggerFiredResult&gt; bndle = qsRsrcs.getJobStore().triggersFired(triggers);<span class="comment">//fire,</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; res.size(); i++) &#123;</span><br><span class="line">        JobRunShell shell = qsRsrcs.getJobRunShellFactory().createJobRunShell(bndle);</span><br><span class="line">        shell.initialize(qs);</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 1.execute job</span></span><br><span class="line"><span class="comment">         * 2.若<span class="doctag">@PersistJobDataAfterExecution</span>，则updateJobData</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        qsRsrcs.getThreadPool().runInThread(shell);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="MisfireHandler线程"><a href="#MisfireHandler线程" class="headerlink" title="MisfireHandler线程"></a>MisfireHandler线程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.无可用的线程，导致任务无法触发。</span><br><span class="line">2.startTime为过去。</span><br><span class="line">3.Schedule出现异常。</span><br><span class="line">4.有状态任务在下次触发时间到达时，上次执行还没有结束。</span><br></pre></td></tr></table></figure>
+<h3 id="举例子"><a href="#举例子" class="headerlink" title="举例子"></a>举例子</h3><h4 id="Remoting-with-Quartz-using-RMI"><a href="#Remoting-with-Quartz-using-RMI" class="headerlink" title="Remoting with Quartz using RMI"></a>Remoting with Quartz using RMI</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">client - 注册jobdetail和trigger</span><br><span class="line">    JobDetail job &#x3D; newJob(SimpleJob.class)</span><br><span class="line">             .withIdentity(&quot;remotelyAddedJob&quot;, &quot;default&quot;)</span><br><span class="line">             .build();</span><br><span class="line">        </span><br><span class="line">    JobDataMap map &#x3D; job.getJobDataMap();</span><br><span class="line">    map.put(&quot;msg&quot;, &quot;Your remotely added job has executed!&quot;);</span><br><span class="line">    </span><br><span class="line">    Trigger trigger &#x3D; newTrigger()</span><br><span class="line">        .withIdentity(&quot;remotelyAddedTrigger&quot;, &quot;default&quot;)</span><br><span class="line">        .forJob(job.getKey())</span><br><span class="line">        .withSchedule(cronSchedule(&quot;&#x2F;5 * * ? * *&quot;))</span><br><span class="line">        .build();</span><br><span class="line">    &#x2F;&#x2F; sched没有start</span><br><span class="line">    &#x2F;&#x2F; schedule the job</span><br><span class="line">    sched.scheduleJob(job, trigger);</span><br><span class="line">server - 执行trigger</span><br><span class="line">    &#x2F;&#x2F; start the schedule</span><br><span class="line">    sched.start();</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+		<div>
+			
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+			
+		</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/quartz/" rel="tag"># quartz</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/11/dubbo-proxy-chain/" rel="prev" title="dubbo-proxy-chain">
+      <i class="fa fa-chevron-left"></i> dubbo-proxy-chain
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/08/18/redis/" rel="next" title="redis">
+      redis <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quartz-ApI-相关接口"><span class="nav-number">1.</span> <span class="nav-text">Quartz ApI 相关接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Job与JobDetail"><span class="nav-number">1.1.</span> <span class="nav-text">Job与JobDetail</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#有状态的job"><span class="nav-number">1.1.1.</span> <span class="nav-text">有状态的job</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可中断的job"><span class="nav-number">1.1.2.</span> <span class="nav-text">可中断的job</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trigger"><span class="nav-number">1.2.</span> <span class="nav-text">Trigger</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优先级小例子"><span class="nav-number">1.2.1.</span> <span class="nav-text">优先级小例子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Simple-Trigger"><span class="nav-number">1.2.2.</span> <span class="nav-text">Simple Trigger</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Corn-Trigger"><span class="nav-number">1.2.3.</span> <span class="nav-text">Corn Trigger</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TriggerListener和JobListener"><span class="nav-number">1.3.</span> <span class="nav-text">TriggerListener和JobListener</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SchedulerListener"><span class="nav-number">1.4.</span> <span class="nav-text">SchedulerListener</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Job-Execution-Exception"><span class="nav-number">1.5.</span> <span class="nav-text">Job Execution Exception</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Job-Stores"><span class="nav-number">1.6.</span> <span class="nav-text">Job Stores</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#quartz原理"><span class="nav-number">2.</span> <span class="nav-text">quartz原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程"><span class="nav-number">2.1.</span> <span class="nav-text">线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据存储"><span class="nav-number">2.2.</span> <span class="nav-text">数据存储</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#quartz的执行，暂停"><span class="nav-number">2.2.1.</span> <span class="nav-text">quartz的执行，暂停</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#quartz集群"><span class="nav-number">2.3.</span> <span class="nav-text">quartz集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#quartz流程"><span class="nav-number">2.4.</span> <span class="nav-text">quartz流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#QuartzSchedulerThread-Regular-Scheduler-Thread"><span class="nav-number">2.4.1.</span> <span class="nav-text">QuartzSchedulerThread - Regular Scheduler Thread</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MisfireHandler线程"><span class="nav-number">2.4.2.</span> <span class="nav-text">MisfireHandler线程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#举例子"><span class="nav-number">2.5.</span> <span class="nav-text">举例子</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Remoting-with-Quartz-using-RMI"><span class="nav-number">2.5.1.</span> <span class="nav-text">Remoting with Quartz using RMI</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="vicyor"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">vicyor</p>
+  <div class="site-description" itemprop="description">大路且慢慢,咱一步一步走完.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vicyor" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vicyor" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2457569580@qq.com" title="E-Mail → mailto:2457569580@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vicyor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">888k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">13:27</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = visitors.getAttribute('id').trim();
+      var title = visitors.getAttribute('data-flag-title').trim();
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.log('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return element.getAttribute('id').trim();
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=m9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'm9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz',
+            'X-LC-Key': 'g7WSuE6aDmunoX4rgyBN7SJa',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'qQhr9rNGJh6YalJA0mfaaurx-gzGzoHsz',
+    appKey: 'kJy8NJeOTMPnxQ3zLihOcnw3',
+    placeholder: "请留下您的宝贵评论",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+	
+		 <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		 <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

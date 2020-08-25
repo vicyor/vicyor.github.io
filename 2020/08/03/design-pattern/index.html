@@ -52,11 +52,19 @@
 <meta property="og:site_name" content="Vicyor">
 <meta property="og:description" content="设计模式,23种设计模式,面向对象准则.">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/08/03/design-pattern/proxy.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/08/03/design-pattern/adapter.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/08/03/design-pattern/state.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/08/03/design-pattern/iterator.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/08/03/design-pattern/command.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/08/03/design-pattern/visitor.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/08/03/design-pattern/interceptor.png">
 <meta property="article:published_time" content="2020-08-03T14:19:40.000Z">
-<meta property="article:modified_time" content="2020-08-04T14:52:06.961Z">
+<meta property="article:modified_time" content="2020-08-10T15:02:31.085Z">
 <meta property="article:author" content="vicyor">
 <meta property="article:tag" content="design pattern">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vicyor.gitee.io/2020/08/03/design-pattern/proxy.png">
 
 <link rel="canonical" href="http://vicyor.gitee.io/2020/08/03/design-pattern/">
 
@@ -142,12 +150,12 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">45</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">46</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">45</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">48</span></a>
 
   </li>
   </ul>
@@ -206,7 +214,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-04 22:52:06" itemprop="dateModified" datetime="2020-08-04T22:52:06+08:00">2020-08-04</time>
+                <time title="修改时间：2020-08-10 23:02:31" itemprop="dateModified" datetime="2020-08-10T23:02:31+08:00">2020-08-10</time>
               </span>
 
           
@@ -236,14 +244,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>691</span>
+              <span>4.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -258,13 +266,47 @@
         <p>设计模式,23种设计模式,面向对象准则.</p>
 <a id="more"></a>
 <h2 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h2><h3 id="面向对象-1"><a href="#面向对象-1" class="headerlink" title="面向对象"></a>面向对象</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1.底层思维: 向下,把握机器底层,从微观理解对象构造.</span><br><span class="line">    语言构造.</span><br><span class="line">    编译转换.</span><br><span class="line">    内存模型.</span><br><span class="line">  运行时机制.</span><br><span class="line">  封装,继承,多态.</span><br><span class="line">  封装 -&gt; 隐藏内部实现.</span><br><span class="line">  继承 -&gt; 复用现有代码.</span><br><span class="line">  多态 -&gt; 改写对象行为.</span><br><span class="line">2.抽象思维: 向上,将我们周围的世界抽象为程序代码.</span><br><span class="line">  面向对象.</span><br><span class="line">  抽象.</span><br></pre></td></tr></table></figure>
-<h3 id="面向对象设计原则"><a href="#面向对象设计原则" class="headerlink" title="面向对象设计原则"></a>面向对象设计原则</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1.依赖倒置原则.</span><br><span class="line">    实现类依赖抽象类,低层(变化)依赖高层,二者关系不能倒置.</span><br><span class="line">2.开放关闭原则.</span><br><span class="line">  1.对扩展开放,对更改关闭.</span><br><span class="line">  2.类模块是可扩展的,但是不可修改.</span><br><span class="line">3.单一职责原则.</span><br><span class="line">  1.一个类应该仅有一个引起它变化的原因.</span><br><span class="line">  2.变化的方向隐含着类的责任.</span><br><span class="line">4.Liskov替换原则(LSP).</span><br><span class="line">  1.子类必须能够替换它们的基类(Is-A).</span><br><span class="line">  2.继承表达类型抽象.</span><br><span class="line">5.接口隔离原则(ISP).</span><br><span class="line">  1.不应该强迫客户端程序依赖它们不用的方法.</span><br><span class="line">  2.接口应该小而完备.</span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line">## 设计模式</span><br><span class="line">### 模板模式 - Template Method 模式</span><br></pre></td></tr></table></figure>
+<h3 id="面向对象设计原则"><a href="#面向对象设计原则" class="headerlink" title="面向对象设计原则"></a>面向对象设计原则</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1.依赖倒置原则.</span><br><span class="line">    实现类依赖抽象类,低层(变化)依赖高层,二者关系不能倒置.</span><br><span class="line">2.开放关闭原则.</span><br><span class="line">  1.对扩展开放,对更改关闭.</span><br><span class="line">  2.类模块是可扩展的,但是不可修改.</span><br><span class="line">3.单一职责原则.</span><br><span class="line">  1.一个类应该仅有一个引起它变化的原因.</span><br><span class="line">  2.变化的方向隐含着类的责任.</span><br><span class="line">4.Liskov替换原则(LSP).</span><br><span class="line">  1.子类必须能够替换它们的基类(Is-A).</span><br><span class="line">  2.继承表达类型抽象.</span><br><span class="line">5.接口隔离原则(ISP).</span><br><span class="line">  1.不应该强迫客户端程序依赖它们不用的方法.</span><br><span class="line">  2.接口应该小而完备.</span><br><span class="line">6.迪米特法则(Law of Demeter).</span><br><span class="line">  最少知识原则(Least Knowledge Principle).</span><br><span class="line">  1.一个对象对于其他对象,知道的越少越好.</span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line">## 设计模式</span><br></pre></td></tr></table></figure>
+<p>组件协作:<br>    Template Method<br>    Strategy<br>    Observer / Event<br>单一职责:<br>    Decorator.<br>    Bridge.<br>对象创建.<br>    Factory Method.<br>    Abstract Factory.<br>    Prototype.<br>    Builder.<br>对象性能.<br>    Singleton.<br>    Flyweight.<br>接口隔离.<br>    Facade.<br>    Proxy.<br>    Mediator.<br>    Adapter.<br>状态变化.<br>    Memento.<br>    State.<br>数据结构.<br>    Composite.<br>    Iterator.<br>    Chain Of<br>    Resposibility.<br>行为变化.<br>    Command.<br>    Visitor.<br>领域问题.<br>    Interpreter.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">### 模板模式 - Template Method 模式</span><br><span class="line">![](design-pattern&#x2F;template.png)</span><br></pre></td></tr></table></figure>
 <p>一个任务 -&gt; 稳定的整体操作结构-&gt; 各个子步骤有很多改变的需求<br>实现: Template Method 调用的虚方法可以具有实现,也可以没有任何实现(抽象方法,纯虚方法),但一般推荐将它们设置为protected方法.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### 策略模式 - Strategy</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">### 策略模式 - Strategy</span><br><span class="line">![](design-pattern&#x2F;strategy.png)</span><br></pre></td></tr></table></figure>
 <p>将算法从对象中解耦,形成策略。<br>如: 排序 -&gt; 冒泡排序,快速排序.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">### 观察者模式 - Observer</span><br></pre></td></tr></table></figure>
-<p>一个对象的状态发生改变,所有的依赖对象(观察者对象)都将会得到通知.<br>```</p>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">### 观察者模式 - Observer</span><br><span class="line">![](design-pattern&#x2F;observer.png)</span><br></pre></td></tr></table></figure>
+<p>一个对象的状态发生改变,所有的依赖对象(观察者对象)都将会得到通知.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">### 装饰模式 - Decorator</span><br><span class="line">![](desing-pattern&#x2F;decorator.png)</span><br></pre></td></tr></table></figure>
+<p>通过采用组合而非继承的手法,Decorator模式在运行时候动态扩展对象功能的能力，并且可以根据需要扩展多个功能。<br>避免使用继承带来的灵活性差和多子类衍生问题。<br>举个例子: I/O流。<br>InputStream -&gt; ByteInputStream,SocketInputStream.FileInputStream<br>BufferedInputSteram是给InputStream加缓存的.<br>InputStream有很多,若通过继承的话,会有很多子类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">### 桥模式 - Bridge</span><br><span class="line">![](design-pattern&#x2F;bridge.png)</span><br></pre></td></tr></table></figure>
+<p>解耦了抽象和实现之间固有的绑定关系.<br>例子:<br>    1.Java判断方法重写不包括方法返回类型。<br>      JVM判断方法重写包括方法返回类型。<br>      so,JavaC编译器会在子类生成一个桥接方法来作为父类方法的重写方法,并在桥接方法中调用子类实现的方法.<br>          例子:<br>            父类: Number actionPrice(double price, double abc); -&gt; (DD;)Ljava/lang/Number<br>            子类: Double actionPrice(double price,double abc);  -&gt;  (DD;)Ljava/lang/Douber<br>                子类编译后会生成方法描述符为(DD;)Ljava/lang/Number;的父类实现<br>    2.泛型.<br>            泛型类:<br>           class Mechant<T extends customer>{<br>            double actionPrice(double price, T customer);<br>           }<br>             派生类编译后会生成桥接方法actionPrice(double price,Customer customer);</T></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">### 工厂方法 - Factory Method</span><br><span class="line">![](design-pattern&#x2F;factory-method.png)</span><br></pre></td></tr></table></figure>
+<p>定义一个用于创建对象的接口,让子类决定实例化哪一个类.<br>Factory -&gt; AFactory,BFactroy.<br>           AFactory.new<br>           BFactory.new  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">### Abstract Factory Method</span><br><span class="line">![](design-pattern&#x2F;Abstract-Factory.png)</span><br></pre></td></tr></table></figure>
+<p>工厂模式: 一个抽象工厂 派生 多个具体工厂. 一个具体工厂构建一个具体产品.<br>抽象工厂模式: 一个抽象工厂派生多个具体工厂.一个具体工厂创建多个具体产品.<br>区别: 抽象工厂模式的具体工厂可以创建多个具体产品.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">### Builder 构建器模式</span><br><span class="line">![](design-pattern&#x2F;builder.png)</span><br></pre></td></tr></table></figure>
+<p>将一个复杂对象的构建与其表示相分离,使得同样的构建过程可以创建不同的表示(变化).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">### singleton单例模式</span><br><span class="line">![](design-pattern&#x2F;singleton.png)</span><br></pre></td></tr></table></figure>
+<p>某些特殊的类(大多数为工具类),为保证其在系统中只存在一个实例.<br>并提供一个该实例的全局访问点.<br>    // 懒汉式<br>    class ObjectFactory{<br>        private static volatile Object obj;<br>        public static Object getInstance(){<br>            if(obj==null){<br>                synchronized(ObjectFactory.class){<br>                    if(obj==null){<br>                        obj=new Object();<br>                    }<br>                }<br>            }<br>            return obj;<br>        }<br>    }<br> 对象创建过程 -&gt;<br>    1.分配对象内存空间.<br>    2.初始化对象.<br>    3.引用指向分配地址.<br>双重加锁(不用volatile)存在的问题:<br>   若发生重排序,导致3先于2,会把未初始化的对象暴漏出去.<br>    // 改进方式,通过类加载实现类初始化.兼容饿汉和懒汉优点.<br>    class ObjectFactory{<br>        class InnerClass{<br>            private static Object object=new Object();</p>
+<pre><code>    }
+    public Object getObject(){
+        // getStatic 触发类加载
+        return InnerClass.object;
+    }
+}</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">### 亨元模式 - FlyWeight</span><br><span class="line">![](design-pattern&#x2F;fly-weight.png)</span><br><span class="line">&#96;&#96;&#96;java</span><br><span class="line">运用共享技术有效地支持大量细粒度的对象.</span><br><span class="line">例如: java 字符串池,缓存池.</span><br><span class="line">举个简单的例子:</span><br><span class="line">public class Circle implements Shape &#123;</span><br><span class="line">   private String color;</span><br><span class="line">   private int x;</span><br><span class="line">   private int y;</span><br><span class="line">   private int radius;</span><br><span class="line"> </span><br><span class="line">   public Circle(String color)&#123;</span><br><span class="line">      this.color &#x3D; color;     </span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">   public void setX(int x) &#123;</span><br><span class="line">      this.x &#x3D; x;</span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">   public void setY(int y) &#123;</span><br><span class="line">      this.y &#x3D; y;</span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">   public void setRadius(int radius) &#123;</span><br><span class="line">      this.radius &#x3D; radius;</span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">   @Override</span><br><span class="line">   public void draw() &#123;</span><br><span class="line">      System.out.println(&quot;Circle: Draw() [Color : &quot; + color </span><br><span class="line">         +&quot;, x : &quot; + x +&quot;, y :&quot; + y +&quot;, radius :&quot; + radius);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">import java.util.HashMap;</span><br><span class="line"> </span><br><span class="line">public class ShapeFactory &#123;</span><br><span class="line">   private static final HashMap&lt;String, Shape&gt; circleMap &#x3D; new HashMap&lt;&gt;();</span><br><span class="line"> </span><br><span class="line">   public static Shape getCircle(String color) &#123;</span><br><span class="line">      Circle circle &#x3D; (Circle)circleMap.get(color);</span><br><span class="line"> </span><br><span class="line">      if(circle &#x3D;&#x3D; null) &#123;</span><br><span class="line">         circle &#x3D; new Circle(color);</span><br><span class="line">         circleMap.put(color, circle);</span><br><span class="line">         System.out.println(&quot;Creating circle of color : &quot; + color);</span><br><span class="line">      &#125;</span><br><span class="line">      return circle;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Facade-模式"><a href="#Facade-模式" class="headerlink" title="Facade 模式"></a>Facade 模式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(封装,)</span><br><span class="line">为多个复杂的子系统提供一个一致的接口,而使这些子系统更加容易被访问的模式.</span><br><span class="line">例:工作流.将整个工作流用外部的一个方法暴漏出来.</span><br></pre></td></tr></table></figure>
+<h3 id="Proxy-模式"><a href="#Proxy-模式" class="headerlink" title="Proxy 模式"></a>Proxy 模式</h3><p><img src="/2020/08/03/design-pattern/proxy.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">为其它对象提供一种代理以控制(隔离,使用)对这个对象的访问.</span><br><span class="line">Spring aop.</span><br></pre></td></tr></table></figure>
+<h3 id="Adapter-适配器模式"><a href="#Adapter-适配器模式" class="headerlink" title="Adapter 适配器模式"></a>Adapter 适配器模式</h3><p><img src="/2020/08/03/design-pattern/adapter.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Adapter模式使得原本由于接口不兼容而不能在一起工作的类可以一起工作.</span><br><span class="line">例如: apple + pen -&gt;applepen</span><br><span class="line">    InputStreamReader -&gt; InputStream+InputReader.</span><br><span class="line">    Arrays.asList -&gt; array -&gt; List</span><br></pre></td></tr></table></figure>
+<h3 id="状态模式"><a href="#状态模式" class="headerlink" title="状态模式"></a>状态模式</h3><p><img src="/2020/08/03/design-pattern/state.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">允许一个对象在其内部状态改变时候改变它的行为,从而使得对象看起来似乎修改了其行为.</span><br></pre></td></tr></table></figure>
+<h3 id="迭代器模式"><a href="#迭代器模式" class="headerlink" title="迭代器模式"></a>迭代器模式</h3><p><img src="/2020/08/03/design-pattern/iterator.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">提供一种方法顺序访问一个聚合对象的各个元素,而又不暴露该对象的内部表示(如是list还是set).</span><br></pre></td></tr></table></figure>
+<h3 id="Command-命令模式"><a href="#Command-命令模式" class="headerlink" title="Command 命令模式"></a>Command 命令模式</h3><p><img src="/2020/08/03/design-pattern/command.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">将行为或请求封装成命令对象,对请求排队并记录请求日志,并支持可撤销的操作.</span><br></pre></td></tr></table></figure>
+<h3 id="Visitor访问器"><a href="#Visitor访问器" class="headerlink" title="Visitor访问器"></a>Visitor访问器</h3><p><img src="/2020/08/03/design-pattern/visitor.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">动态(Motivation):</span><br><span class="line">    如何在不更改类层次结构的前提下,运行时根据需要透明地为类层次结构上的各个类动态添加新的操作?</span><br><span class="line">模式定义:</span><br><span class="line">    表示一个作用于某对象结构中的各元素的操作.使得可以在不改变(稳定)各元素的类的前提下定义(扩展)作用于</span><br><span class="line">    这些元素的新操作(变化).</span><br></pre></td></tr></table></figure>
+<h3 id="解释器模式"><a href="#解释器模式" class="headerlink" title="解释器模式"></a>解释器模式</h3><p><img src="/2020/08/03/design-pattern/interceptor.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">给定一个语言,定义它的文法的一种表示,并定义一钟解释器,这个解释器使用该表示来解释语言的句子.</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -295,7 +337,10 @@
     <a href="/2020/08/02/dubbo-RpcContext/" rel="prev" title="dubbo-RpcContext">
       <i class="fa fa-chevron-left"></i> dubbo-RpcContext
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/08/11/dubbo-proxy-chain/" rel="next" title="dubbo-proxy-chain">
+      dubbo-proxy-chain <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -334,7 +379,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象"><span class="nav-number">1.</span> <span class="nav-text">面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象-1"><span class="nav-number">1.1.</span> <span class="nav-text">面向对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象设计原则"><span class="nav-number">1.2.</span> <span class="nav-text">面向对象设计原则</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象"><span class="nav-number">1.</span> <span class="nav-text">面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象-1"><span class="nav-number">1.1.</span> <span class="nav-text">面向对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象设计原则"><span class="nav-number">1.2.</span> <span class="nav-text">面向对象设计原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Facade-模式"><span class="nav-number">1.3.</span> <span class="nav-text">Facade 模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Proxy-模式"><span class="nav-number">1.4.</span> <span class="nav-text">Proxy 模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Adapter-适配器模式"><span class="nav-number">1.5.</span> <span class="nav-text">Adapter 适配器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态模式"><span class="nav-number">1.6.</span> <span class="nav-text">状态模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迭代器模式"><span class="nav-number">1.7.</span> <span class="nav-text">迭代器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Command-命令模式"><span class="nav-number">1.8.</span> <span class="nav-text">Command 命令模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Visitor访问器"><span class="nav-number">1.9.</span> <span class="nav-text">Visitor访问器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解释器模式"><span class="nav-number">1.10.</span> <span class="nav-text">解释器模式</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -350,14 +395,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-count">46</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -400,13 +445,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">860k</span>
+    <span title="站点总字数">888k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">13:02</span>
+    <span title="站点阅读时长">13:27</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
   </div>

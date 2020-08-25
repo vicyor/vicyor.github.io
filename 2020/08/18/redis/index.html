@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://vicyor.gitee.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="redis - 高性能key-value服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis">
+<meta property="og:url" content="http://vicyor.gitee.io/2020/08/18/redis/index.html">
+<meta property="og:site_name" content="Vicyor">
+<meta property="og:description" content="redis - 高性能key-value服务器">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-18T13:07:28.000Z">
+<meta property="article:modified_time" content="2020-08-25T16:34:54.639Z">
+<meta property="article:author" content="vicyor">
+<meta property="article:tag" content="redis">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://vicyor.gitee.io/2020/08/18/redis/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>redis | Vicyor</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vicyor</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">46</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">48</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/08/18/redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="vicyor">
+      <meta itemprop="description" content="大路且慢慢,咱一步一步走完.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vicyor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          redis
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-18 21:07:28" itemprop="dateCreated datePublished" datetime="2020-08-18T21:07:28+08:00">2020-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-26 00:34:54" itemprop="dateModified" datetime="2020-08-26T00:34:54+08:00">2020-08-26</time>
+              </span>
+
+          
+            <span id="/2020/08/18/redis/" class="post-meta-item leancloud_visitors" data-flag-title="redis" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/08/18/redis/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/18/redis/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>redis - 高性能key-value服务器</p>
+<a id="more"></a>
+<h2 id="初始redis"><a href="#初始redis" class="headerlink" title="初始redis"></a>初始redis</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">1.高性能key-value服务器.</span><br><span class="line">   qps  -&gt;  10万，速度快 -&gt; 数据存储在RAM中,</span><br><span class="line">                          C语言 - 编译型语言(编译成字节码),</span><br><span class="line">                          单线程.</span><br><span class="line">2.多种数据结构.</span><br><span class="line">  String,Hash Tables,Linked Lists(跳表),Sets,Sorted Sets.</span><br><span class="line">  BitMaps,HyperLogLog(超小内存唯一值计数).GEO(地理信息定位).</span><br><span class="line">3.丰富的功能.</span><br><span class="line">    pipeline,pub&#x2F;sub,事务,Lua脚本.</span><br><span class="line">4.高可用分布式支持.</span><br><span class="line">    高可用 -&gt; redis sentinel.</span><br><span class="line">  分布式 -&gt; redis cluster.</span><br><span class="line">5.数据持久化(断电不丢失数据).</span><br><span class="line">    Aof,Rdb -&gt; 数据更新会异步保存到磁盘上.</span><br><span class="line">6.主从复制.</span><br><span class="line">7.Redis典型应用场景.</span><br><span class="line">    1.缓存系统.   -&gt;  CacheAside.</span><br><span class="line">    2.计数器.     -&gt;  incr.</span><br><span class="line">    3.消息队列系统. -&gt; list,deque + redis cli &#39;s poll()</span><br><span class="line">    4.排行榜.      -&gt; score list</span><br><span class="line">    5.社交网络.    -&gt; 如微博.  </span><br><span class="line">      1.微博消息体.  &lt;messageId,message&gt;</span><br><span class="line">      2.微博信息流.  &lt;userId,zset&lt;messageId&gt;&gt;    zset -&gt;timestamp为score</span><br><span class="line">      3.关注和粉丝.  </span><br><span class="line">           following  -  &lt;userId,zset&lt;userId&gt;&gt;  </span><br><span class="line">           follower   -  &lt;userId,zset&lt;userId&gt;&gt;</span><br><span class="line">    6.实时系统.</span><br><span class="line">    7.分布式锁.</span><br><span class="line">    8.分布式id生成器.   incr生成自增id.</span><br><span class="line">8.Redis自带的可执行文件.</span><br><span class="line">    1.redis-check-aof   -&gt;  AOF文件修复工具.</span><br><span class="line">    2.redis-check-dump  -&gt;  RDB文件检查工具.</span><br><span class="line">    3.redis-sentinel    -&gt;  Sentinel服务器.</span><br><span class="line">9.Redis三种启动方式.</span><br><span class="line">    1.最简启动      -&gt;   redis-server.</span><br><span class="line">        ps -ef | grep redis</span><br><span class="line">        netstat -antp | grep redis</span><br><span class="line">        redis-cli -h ip -p port ping</span><br><span class="line">    2.动态参数启动</span><br><span class="line">        redis-server configPath</span><br><span class="line">    3.配置文件启动</span><br><span class="line">        redis.conf</span><br><span class="line">10.Redis 常用配置.</span><br><span class="line">    daemonize  -&gt;  是否是守护进程(no|yes)</span><br><span class="line">    port       -&gt;  Redis对外端口号</span><br><span class="line">    logfile    -&gt;  Redis系统日志,redis执行的输出日志.</span><br><span class="line">    dir        -&gt;  Redis工作目录 ,rdb、aof日志文件.</span><br><span class="line">11.Redis key过期删除.</span><br><span class="line">  1.惰性删除. 获取key时,若发现key过期则删除.</span><br><span class="line">  2.定时任务. 定时随机采样,对过期的数据进行删除.</span><br><span class="line">12.Redis内存淘汰机制.</span><br><span class="line">    noeviction       当内存不足时,新写入操作会报错.++</span><br><span class="line">    allkeys-lru(LRU least-recently Used) 当内存不足时,移除最近最少使用的key(最常用).</span><br><span class="line">    allkeys-random   当内存不足时,随机移除某个key.</span><br><span class="line">    volatile-lru     当内存不足时,在设置了过期时间的键空间中,移除最近最少使用的key.</span><br><span class="line">    volatile-random  当内存不足时,在设置了过期时间的键空间中,随机删除某个key.</span><br><span class="line">    volatile-tll     当内存不足时,在设置过期时间的键空间中,删除最早的key.</span><br></pre></td></tr></table></figure>
+<h2 id="API的理解和使用"><a href="#API的理解和使用" class="headerlink" title="API的理解和使用"></a>API的理解和使用</h2><h3 id="通用命令"><a href="#通用命令" class="headerlink" title="通用命令"></a>通用命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">通用命令   +  单线程架构  +  数据结构和内部编码</span><br><span class="line">通用命令:</span><br><span class="line">    keys:  -&gt; 大数据量可能出现卡死现象,推荐使用scan(游标).   o(n)</span><br><span class="line">    dbsize:                                             o(1)</span><br><span class="line">    exists key:                                         o(1)</span><br><span class="line">    del key [key ...]:                                  o(1)</span><br><span class="line">    expire key seconds:                                 o(1)</span><br><span class="line">    ttl:    -1 代表key存在,并且没有过期时间.        </span><br><span class="line">    persist key:                                  </span><br><span class="line">    type key: 返回key的类型. none 表示key不存在.</span><br><span class="line">    incr,decr,incrby,decyby,incrbyfloat</span><br><span class="line">    getrange,setrange -&gt; getrange key start end  | setrange key index value</span><br><span class="line">    mget,mset</span><br><span class="line">    append,strlen</span><br></pre></td></tr></table></figure>
+<h3 id="数据结构和内部编码"><a href="#数据结构和内部编码" class="headerlink" title="数据结构和内部编码"></a>数据结构和内部编码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String -&gt; raw,int,embstr</span><br><span class="line">    阈值 - 512MB</span><br><span class="line">hash   -&gt; hashtable,ziplist</span><br><span class="line">list   -&gt; linkedlist,ziplist</span><br><span class="line">set    -&gt; hashtable,intset</span><br><span class="line">zset   -&gt; skiplist,ziplist</span><br></pre></td></tr></table></figure>
+<h3 id="单线程"><a href="#单线程" class="headerlink" title="单线程"></a>单线程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.发送到redis的指令将会被放入到一个队列中,redis单线程执行队列中的指令.</span><br><span class="line">  1.纯内存.(主要原因)</span><br><span class="line">  2.非阻塞IO.  I&#x2F;O Multiplexing</span><br><span class="line">  3.避免线程切换和竞态消耗.</span><br><span class="line">2.拒绝长命令.</span><br><span class="line">  keys,flushall,flushdb,slow lua script,mutil&#x2F;exec,operate big value(collection).</span><br></pre></td></tr></table></figure>
+<h2 id="redis其他功能"><a href="#redis其他功能" class="headerlink" title="redis其他功能"></a>redis其他功能</h2><h3 id="慢查询"><a href="#慢查询" class="headerlink" title="慢查询"></a>慢查询</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.生命周期.</span><br><span class="line">  client -&gt; send command -&gt; command 在Redis 服务器中排队(队列),排队后执行命令 -&gt; 返回命令执行结果 -&gt; client 处理结果.</span><br><span class="line">2.两个配置.</span><br><span class="line">  慢查询数据结构  -&gt;  先进先出队列+固定长度+保存在内存中.</span><br><span class="line">  slowlog-log-slower-than (1ms)   -&gt;   command 执行 阈值.</span><br><span class="line">  slowlog-max-len   (1000)        -&gt;   先进先出队列长度.</span><br><span class="line">3.慢查询命令.</span><br><span class="line">  slowlog  get[n]           -&gt;   获取慢查询队列.</span><br><span class="line">  slowlog  len              -&gt;   获取慢查询队列长度.</span><br><span class="line">  slowlog  reset            -&gt;   清空慢查询队列.</span><br><span class="line">4.慢查询只监控命令执行消耗时间,不包含排队,网络时间.</span><br></pre></td></tr></table></figure>
+<h3 id="pipeline"><a href="#pipeline" class="headerlink" title="pipeline"></a>pipeline</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">1.生命周期.</span><br><span class="line">  client -&gt; send pipeline ( command 1,command  2...commandn)    </span><br><span class="line">         -&gt; redis server 计算n次</span><br><span class="line">         -&gt; redis server 返回结果(res 1,res 2... resn)</span><br><span class="line">   一次网络时间 + n次命令时间</span><br><span class="line">          毫秒级别          微秒级别</span><br><span class="line">2.原生的m操作.</span><br><span class="line">  如:mset,mget.</span><br><span class="line">3.m操作与pipeline操作对比.</span><br><span class="line">  m操作 -&gt; 原子性,原语(执行一组指令,不会被中断).</span><br><span class="line">  pipeline -&gt; 非原子</span><br><span class="line">   pipeline 会拆分成 pipeline子命令.与其他的命令穿插在一起执行.</span><br><span class="line">4.pipeline使用注意点.</span><br><span class="line">    1.每次pipeline携带数据量.</span><br><span class="line">    2.pipeline每次只能作用在一个Redis节点上.</span><br><span class="line">    3.M操作与pipeline区别.</span><br><span class="line">5.发布订阅.</span><br><span class="line">    角色    -&gt;   发布者(publisher)、订阅者(subscriber)、频道(channel)。</span><br><span class="line">  API: </span><br><span class="line">      publish&#x2F;subscribe&#x2F;unsubscribe.</span><br><span class="line">    发布: publish  channel message</span><br><span class="line">       unsubscribe</span><br><span class="line">       psubscribe [pattern]</span><br><span class="line">       punsubscribe [pattern]</span><br><span class="line">       pubsub   channels    # 列出至少有一个订阅者的频道</span><br><span class="line">       pubsub   numsub  [channel..] # 列出channel的订阅者数量</span><br><span class="line">6.消息队列. -&gt; 消息只有一个消息订阅者消费.</span><br><span class="line">    消息发布者               -&gt;  (发布消息)  -&gt;       Redis Server</span><br><span class="line">  redis cli                                  |(抢)      </span><br><span class="line">                                      消息订阅者、消息订阅者、消息订阅者。          </span><br><span class="line">                                      redis-cli  redis-cli  redis-cli</span><br><span class="line">  redis本身未实现消息队列,redis是通过 list和 阻塞poll去list拉数据。</span><br><span class="line">  taps: 抢红包可以用消息队列.</span><br></pre></td></tr></table></figure>
+<h3 id="bitmap"><a href="#bitmap" class="headerlink" title="bitmap"></a>bitmap</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">getbit key index  获取key对应index上的character.</span><br><span class="line">setbit key offset value</span><br><span class="line">bitcount key start end</span><br><span class="line">bitop  [op]  destkey [key,key] 将多个bitmap的and,or,not,xor操作结果保存在destkey中.</span><br><span class="line">  如 bitop and a-b a b</span><br><span class="line">bitpos key [targetbit] [start] [end]  计算位图start - end中,第一个偏移量对应的值等于targetBit的位置.</span><br><span class="line">1.位图的好处.</span><br><span class="line">    降低存储空间.</span><br><span class="line">2.位图使用注意点.</span><br><span class="line">    1.type&#x3D;string -&gt; 最大512MB.</span><br><span class="line">    2.注意setbit的偏移量,可能有较大耗时.</span><br><span class="line">    3.位图不是绝对好.</span><br></pre></td></tr></table></figure>
+<h3 id="hyperloglog"><a href="#hyperloglog" class="headerlink" title="hyperloglog"></a>hyperloglog</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">hyperloglog算法  -  极小空间完成独立数量统计.</span><br><span class="line">数据结构    -  字符串</span><br><span class="line">pfadd  key  element [element]   -&gt;  向hyperloglog添加元素</span><br><span class="line">pfcount key [key]   -&gt;  计算hyperloglog的独立总数</span><br><span class="line">pfmerge destkey  sourcekey [sourcekey..]  -&gt;  合并多个hyperloglog</span><br><span class="line"></span><br><span class="line">tips: 用于计数,内存消耗特别小.</span><br><span class="line">            缺点:  错误率: 0.81%</span><br><span class="line">                        不能获取单条数据(单条数据根本没存)</span><br></pre></td></tr></table></figure>
+<h3 id="Geo"><a href="#Geo" class="headerlink" title="Geo"></a>Geo</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">GEO (地理信息定位):  存储经纬度,计算两地距离,范围计算.</span><br><span class="line">geoadd  key     longitude   latitude    member  [longitude  latitude member] ...</span><br><span class="line">geopos  key     member      [member ...]</span><br><span class="line">获取指定范围内的地理位置信息集合</span><br><span class="line"> georadis key    longitude   latitude    radiusm|km|ft [withcoord] [withdist] [withhash] [COUNT count] [asc|desc] [store key] [storedist key]</span><br><span class="line">    withcoord   -&gt; 结果包含经纬度</span><br><span class="line">    withdist    -&gt; 结果包含距离中心节点位置</span><br><span class="line">    </span><br><span class="line">例: geoadd cities:locations  116.28  39.55  beijing</span><br><span class="line">    geoadd cities:locations  xx      yy     shanghai</span><br><span class="line">    geodist cities:locations  beijing  tianjin  km</span><br><span class="line">说明: GEO -&gt; zset</span><br><span class="line">    zrem key member 进行删除</span><br></pre></td></tr></table></figure>
+<h2 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h2><h3 id="持久化作用"><a href="#持久化作用" class="headerlink" title="持久化作用"></a>持久化作用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">redis 持久化  -&gt; 异步地将对数据的更新保存到磁盘上.</span><br><span class="line">持久化方式 </span><br><span class="line">    -&gt; 快照 &#x2F; 写日志</span><br><span class="line">    快照  -&gt;  MySQL Dump,Redis RDB</span><br><span class="line">  写日志 -&gt;  MySQL Binlog,Hbase Hlog,Redis AOF.</span><br></pre></td></tr></table></figure>
+<h3 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">1.RDB触发三种方式.</span><br><span class="line">  1.save(同步).</span><br><span class="line">  2.bgsave(异步).</span><br><span class="line">    fork -&gt; createRDB  ,copy on write,若父进程内存空间未改变,则子进程在写rdb文件时候,虚拟空间指向父进程的虚拟空间.</span><br><span class="line">  3.自动(配置).</span><br><span class="line">     save  time changes</span><br><span class="line">     dbfilename dump.db</span><br><span class="line">     dir .&#x2F;</span><br><span class="line">     stop-writes-on-bgsave-error yes</span><br><span class="line">     rdbcompression yes #压缩,开启压缩主从赋值 </span><br><span class="line">     rdbcheckssum   yes</span><br><span class="line">2.其他触发方式.</span><br><span class="line">  1.全量复制.</span><br><span class="line">        主从复制,主会进行rdb.</span><br><span class="line">  2.debug reload.</span><br><span class="line">  3.shutdown.</span><br><span class="line">3.缺点.</span><br><span class="line">  1.O(n)数据:耗时.</span><br><span class="line">  2.fork()创建子进程,消耗内存.</span><br><span class="line">  3.Disk I&#x2F;O: IO性能.</span><br><span class="line">  4.不可控,丢失数据(rdb配置的间隔内宕机,则会丢失数据).</span><br></pre></td></tr></table></figure>
+<h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">1.AOF -&gt; 用于数据恢复,数据不丢失.</span><br><span class="line">2.AOF三种策略.</span><br><span class="line">  always    -&gt;      每条命令,fsync到硬盘. IO开销较大.</span><br><span class="line">  everysec  -&gt;      每秒把缓冲区fsync到硬盘.丢一秒数据.</span><br><span class="line">  no        -&gt;      os决定fsync.</span><br><span class="line">3.AOF重写.</span><br><span class="line">  AOF rewrite -&gt; 将当前内存中的数据变成指令写到日志中.</span><br><span class="line">    rewirte优点:  减少磁盘占用量.</span><br><span class="line">                 加速恢复速度.</span><br><span class="line">  AOF重写两种实现方式.</span><br><span class="line">   1. bgrewriteaof -&gt; fork</span><br><span class="line">   2. AOF重写配置</span><br><span class="line">      auto-aof-rewrite-min-size</span><br><span class="line">      auto-aof-rewrite-percentage 增长率</span><br><span class="line">  统计项.</span><br><span class="line">   1.aof_current_size  AOF当前尺寸</span><br><span class="line">   2.aof_base_size     AOF上次启动和重写的尺寸</span><br><span class="line">4.AOF重写流程.</span><br><span class="line">  bgrewriteaof </span><br><span class="line">     -&gt; fork</span><br><span class="line">     父进程 执行 command,将结果放到aof_buf文件和aof_rewrite_buf缓存中</span><br><span class="line">     子进程 根据aof_buf写new_aof_buf(优化).</span><br><span class="line">     父进程 将aof_rewrite_buf合并到new_aof_buf上.</span><br><span class="line">     子进程 用new_aof_buf文件替换aof_buf文件.</span><br><span class="line">5.aof配置.</span><br><span class="line">  appendonly yes</span><br><span class="line">  appendfilename &quot;appendonly-$&#123;port&#125;.aof&quot;</span><br><span class="line">  appendfsync   everysync</span><br><span class="line">  dir &#x2F;bigdiskpath</span><br><span class="line">  no-appendfsync-on-rewrite yes  #aof重写时,不执行其他命令.</span><br><span class="line">  auto-aof-rewrite-percentage 100</span><br><span class="line">  auto-aof-rewrite-min-size 64mb</span><br><span class="line">  aof-load-truncated yes #aof出现错误则不加载.</span><br></pre></td></tr></table></figure>
+<h3 id="RDB和AOF抉择"><a href="#RDB和AOF抉择" class="headerlink" title="RDB和AOF抉择"></a>RDB和AOF抉择</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">启动优先级: AOF &gt; RDB</span><br><span class="line">体积:      AOF &gt; RDB  AOF重写有可能变小</span><br><span class="line">恢复速度:   RDB&gt;AOF   AOF要执行命令</span><br><span class="line">数据安全性    AOF&gt;RDB   AOF可能丢失1s</span><br><span class="line">轻重              AOF&lt;RDB   AOF只是追加日志</span><br><span class="line">AOF -&gt; 数据恢复</span><br><span class="line">RDB -&gt; 主从同步</span><br></pre></td></tr></table></figure>
+<h3 id="持久化常见的运维问题"><a href="#持久化常见的运维问题" class="headerlink" title="持久化常见的运维问题"></a>持久化常见的运维问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1.fork.</span><br><span class="line">  1. 同步操作，内存页拷贝.</span><br><span class="line">  2. 与内存，机器类型有关.</span><br><span class="line">  3. info: latest_fork_usec. 查看持久化执行时间.</span><br><span class="line">  4.改善.</span><br><span class="line">    1.使用物理机或高效支持fork操作的虚拟化技术.</span><br><span class="line">    2.redis最大可用内存:maxmemory.</span><br><span class="line">    3.合理配置Linux内存分配策略: vm.overcommit_memory&#x3D;1.</span><br><span class="line">    4.降低AOF重写的自动触发时机.</span><br><span class="line">  5.开销.</span><br><span class="line">    1.RDB和AOF文件生成,属于CPU密集型.</span><br><span class="line">    2.内存: copy-on-write,父子进程共享内存页(父进程改变则复制).</span><br><span class="line">    3.硬盘: AOF和RDB文件开销,结合iostat,iotop工具分析.推荐ssd磁盘.</span><br><span class="line">2.AOF追加阻塞.</span><br><span class="line">    主线程 往  AOF缓存区 写数据, 对比上次fsync时间,若大于2秒则阻塞主线程,直到同步线程将数据同步到硬盘中.</span><br></pre></td></tr></table></figure>
+<h2 id="Redis复制的原理与优化"><a href="#Redis复制的原理与优化" class="headerlink" title="Redis复制的原理与优化"></a>Redis复制的原理与优化</h2><h3 id="Redis主从复制"><a href="#Redis主从复制" class="headerlink" title="Redis主从复制"></a>Redis主从复制</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">一主多从,高可用</span><br><span class="line">                -   redis slave (copy)</span><br><span class="line">    master      -   redis slave (copy)</span><br><span class="line">                -   redis slave (copy)</span><br><span class="line">读写分离,数据流向是单向的,master到slave.</span><br><span class="line">1.实现方式.</span><br><span class="line">  1.命令.  </span><br><span class="line">    slaveof masterIp port</span><br><span class="line">    slaveof on one</span><br><span class="line">  2.配置.  </span><br><span class="line">    slaveof ip port</span><br><span class="line">    slave-read-only yes</span><br><span class="line">    info replication -&gt; 查看节点状态</span><br><span class="line">2.runid和复制偏移量.</span><br><span class="line">    runid  -&gt; 标识 </span><br><span class="line">        $&gt;redis-cli -p  6379 info server | grep run</span><br><span class="line">          run_id: .....</span><br><span class="line">    偏移量   -&gt; master 与 slave 偏移量 一致,则说明数据已同步.</span><br><span class="line">        $&gt;redis-cli -p  6379 info replication |  grep offset</span><br><span class="line">          master_repl_offset:1950</span><br><span class="line">        $&gt;redis-cli -p  6380 info replication |  grep offset</span><br><span class="line">          slave_repl_offset:1978</span><br><span class="line">3.全量复制.</span><br><span class="line">   master                       slave</span><br><span class="line">        1.slave执行</span><br><span class="line">          psync ? -1  ?是runid,-1是offset</span><br><span class="line">        2. master</span><br><span class="line">                    返回master的&#123;runId&#125; &#123;offset&#125;</span><br><span class="line">        3.slave</span><br><span class="line">          save masterInfo</span><br><span class="line">        4.master</span><br><span class="line">          bgsave 生成rdb</span><br><span class="line">        5.master </span><br><span class="line">          write send buffer(新数据) -&gt;  repl_back_buffer</span><br><span class="line">        6.master</span><br><span class="line">          send buffer</span><br><span class="line">        7.slave</span><br><span class="line">          flush old data 清空老数据(不属于master的数据)</span><br><span class="line">        8.slave</span><br><span class="line">          load rdb.</span><br><span class="line">4.部分复制.</span><br><span class="line">       1.slave</span><br><span class="line">         connection loss或宕机</span><br><span class="line">       2.master</span><br><span class="line">         write send buffer repl_back_buffer</span><br><span class="line">       3.slave</span><br><span class="line">         connection to master</span><br><span class="line">       4.slave</span><br><span class="line">         psync &#123;offset&#125; &#123;runId&#125;</span><br><span class="line">       5.master</span><br><span class="line">         continue</span><br><span class="line">       6.master</span><br><span class="line">         send partial data</span><br><span class="line">5.故障处理.</span><br><span class="line">   slave  挂了,连接slave的client连接其他slave</span><br><span class="line">   master 挂了,找一个slave,执行 slaveof no one成为新master,其他slave成为新master的slave.</span><br><span class="line">  自动处理.</span><br><span class="line">   sentinel</span><br><span class="line">6.开发与运维中的问题.</span><br><span class="line">  1.读写分离.</span><br><span class="line">        读流量分摊到从节点.</span><br><span class="line">        问题:</span><br><span class="line">       1.复制数据延迟.</span><br><span class="line">                  复制慢,读到老数据.</span><br><span class="line">       2.读到过期数据.</span><br><span class="line">         redis删除过期数据.</span><br><span class="line">           1.懒惰形: 操作key是查看key是否过期.</span><br><span class="line">           2.定时任务: 对key进行采样,判断key是否过期.</span><br><span class="line">           由于slave不能执行写操作,所以不能删除过期的数据.</span><br><span class="line">       3.从节点故障.</span><br><span class="line">         </span><br><span class="line">  2.主从配置不一致.</span><br><span class="line">    1.maxmemory.</span><br><span class="line">      master -&gt; 4GB</span><br><span class="line">      slave  -&gt; 2GB</span><br><span class="line">      这时候slave写数据若内存不足,将会执行内存淘汰策略.</span><br><span class="line">    2.数据结果优化参数(hash-max-ziplist-entries):内存不一致.</span><br><span class="line">  3.规避全量复制.</span><br><span class="line">    1.第一次全量复制.</span><br><span class="line">       slave第一次挂到master上.</span><br><span class="line">    2.节点runID不匹配.</span><br><span class="line">      主节点重启.</span><br><span class="line">      故障转移主节点变更.</span><br><span class="line">    3.复制积压缓冲区不足.</span><br><span class="line">  4.规避复制风暴.</span><br><span class="line">    复制风暴:</span><br><span class="line">        master宕机，master重启后runid变化,所有slave需要全量复制.</span><br><span class="line">    解决方式:</span><br><span class="line">        更改TOPO结构.  </span><br><span class="line">        master -&gt; slave1,...slaven</span><br><span class="line">       改 maste -&gt; slave1 -&gt; slave11....slave1n</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+		<div>
+			
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+			
+		</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/redis/" rel="tag"># redis</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/12/quartz/" rel="prev" title="quartz">
+      <i class="fa fa-chevron-left"></i> quartz
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始redis"><span class="nav-number">1.</span> <span class="nav-text">初始redis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API的理解和使用"><span class="nav-number">2.</span> <span class="nav-text">API的理解和使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通用命令"><span class="nav-number">2.1.</span> <span class="nav-text">通用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据结构和内部编码"><span class="nav-number">2.2.</span> <span class="nav-text">数据结构和内部编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单线程"><span class="nav-number">2.3.</span> <span class="nav-text">单线程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis其他功能"><span class="nav-number">3.</span> <span class="nav-text">redis其他功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#慢查询"><span class="nav-number">3.1.</span> <span class="nav-text">慢查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pipeline"><span class="nav-number">3.2.</span> <span class="nav-text">pipeline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bitmap"><span class="nav-number">3.3.</span> <span class="nav-text">bitmap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hyperloglog"><span class="nav-number">3.4.</span> <span class="nav-text">hyperloglog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Geo"><span class="nav-number">3.5.</span> <span class="nav-text">Geo</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis持久化"><span class="nav-number">4.</span> <span class="nav-text">Redis持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#持久化作用"><span class="nav-number">4.1.</span> <span class="nav-text">持久化作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB"><span class="nav-number">4.2.</span> <span class="nav-text">RDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF"><span class="nav-number">4.3.</span> <span class="nav-text">AOF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB和AOF抉择"><span class="nav-number">4.4.</span> <span class="nav-text">RDB和AOF抉择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#持久化常见的运维问题"><span class="nav-number">4.5.</span> <span class="nav-text">持久化常见的运维问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis复制的原理与优化"><span class="nav-number">5.</span> <span class="nav-text">Redis复制的原理与优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis主从复制"><span class="nav-number">5.1.</span> <span class="nav-text">Redis主从复制</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="vicyor"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">vicyor</p>
+  <div class="site-description" itemprop="description">大路且慢慢,咱一步一步走完.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vicyor" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vicyor" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2457569580@qq.com" title="E-Mail → mailto:2457569580@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vicyor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">888k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">13:27</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = visitors.getAttribute('id').trim();
+      var title = visitors.getAttribute('data-flag-title').trim();
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.log('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return element.getAttribute('id').trim();
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=m9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'm9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz',
+            'X-LC-Key': 'g7WSuE6aDmunoX4rgyBN7SJa',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'qQhr9rNGJh6YalJA0mfaaurx-gzGzoHsz',
+    appKey: 'kJy8NJeOTMPnxQ3zLihOcnw3',
+    placeholder: "请留下您的宝贵评论",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+	
+		 <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		 <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
