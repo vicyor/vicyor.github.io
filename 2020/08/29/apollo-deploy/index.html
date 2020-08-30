@@ -45,20 +45,20 @@
   };
 </script>
 
-  <meta name="description" content="cat -&gt; center application tracing">
+  <meta name="description" content="apollo 部署文档.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="cat">
-<meta property="og:url" content="http://vicyor.gitee.io/2020/07/17/cat/index.html">
+<meta property="og:title" content="apollo-deploy">
+<meta property="og:url" content="http://vicyor.gitee.io/2020/08/29/apollo-deploy/index.html">
 <meta property="og:site_name" content="Vicyor">
-<meta property="og:description" content="cat -&gt; center application tracing">
+<meta property="og:description" content="apollo 部署文档.">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-07-17T03:05:44.000Z">
-<meta property="article:modified_time" content="2020-08-04T15:23:37.626Z">
+<meta property="article:published_time" content="2020-08-29T04:51:57.000Z">
+<meta property="article:modified_time" content="2020-08-29T13:58:02.786Z">
 <meta property="article:author" content="vicyor">
-<meta property="article:tag" content="cat">
+<meta property="article:tag" content="apollo">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://vicyor.gitee.io/2020/07/17/cat/">
+<link rel="canonical" href="http://vicyor.gitee.io/2020/08/29/apollo-deploy/">
 
 
 <script id="page-configurations">
@@ -72,7 +72,7 @@
   };
 </script>
 
-  <title>cat | Vicyor</title>
+  <title>apollo-deploy | Vicyor</title>
   
 
 
@@ -176,7 +176,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/07/17/cat/">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/08/29/apollo-deploy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/head.png">
@@ -189,7 +189,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          cat
+          apollo-deploy
         </h1>
 
         <div class="post-meta">
@@ -198,19 +198,13 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-07-17 11:05:44" itemprop="dateCreated datePublished" datetime="2020-07-17T11:05:44+08:00">2020-07-17</time>
+              <time title="创建时间：2020-08-29 12:51:57 / 修改时间：21:58:02" itemprop="dateCreated datePublished" datetime="2020-08-29T12:51:57+08:00">2020-08-29</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-04 23:23:37" itemprop="dateModified" datetime="2020-08-04T23:23:37+08:00">2020-08-04</time>
-              </span>
 
           
-            <span id="/2020/07/17/cat/" class="post-meta-item leancloud_visitors" data-flag-title="cat" title="阅读次数">
+            <span id="/2020/08/29/apollo-deploy/" class="post-meta-item leancloud_visitors" data-flag-title="apollo-deploy" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -225,8 +219,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/07/17/cat/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/17/cat/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/08/29/apollo-deploy/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/29/apollo-deploy/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -236,14 +230,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -255,16 +249,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>cat -&gt; center application tracing</p>
+        <p>apollo 部署文档.</p>
 <a id="more"></a>
-<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="LDC"><a href="#LDC" class="headerlink" title="LDC"></a>LDC</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LDC (logic data center) -&gt; 无论物理结构如何分布,整个数据中心在逻辑上是协同和统一的.</span><br></pre></td></tr></table></figure>
-<h3 id="CAT"><a href="#CAT" class="headerlink" title="CAT"></a>CAT</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CAT -&gt; center application tracing</span><br></pre></td></tr></table></figure>
-<h3 id="应用监控缺失造成的坑"><a href="#应用监控缺失造成的坑" class="headerlink" title="应用监控缺失造成的坑"></a>应用监控缺失造成的坑</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.线上发布了服务,如何知道一切正常?</span><br><span class="line">2.大量报错,到底哪里产生的,根因是啥?</span><br><span class="line">3.人工配置错误,通宵排错,劳民伤财.</span><br><span class="line">4.应用程序性能问题,如何尽快发现问题.</span><br><span class="line">5.数据库问题,在出问题之前能洞察吗?</span><br><span class="line">6.网络问题成为最好接口,运维如何反击.</span><br></pre></td></tr></table></figure>
-<h3 id="调用链监控原理"><a href="#调用链监控原理" class="headerlink" title="调用链监控原理"></a>调用链监控原理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1.Trace - 一次分布式调用的链路轨迹.</span><br><span class="line">2.Span  - 一个方法(局部或远程)调用轨迹.  若干个span串联出来形成一个trace.</span><br><span class="line">3.Annotation - 附着在Span上的日志信息.</span><br><span class="line">4.Sampling   - 采样率.</span><br><span class="line"></span><br><span class="line">tid -&gt; trace id</span><br><span class="line">pid -&gt; parent id</span><br><span class="line">sid -&gt; span   id</span><br><span class="line"></span><br><span class="line">zipkin</span><br><span class="line">  1.客户端埋点.</span><br><span class="line">  2.异步线程将监控信息发送到服务器.</span><br><span class="line">  3.服务器异步线程存储分析信息.</span><br></pre></td></tr></table></figure>
-<h3 id="Cat-的报表"><a href="#Cat-的报表" class="headerlink" title="Cat 的报表"></a>Cat 的报表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">1.应用报错大盘.</span><br><span class="line">    以分钟为单位.</span><br><span class="line">2.业务大盘(不推荐).</span><br><span class="line">    如支付成功次数,创建订单次数.</span><br><span class="line">3.Cat的logView.</span><br><span class="line">  t -&gt; transaction Start.</span><br><span class="line">  E -&gt; Event.</span><br><span class="line">  T -&gt; transaction End.</span><br><span class="line">  A -&gt; Atomic Transaction.</span><br><span class="line">  Transaction (可嵌套)</span><br><span class="line">  Event       (不可嵌套)</span><br><span class="line">  Heartbeat   (不可嵌套)</span><br><span class="line">4.应用报表(APM).</span><br><span class="line">  Transaction实时报表           -      一段代码的运行时间&#x2F;次数&#x2F;分布,比如URL&#x2F;Cache&#x2F;SQL执行次数和响应时间.</span><br><span class="line">  Event实时报表                       -      事件产生的次数&#x2F;分布,比如出现一个异常.</span><br><span class="line">  Problem实时报表                   -      根据Transaction&#x2F;Event数据分析出来的系统出现异常,包括访问较慢的程序等.</span><br><span class="line">  Heartbeat实时报表               -      JVM内部一些状态信息,Load&#x2F;Memory&#x2F;GC&#x2F;Thread等.</span><br><span class="line">  Metric实时报表                     -      业务指标监控.</span><br><span class="line">  Matrix实时报表                     -      一个请求调用分布统计(一次请求中调用了多少次SQL&#x2F;RPC&#x2F;Cache等),可评估应用设计的合理性.</span><br><span class="line">  Cross实时报表                       -      SOA系统中关于RPC调用的报表(支持粒度服务&#x2F;IP&#x2F;方法)</span><br><span class="line">  Cache                  -      缓存命中率分析</span><br><span class="line">  Dependency实时报表            -      应用间依赖关系图,包括远程服务&#x2F;数据库&#x2F;缓存等.</span><br></pre></td></tr></table></figure>
-<h3 id="Cat的告警"><a href="#Cat的告警" class="headerlink" title="Cat的告警"></a>Cat的告警</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.失败率告警.</span><br><span class="line">2.响应时间告警.</span><br><span class="line">3.心跳告警.</span><br></pre></td></tr></table></figure>
-<h3 id="Cat架构设计"><a href="#Cat架构设计" class="headerlink" title="Cat架构设计"></a>Cat架构设计</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">1.cat设计目标.</span><br><span class="line">    1.对应用无影响.</span><br><span class="line">    2.实时性(消息尽快到达服务端).</span><br><span class="line">    3.吞吐量(cat服务端高的吞吐量).</span><br><span class="line">    4.开销低(开销2%).</span><br><span class="line">2.客户端设计.</span><br><span class="line"> 1.HttpThread.</span><br><span class="line">   1.开始     -&gt;  创建消息树.</span><br><span class="line">   2.Call  -&gt;  创建Call节点.</span><br><span class="line">   3.SQL   -&gt;  加入SQL节点.</span><br><span class="line">   4.Cache -&gt;  加入Cache节点.</span><br><span class="line">   5. ...  -&gt;  ...</span><br><span class="line">   6.结束     -&gt;  消息(消息树)构建结束.</span><br><span class="line"> 2.MessageQueue. -&gt; 消息队列.</span><br><span class="line"> 3.Sender  -&gt;  很多个异步发送Thread.</span><br><span class="line">3.服务端设计.</span><br><span class="line">  1.应用客户端异步发送监控信息到服务器.</span><br><span class="line">  2.服务器接收消息并将消息发送到Queues中.</span><br><span class="line">  3.Analyzer线程异步从Queue中获取消息并处理,存储到hdfs(Logview)和mysql(报表,Report)中.</span><br><span class="line">4.监控模型.</span><br><span class="line">  Transaction  -  一段代码执行时间,url&#x2F;sql响应时间.</span><br><span class="line">  Event        -  Exception出现次数.</span><br><span class="line">  HeartBeat    -  分钟粒度Cpu,IO.</span><br><span class="line">  Metric       -  监控销售额.</span><br></pre></td></tr></table></figure>
-<h3 id="Cat埋点案例"><a href="#Cat埋点案例" class="headerlink" title="Cat埋点案例"></a>Cat埋点案例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1.CatServletFilter(Servlet的HttpServletFilter). -&gt; 对访问本应用的请求进行埋点.</span><br><span class="line">    从request的header中获取Cat的Root,Parent,Child Id.并设置到catContext中.</span><br><span class="line">2.CatRestInterceptor(RestTemplate的interceptor). -&gt; 对本应用发出去的请求进行埋点. </span><br><span class="line">        从catContext中获取Root,Parent,Child Id，并设置到request的header中.</span><br><span class="line">taps: 通过Root,Parent,Child可以形成一个调用链.</span><br><span class="line">            在cat的UI可以在一个调用链中通过::show查看子调用链.</span><br><span class="line"> </span><br><span class="line">cat 还可以跟dubbo,elasticsearch,log4j,logback,mybatis,aop集成.</span><br><span class="line">参考:https:&#x2F;&#x2F;github.com&#x2F;dianping&#x2F;cat&#x2F;tree&#x2F;master&#x2F;integration</span><br></pre></td></tr></table></figure>
+<h2 id="分布式部署指南"><a href="#分布式部署指南" class="headerlink" title="分布式部署指南"></a>分布式部署指南</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.Java.</span><br><span class="line">  java 1.8+.</span><br><span class="line">2.MySQL.</span><br><span class="line">    版本要求：5.6.5+ Apollo的表结构对timestamp使用了多个default声明，所以需要5.6.5以上版本。</span><br><span class="line">  SHOW VARIABLES WHERE Variable_name &#x3D; &#39;version&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">3.环境.</span><br><span class="line">  DEV   -&gt;   开发环境</span><br><span class="line">  FAT   -&gt;   测试环境       QA</span><br><span class="line">  UAT   -&gt;   集成环境       PL</span><br><span class="line">  PRO   -&gt;   生产环境       OL</span><br><span class="line">   部署策略:</span><br><span class="line">   1.portal Server(集群) 部署在 OL.</span><br><span class="line">   2.Meta Server、Config Server、Admin Server在每个环境单独部署,使用独立的数据库.</span><br><span class="line">     不同的环境的数据库是唯一的.例如:online只存在一个数据库.</span><br><span class="line">   3.OL的Meta Server,Config Service和Admin Service部署在两个机房,实现双活.</span><br><span class="line">   4.Meta Server 和 Config Service部署在同一个JVM进程中,</span><br><span class="line">     Admin Service部署在同一台服务器的另一个JVM进程中.</span><br><span class="line">4.网络策略.</span><br><span class="line">  1.apollo-configservice和apollo-adminservice需要将自己的IP和端口注册到MetaServer(apollo-configservice).</span><br><span class="line">  2.Apollo客户端和potal 从 meta-server 中获取服务(admin server&#x2F;config service)的地址(IP+port).</span><br><span class="line">        获取服务地址后进行直连.</span><br><span class="line">  3.若实际部署机器是多网卡(如docker),但是机器的某个网卡是外界无法访问的,避免部署机器将这些网卡的ip注册到Meta Server.</span><br><span class="line">       spring:</span><br><span class="line">          application:</span><br><span class="line">              name: apollo-configservice</span><br><span class="line">          profiles:</span><br><span class="line">            active: $&#123;apollo_profile&#125;</span><br><span class="line">          cloud:</span><br><span class="line">            inetutils:</span><br><span class="line">              ignoredInterfaces:</span><br><span class="line">                - docker0</span><br><span class="line">                - veth.*</span><br><span class="line">        或者:</span><br><span class="line">            eureka:</span><br><span class="line">              instance:</span><br><span class="line">                ip-address: $&#123;指定的IP&#125;</span><br><span class="line">                或者:</span><br><span class="line">        eureka:</span><br><span class="line">          instance:</span><br><span class="line">            homePageUrl: http:&#x2F;&#x2F;$&#123;指定的IP&#125;:$&#123;指定的Port&#125;</span><br><span class="line">            preferIpAddress: false        </span><br><span class="line">        或者: JVM System Property &#x3D;&gt;  Deureka.instance.homePageUrl&#x3D;http:&#x2F;&#x2F;$&#123;指定的IP&#125;:$&#123;指定的Port</span><br><span class="line">   4.若Apollo部署在公有云上,本地开发环境无法连接meta Server,可以通过ip直连目标服务来跳过meta server的服务发现.</span><br><span class="line">     -Dapollo.configService&#x3D;http:&#x2F;&#x2F;config-service的公网IP:端口</span><br></pre></td></tr></table></figure>
+<h3 id="部署步骤"><a href="#部署步骤" class="headerlink" title="部署步骤"></a>部署步骤</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">1.创建数据库.    </span><br><span class="line">   apolloconfigdb,apolloportaldb.</span><br><span class="line">   1.重新部署.</span><br><span class="line">     从别的环境导入ApolloConfigDB的项目数据.</span><br><span class="line">     App,AppNamespace,Cluster,Namespace.  </span><br><span class="line">2.获取安装包.    apollo-configservice,apollo-adminservice,apollo-portal.</span><br><span class="line">3.部署apollo服务端.  获取安装包后就可以部署到公司的测试和生产环境了.</span><br><span class="line">  1.Apollo自身一些配置放在数据库里面.</span><br><span class="line">     -D 指定jvm参数 优先级高于数据库的配置.</span><br><span class="line">         特殊的配置ApolloPortalDB.ServerConfig表</span><br><span class="line">      1.apollo.portal.envs   -&gt;   可支持的环境列表,默认是dev.</span><br><span class="line">                只在数据库中添加是无效的,还需要为apollo-portal添加新增环境对应的meta-server地址.</span><br><span class="line">      2.organizations -部门列表.</span><br><span class="line">        [&#123;&quot;orgId&quot;:&quot;TEST1&quot;,&quot;orgName&quot;:&quot;样例部门1&quot;&#125;,&#123;&quot;orgId&quot;:&quot;TEST2&quot;,&quot;orgName&quot;:&quot;样例部门2&quot;&#125;]</span><br><span class="line">      3.superAdmin - portal超级管理员</span><br><span class="line">        admin.createPrivateNamespace.switch  -&gt;  是否允许项目管理员创建 private namespace.</span><br><span class="line">         特殊的配置ApolloConfigDB.ServerConfig表.</span><br><span class="line">      1.eureka.service.url - Eureka服务地址.</span><br><span class="line">        1.多机房部署时,实现将config service与admin service只向同机房的eureka注册,</span><br><span class="line">            eureka.service.url   defalut   http:&#x2F;&#x2F;defaultCluster:8080&#x2F;eureka&#x2F;</span><br><span class="line">            eureka.service.url   SHAQY     http:&#x2F;&#x2F;SHAQYCluster:8080&#x2F;eureka&#x2F;</span><br><span class="line">            eureka.service.url   SHAJQ     http:&#x2F;&#x2F;SHAJQCluster:8080&#x2F;eureka&#x2F;</span><br><span class="line">        2.config service与adminservice所部署的机器.</span><br><span class="line">          &#x2F;opt&#x2F;settings&#x2F;server.properties -&gt; idc&#x3D;SHAQY</span><br><span class="line">        3.namespace.lock.switch. 一次发布只能有一个人修改开关,用于发布审核.</span><br><span class="line">        4.config-service.cache.enabled  - 是否开启配置缓存.</span><br><span class="line">        5.item.key.length.limit - 配置项的key最大长度限制.</span><br><span class="line">        6.item.value.length.limit - 配置项的value的最大长度限制.</span><br><span class="line">  2.配置数据源.</span><br><span class="line">    application-github.properties</span><br><span class="line">        spring.datasource.url &#x3D; jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;ApolloConfigDB?useSSL&#x3D;false&amp;characterEncoding&#x3D;utf8</span><br><span class="line">        spring.datasource.username &#x3D; someuser</span><br><span class="line">        spring.datasource.password &#x3D; somepwd</span><br><span class="line">  3.配置portal的meta-server</span><br><span class="line">    application-env.properties</span><br><span class="line">    dev.meta&#x3D;http:&#x2F;&#x2F;1.1.1.1:8080</span><br><span class="line">    fat.meta&#x3D;http:&#x2F;&#x2F;apollo.fat.xx.com</span><br><span class="line">    uat.meta&#x3D;http:&#x2F;&#x2F;apollo.uat.xx.com</span><br><span class="line">    pro.meta&#x3D;http:&#x2F;&#x2F;apollo.xxx.com</span><br><span class="line">  4.启动服务.</span><br><span class="line">    1.apollo-configservice.</span><br><span class="line">      scripts&#x2F;startup.sh</span><br><span class="line">      &#x2F;&#x2F;MetaspaceSize 元空间大小 SurvivorRatio -&gt; eden:tosurvivor</span><br><span class="line">      export JAVA_OPTS&#x3D;&quot;-server -Xms6144m -Xmx6144m -Xss256k -XX:MetaspaceSize&#x3D;128m   </span><br><span class="line">                         -XX:MaxMetaspaceSize&#x3D;384m -XX:NewSize&#x3D;4096m -XX:MaxNewSize&#x3D;4096m</span><br><span class="line">                         -XX:SurvivorRatio&#x3D;18</span><br><span class="line">                         &quot;</span><br><span class="line">    2.apollo-adminservice.</span><br><span class="line">      scripts&#x2F;startup.sh</span><br><span class="line">      export JAVA_OPTS&#x3D;&quot;-server -Xms2560m -Xmx2560m -Xss256k -XX:MetaspaceSize&#x3D;128m -XX:MaxMetaspaceSize&#x3D;384m -XX:NewSize&#x3D;1024m -XX:MaxNewSize&#x3D;1024m -XX:SurvivorRatio&#x3D;22&quot;</span><br><span class="line">    3.apollo-portal.</span><br><span class="line">      export JAVA_OPTS&#x3D;&quot;-server -Xms4096m -Xmx4096m -Xss256k -XX:MetaspaceSize&#x3D;128m -XX:MaxMetaspaceSize&#x3D;384m -XX:NewSize&#x3D;1536m -XX:MaxNewSize&#x3D;1536m -XX:SurvivorRatio&#x3D;22&quot;</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -283,7 +272,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/cat/" rel="tag"># cat</a>
+              <a href="/tags/apollo/" rel="tag"># apollo</a>
           </div>
 
         
@@ -292,13 +281,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/16/java8/" rel="prev" title="java8">
-      <i class="fa fa-chevron-left"></i> java8
+    <a href="/2020/08/18/redis/" rel="prev" title="redis">
+      <i class="fa fa-chevron-left"></i> redis
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/07/23/spring-cloud/" rel="next" title="spring-cloud">
-      spring-cloud <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -337,7 +323,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础概念"><span class="nav-number">1.</span> <span class="nav-text">基础概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LDC"><span class="nav-number">1.1.</span> <span class="nav-text">LDC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAT"><span class="nav-number">1.2.</span> <span class="nav-text">CAT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用监控缺失造成的坑"><span class="nav-number">1.3.</span> <span class="nav-text">应用监控缺失造成的坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调用链监控原理"><span class="nav-number">1.4.</span> <span class="nav-text">调用链监控原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cat-的报表"><span class="nav-number">1.5.</span> <span class="nav-text">Cat 的报表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cat的告警"><span class="nav-number">1.6.</span> <span class="nav-text">Cat的告警</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cat架构设计"><span class="nav-number">1.7.</span> <span class="nav-text">Cat架构设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cat埋点案例"><span class="nav-number">1.8.</span> <span class="nav-text">Cat埋点案例</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式部署指南"><span class="nav-number">1.</span> <span class="nav-text">分布式部署指南</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">1.1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署步骤"><span class="nav-number">1.2.</span> <span class="nav-text">部署步骤</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
