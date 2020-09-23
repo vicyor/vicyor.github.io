@@ -57,9 +57,8 @@
 <meta property="og:image" content="http://vicyor.gitee.io/2020/07/11/apollo/apollo-qx.png">
 <meta property="og:image" content="http://vicyor.gitee.io/2020/07/11/apollo/intime-push.png">
 <meta property="og:image" content="http://vicyor.gitee.io/2020/07/11/apollo/apollo-ha.png">
-<meta property="og:image" content="http://vicyor.gitee.io/2020/07/11/apollo/apollo-deploy.png">
 <meta property="article:published_time" content="2020-07-11T03:27:22.000Z">
-<meta property="article:modified_time" content="2020-09-05T11:29:33.431Z">
+<meta property="article:modified_time" content="2020-09-08T02:05:52.330Z">
 <meta property="article:author" content="vicyor">
 <meta property="article:tag" content="apollo">
 <meta name="twitter:card" content="summary">
@@ -149,12 +148,12 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">47</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">49</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">52</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">55</span></a>
 
   </li>
   </ul>
@@ -188,7 +187,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/head.png">
       <meta itemprop="name" content="vicyor">
-      <meta itemprop="description" content="大路且慢慢,咱一步一步走完.">
+      <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -213,7 +212,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-05 19:29:33" itemprop="dateModified" datetime="2020-09-05T19:29:33+08:00">2020-09-05</time>
+                <time title="修改时间：2020-09-08 10:05:52" itemprop="dateModified" datetime="2020-09-08T10:05:52+08:00">2020-09-08</time>
               </span>
 
           
@@ -243,14 +242,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>9.5k</span>
+              <span>9.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
+              <span>8 分钟</span>
             </span>
 
         </div>
@@ -283,8 +282,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Admin Service 向 Config Service 发送 Release Message的实现.</span><br><span class="line">1.Admin Service 将 Release Message 插入 Release Message表中.</span><br><span class="line">  消息内容: AppId+Cluster+Namespace,参考DatabaseMessageSender. </span><br><span class="line">2.Config Service 定时扫描Release Message表(ReleaseMessageScanner), 并通知客户端配置实时更新.</span><br></pre></td></tr></table></figure>
 <h3 id="Apollo-高可用-和-监控"><a href="#Apollo-高可用-和-监控" class="headerlink" title="Apollo 高可用 和 监控"></a>Apollo 高可用 和 监控</h3><p><img src="/2020/07/11/apollo/apollo-ha.png" alt></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">一. 高可用.</span><br><span class="line">1.Apollo Client 本地存在缓存,若Config Service全部挂掉,Client依然可以用自己的缓存.</span><br><span class="line">2.Config DB 不能挂掉.</span><br><span class="line">二. 监控.</span><br><span class="line">1.内置支持CAT.</span><br><span class="line">  1.客户端&#x2F;服务器端埋点.</span><br><span class="line">  2.自动依赖扫描.</span><br><span class="line">2.关键指标.</span><br><span class="line">  1.接入应用数量.</span><br><span class="line">  2.配置项数量.</span><br><span class="line">  3.变更和发布数量.</span><br><span class="line">  4.推送拉取次数.(success&#x2F;failure).</span><br><span class="line">  5.Config Service.</span><br><span class="line">    1.接口性能.</span><br><span class="line">    2.GC.</span><br><span class="line">    3.CPU.</span><br></pre></td></tr></table></figure>
-<h3 id="Apollo分布式部署指南"><a href="#Apollo分布式部署指南" class="headerlink" title="Apollo分布式部署指南"></a>Apollo分布式部署指南</h3><p><img src="/2020/07/11/apollo/apollo-deploy.png" alt></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1.JDK  -&gt;  Apollo服务器: 1.8+</span><br><span class="line">           Apollo客户端: 1.7+</span><br><span class="line">2.Mysql -&gt; 5.6.5+</span><br><span class="line">3.环境+机器 -&gt; DEV 开发环境</span><br><span class="line">             FAT 测试环境</span><br><span class="line">             UAT 集成环境</span><br><span class="line">             PRO 生产环境</span><br><span class="line">4.关键配置和注意点.</span><br><span class="line">  1.数据库  -&gt; ApolloPortalDB -&gt; 环境列表(DEV,FAT,UAT,PRO),部门列表organization,超级管理员super admin.</span><br><span class="line">          -&gt; ApolloConfigDB -&gt; Eureka服务URL列表,各环境不同.</span><br></pre></td></tr></table></figure>
+
 <h3 id="Apollo-Java客户端和多语言接入"><a href="#Apollo-Java客户端和多语言接入" class="headerlink" title="Apollo Java客户端和多语言接入"></a>Apollo Java客户端和多语言接入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">1.app.id.</span><br><span class="line">  classpath:&#x2F;META-INF&#x2F;app.properties</span><br><span class="line">    app.id&#x3D;YOUR-APP-ID</span><br><span class="line">  或</span><br><span class="line">  -Dapp.id&#x3D;YOUR-APP-ID</span><br><span class="line">2.metaserver地址(与configserver是一样的).</span><br><span class="line">  -Ddev_meta &#x2F; apollo-core.jar中apollo-env.properties(推荐)&#x2F; classpath:app-env.properties</span><br><span class="line">  local.meta&#x3D;http:&#x2F;&#x2F;localhost:8080</span><br><span class="line">  dev.meta&#x3D;http:&#x2F;&#x2F;dev-apconfig.spring2go.com</span><br><span class="line">  fat.meta&#x3D;http:&#x2F;&#x2F;fat-apconfig.spring2go.com</span><br><span class="line">  uat.meta&#x3D;http:&#x2F;&#x2F;uat-apconfig.spring2go.com</span><br><span class="line">  pro.meta&#x3D;http:&#x2F;&#x2F;apconfig.spring2go.com</span><br><span class="line">3.运行环境的设置Environment.</span><br><span class="line">  -Denv&#x3D;YOUR-ENV &#x2F; OS环境变量ENV &#x2F; &#x2F;opt&#x2F;settings&#x2F;server.properties.</span><br><span class="line">4.一个环境中的一个app,对不同的集群可以有不同的配置.</span><br><span class="line">  1.-Dapollo.cluster&#x3D;app_cluster_v1.</span><br><span class="line">  2.通过配置文件.</span><br><span class="line">    1.Mac&#x2F;Linux,&#x2F;opt&#x2F;settings&#x2F;server.properties.</span><br><span class="line">    2.window,&#x2F;opt&#x2F;settings&#x2F;server.properties.</span><br><span class="line">    3.可设置数据中心集群idc&#x3D;xyz,注意key全小写.</span><br><span class="line">5.本地缓存路径.</span><br><span class="line">    本地容灾降级,本地调试.</span><br><span class="line">  1.MAC&#x2F;Linux &#x2F;opt&#x2F;data&#x2F;&#123;appId&#125;&#x2F;config-cache.</span><br><span class="line">  2.Windows C:\opt\data\&#123;appId&#125;\config-cache.</span><br><span class="line">  3.应用需要读写权限.</span><br><span class="line">  4.文件名&#123;appId&#125;-&#123;cluster&#125;-&#123;namespace&#125;.properties.</span><br><span class="line">6.Apollo Client Jar依赖.</span><br><span class="line">  参考部署指南打包到自己公司Maven私服.</span><br><span class="line">  apollo-client会打包metaserver的地址.</span><br></pre></td></tr></table></figure>
 <h3 id="Spring-Cloud-Config-简介"><a href="#Spring-Cloud-Config-简介" class="headerlink" title="Spring Cloud Config 简介"></a>Spring Cloud Config 简介</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1.优点:</span><br><span class="line">  1.配置存储支持Git.</span><br><span class="line">  2.和spring无缝集成.</span><br><span class="line">  3.设计简单轻量.</span><br><span class="line">2.缺点:</span><br><span class="line">  1.动态配置能力弱.</span><br><span class="line">  2.治理能力弱.</span><br><span class="line">  3.不算严格企业级.</span><br><span class="line">3.原理</span><br><span class="line">  Remote Git Repository  -&gt;  Local Git Repository  -&gt;  Config Server  -&gt;  Client A、Client B、Client C.</span><br><span class="line">  Client </span><br><span class="line">  ApplicationContext -&gt;</span><br><span class="line">        Environment -&gt;</span><br><span class="line">            PropertySources</span><br><span class="line">                RemotePropertySource   远程配置,在应用运行时插入</span><br><span class="line">                PropertySource1        本地配置</span><br><span class="line">                PropertySource2</span><br><span class="line">  当远程的git repository收到update请求时候,会通过Git Web Hook通知config server,</span><br><span class="line"> config server会publish message to Spring Cloud Bus,Spring Cloud Bus会唤醒对应的客户端.</span><br></pre></td></tr></table></figure>
 <h4 id="Apollo-vs-Spring-Cloud-Config"><a href="#Apollo-vs-Spring-Cloud-Config" class="headerlink" title="Apollo vs Spring Cloud Config"></a>Apollo vs Spring Cloud Config</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">功能点                      Apollo              vs              Spring Cloud Config</span><br><span class="line">配置界面            有统一界面&#x2F;集群配置                                                 无界面,通过git操作</span><br><span class="line">配置生效时间              实时                                                                  重启生效，或者refresh，或者git hook + MQ扩展</span><br><span class="line">版本管理               界面上提过发布历史和回滚按钮                               无,通过git操作</span><br><span class="line">灰度发布                支持                                                                       不支持</span><br><span class="line">授权&#x2F;审计&#x2F;审核     界面上直接操作,且支持修改和发布权限分离           需要git仓库设置,且不支持修改和发布权限分离</span><br><span class="line">实例配置监控          可以方便的看到哪些客户端在使用哪些配置            不支持</span><br><span class="line">配置获取性能          快，通过数据库访问+缓存支持                              较慢，需要git clone repo,然后本地文件读取</span><br><span class="line">客户端支持             原生支持Java&#x2F;.Net,提供API,支持Spring Annotaiton   Spring+annotation支持</span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line">### Apollo FAQ和开发常见问题</span><br></pre></td></tr></table></figure>
@@ -368,7 +366,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#灰度发布"><span class="nav-number">1.1.</span> <span class="nav-text">灰度发布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apollo支持4个维度管理key-value格式的配置"><span class="nav-number">1.2.</span> <span class="nav-text">Apollo支持4个维度管理key-value格式的配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置基本概念"><span class="nav-number">1.3.</span> <span class="nav-text">配置基本概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-Apollo"><span class="nav-number">2.</span> <span class="nav-text">Why Apollo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apollo-at-a-glance"><span class="nav-number">3.</span> <span class="nav-text">Apollo at a glance</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础模型"><span class="nav-number">3.1.</span> <span class="nav-text">基础模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apollo-in-depth"><span class="nav-number">4.</span> <span class="nav-text">Apollo in depth</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#核心概念"><span class="nav-number">4.1.</span> <span class="nav-text">核心概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微服务架构实战"><span class="nav-number">5.</span> <span class="nav-text">微服务架构实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务配置中心Apollo架构和实践"><span class="nav-number">5.1.</span> <span class="nav-text">微服务配置中心Apollo架构和实践</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#业务需求"><span class="nav-number">5.1.1.</span> <span class="nav-text">业务需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置定义和场景"><span class="nav-number">5.1.2.</span> <span class="nav-text">配置定义和场景</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apollo核心概念"><span class="nav-number">5.2.</span> <span class="nav-text">Apollo核心概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apollo架构设计之服务器端"><span class="nav-number">5.3.</span> <span class="nav-text">Apollo架构设计之服务器端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apollo-高可用-和-监控"><span class="nav-number">5.4.</span> <span class="nav-text">Apollo 高可用 和 监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apollo分布式部署指南"><span class="nav-number">5.5.</span> <span class="nav-text">Apollo分布式部署指南</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apollo-Java客户端和多语言接入"><span class="nav-number">5.6.</span> <span class="nav-text">Apollo Java客户端和多语言接入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Cloud-Config-简介"><span class="nav-number">5.7.</span> <span class="nav-text">Spring Cloud Config 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Apollo-vs-Spring-Cloud-Config"><span class="nav-number">5.7.1.</span> <span class="nav-text">Apollo vs Spring Cloud Config</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#灰度发布"><span class="nav-number">1.1.</span> <span class="nav-text">灰度发布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apollo支持4个维度管理key-value格式的配置"><span class="nav-number">1.2.</span> <span class="nav-text">Apollo支持4个维度管理key-value格式的配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置基本概念"><span class="nav-number">1.3.</span> <span class="nav-text">配置基本概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-Apollo"><span class="nav-number">2.</span> <span class="nav-text">Why Apollo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apollo-at-a-glance"><span class="nav-number">3.</span> <span class="nav-text">Apollo at a glance</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础模型"><span class="nav-number">3.1.</span> <span class="nav-text">基础模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Apollo-in-depth"><span class="nav-number">4.</span> <span class="nav-text">Apollo in depth</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#核心概念"><span class="nav-number">4.1.</span> <span class="nav-text">核心概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微服务架构实战"><span class="nav-number">5.</span> <span class="nav-text">微服务架构实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务配置中心Apollo架构和实践"><span class="nav-number">5.1.</span> <span class="nav-text">微服务配置中心Apollo架构和实践</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#业务需求"><span class="nav-number">5.1.1.</span> <span class="nav-text">业务需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置定义和场景"><span class="nav-number">5.1.2.</span> <span class="nav-text">配置定义和场景</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apollo核心概念"><span class="nav-number">5.2.</span> <span class="nav-text">Apollo核心概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apollo架构设计之服务器端"><span class="nav-number">5.3.</span> <span class="nav-text">Apollo架构设计之服务器端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apollo-高可用-和-监控"><span class="nav-number">5.4.</span> <span class="nav-text">Apollo 高可用 和 监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apollo-Java客户端和多语言接入"><span class="nav-number">5.5.</span> <span class="nav-text">Apollo Java客户端和多语言接入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Cloud-Config-简介"><span class="nav-number">5.6.</span> <span class="nav-text">Spring Cloud Config 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Apollo-vs-Spring-Cloud-Config"><span class="nav-number">5.6.1.</span> <span class="nav-text">Apollo vs Spring Cloud Config</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -377,21 +375,21 @@
     <img class="site-author-image" itemprop="image" alt="vicyor"
       src="/images/head.png">
   <p class="site-author-name" itemprop="name">vicyor</p>
-  <div class="site-description" itemprop="description">大路且慢慢,咱一步一步走完.</div>
+  <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">49</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -434,13 +432,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">911k</span>
+    <span title="站点总字数">860k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">13:48</span>
+    <span title="站点阅读时长">13:02</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
   </div>
@@ -624,5 +622,5 @@ NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.
 		 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
 		 <script type="text/javascript" src="/js/src/fireworks.js"></script>
 	
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</body>
 </html>
