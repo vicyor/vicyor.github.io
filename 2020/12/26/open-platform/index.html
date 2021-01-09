@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://vicyor.gitee.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="最近接了虫洞的摊子…..">
+<meta property="og:type" content="article">
+<meta property="og:title" content="open-platform">
+<meta property="og:url" content="http://vicyor.gitee.io/2020/12/26/open-platform/index.html">
+<meta property="og:site_name" content="Vicyor">
+<meta property="og:description" content="最近接了虫洞的摊子…..">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/12/26/open-platform/open-platform-framework.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/12/26/open-platform/%E7%BD%91%E5%85%B3%E9%89%B4%E6%9D%83%E9%A1%BA%E5%BA%8F%E5%9B%BE.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/12/26/open-platform/gateway.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2020/12/26/open-platform/%E8%BF%90%E8%90%A5%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0%E7%94%A8%E4%BE%8B%E5%9B%BE.png">
+<meta property="article:published_time" content="2020-12-26T13:50:21.000Z">
+<meta property="article:modified_time" content="2020-12-30T10:47:11.271Z">
+<meta property="article:author" content="vicyor">
+<meta property="article:tag" content="open-platform">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vicyor.gitee.io/2020/12/26/open-platform/open-platform-framework.png">
+
+<link rel="canonical" href="http://vicyor.gitee.io/2020/12/26/open-platform/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>open-platform | Vicyor</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vicyor</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">51</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">59</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/12/26/open-platform/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="vicyor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vicyor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          open-platform
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-26 21:50:21" itemprop="dateCreated datePublished" datetime="2020-12-26T21:50:21+08:00">2020-12-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-12-30 18:47:11" itemprop="dateModified" datetime="2020-12-30T18:47:11+08:00">2020-12-30</time>
+              </span>
+
+          
+            <span id="/2020/12/26/open-platform/" class="post-meta-item leancloud_visitors" data-flag-title="open-platform" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/12/26/open-platform/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/26/open-platform/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近接了虫洞的摊子…..</p>
+<a id="more"></a>
+<h2 id="开放平台介绍"><a href="#开放平台介绍" class="headerlink" title="开放平台介绍"></a>开放平台介绍</h2><h3 id="什么是开放平台"><a href="#什么是开放平台" class="headerlink" title="什么是开放平台"></a>什么是开放平台</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1.开放.</span><br><span class="line">  Open Api   -&gt;  封装各种各样服务，并提供出去以供第三方开发者使用。</span><br><span class="line">        例如: 淘宝开放平台,商家有自己的系统，可以通过淘宝开放平台提供的能力获取订单，商品，物流等信息。</span><br><span class="line">                   阿里云开放平台，开放语言识别，文件存储等功能。</span><br><span class="line">                   虫洞开放平台，提供手动触发定时任务，创建延迟队列等功能。</span><br><span class="line">2.赋能               -&gt;  通过API技术，互相调用，与行业形成链接。在借助他人长版的时候，也把自己的长版贡献给他人，就是相互赋能。</span><br><span class="line">    比如:   sentinel: 虫洞给sentinel提供用户和权限以及项目接入功能的同时，也吸引了一大波sentinel的用户使用虫洞。</span><br><span class="line">3.共赢.   双方优势互补以实现各自的目的，使得双方的合作生成1+1大于1的效果。</span><br></pre></td></tr></table></figure>
+<h2 id="开放平台整体架构"><a href="#开放平台整体架构" class="headerlink" title="开放平台整体架构"></a>开放平台整体架构</h2><p><img src="/2020/12/26/open-platform/open-platform-framework.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1.三方应用.</span><br><span class="line">   已在开放平台申请的应用(接入开放平台的用户)。</span><br><span class="line">2.网关。</span><br><span class="line">  防火墙、负载均衡、鉴权、流量控制、数据缓存、协议转换、负载均衡、熔断机制、故障隔离、日志记录。</span><br><span class="line">  网关必须独立出去,因为网关是流量入口，不能因为网关挂了，导致开放平台其它功能无效。    </span><br><span class="line">3.内部开放服务。</span><br><span class="line">  开放平台提供的服务对应的后端服务。</span><br><span class="line">4.开发者平台。</span><br><span class="line">  1.API文档(组件文档聚合)。</span><br><span class="line">  2.应用申请。</span><br><span class="line">  3.应用访问网关，网关访问开放者平台进行鉴权。</span><br><span class="line">5.Oauth认证服务。</span><br><span class="line">6.控制后台。</span><br><span class="line">  1.应用审核。</span><br><span class="line">  2.网关规则配置(流控,路由)。</span><br><span class="line">  3.其它管理功能,角色，菜单,ISV管理。</span><br></pre></td></tr></table></figure>
+<h2 id="开放平台架构组件"><a href="#开放平台架构组件" class="headerlink" title="开放平台架构组件"></a>开放平台架构组件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.网关模块。</span><br><span class="line">2.运营管理模块(后台管理系统)。</span><br><span class="line">3.开放平台模块(供用户使用,提供文档API,沙盒测试等)。</span><br><span class="line">4.sdk(提供sdk)。</span><br></pre></td></tr></table></figure>
+<h3 id="网关"><a href="#网关" class="headerlink" title="网关"></a>网关</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">1.API网关四大职能.</span><br><span class="line">    1.请求接入。  所有API请求的入口。</span><br><span class="line">    2.业务聚合。  作为后端服务的聚合点。</span><br><span class="line">    3.中介策略。  实现安全、验证、路由、过滤、流控等策略。</span><br><span class="line">    4.统一管理。 所有API服务和策略进行统一管理。</span><br><span class="line">2.网关分类.</span><br><span class="line">    1.流量网关。 (关注稳定性和安全)。</span><br><span class="line">      1.全局性流控。</span><br><span class="line">      2.日志统计。</span><br><span class="line">      3.防止SQL注入。</span><br><span class="line">      4.防止Web攻击(Dos攻击)。</span><br><span class="line">      5.屏蔽工具扫描。</span><br><span class="line">      6.黑白&#x2F;IP名单。</span><br><span class="line">      7.证书&#x2F;加解密操作。</span><br><span class="line">    2.业务网关。(提供更好的服务)。</span><br><span class="line">      1.服务级别流控。</span><br><span class="line">      2.服务降级与熔断。</span><br><span class="line">      3.路由与负载均衡，灰度策略。</span><br><span class="line">      4.服务过滤、聚合与发现。</span><br><span class="line">      5.权限验证与用户等级策略。</span><br><span class="line">      6.业务规则与参数校验。</span><br><span class="line">      7.多级缓存策略。</span><br></pre></td></tr></table></figure>
+<h4 id="网关鉴权流程"><a href="#网关鉴权流程" class="headerlink" title="网关鉴权流程"></a>网关鉴权流程</h4><p><img src="/2020/12/26/open-platform/%E7%BD%91%E5%85%B3%E9%89%B4%E6%9D%83%E9%A1%BA%E5%BA%8F%E5%9B%BE.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1.签名校验(token加密算法)。</span><br><span class="line">2.token校验。</span><br><span class="line">3.限流校验。</span><br><span class="line">4.参数校验。</span><br><span class="line">5.路由。</span><br><span class="line">6.调用目标服务。</span><br><span class="line">7.返回。</span><br><span class="line">tips: 请求日志打到cat上,cat写道es中,可以从调用链系统查看相关日志。</span><br></pre></td></tr></table></figure>
+<h4 id="自己动手实现网关"><a href="#自己动手实现网关" class="headerlink" title="自己动手实现网关"></a>自己动手实现网关</h4><p><img src="/2020/12/26/open-platform/gateway.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1.InBound.</span><br><span class="line">  Http Server(Netty&#x2F;tomcat).</span><br><span class="line">  tips: tomcat 是bio,多线程模式。</span><br><span class="line">        netty可以做到nio,reactor主从模式。</span><br><span class="line">        nio -&gt; 同步非阻塞,多路复用.</span><br><span class="line">  接受请求。</span><br><span class="line">2.Filter.</span><br><span class="line">3.Router.</span><br><span class="line">4.OutBound.</span><br><span class="line">    调用目标服务并将响应返回。</span><br><span class="line">5.admin.</span><br><span class="line">    网关管理平台。</span><br><span class="line">网关的配置由控制台配置,可以放到apollo&#x2F;zookeeper&#x2F;mysql+定时任务.</span><br><span class="line">网关的路由信息(TODO)</span><br><span class="line">  </span><br><span class="line">难点:</span><br><span class="line">   1.网关如何动态获取ISR的服务信息，以便路由。</span><br></pre></td></tr></table></figure>
+<h3 id="运营平台管理模块"><a href="#运营平台管理模块" class="headerlink" title="运营平台管理模块"></a>运营平台管理模块</h3><p><img src="/2020/12/26/open-platform/%E8%BF%90%E8%90%A5%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0%E7%94%A8%E4%BE%8B%E5%9B%BE.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1.用户管理。</span><br><span class="line">2.角色管理。</span><br><span class="line">3.菜单功能管理。</span><br><span class="line">4.路由维护。</span><br><span class="line">5.TOKEN查询。</span><br><span class="line">6.应用管理。</span><br><span class="line">7.API信息统计。</span><br><span class="line">8.DashBoard,大盘统计。</span><br><span class="line">9.日志搜索功能。</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+		<div>
+			
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+			
+		</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/open-platform/" rel="tag"># open-platform</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/16/ci-cd/" rel="prev" title="ci-cd">
+      <i class="fa fa-chevron-left"></i> ci-cd
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/31/dubbo-interview/" rel="next" title="dubbo-interview">
+      dubbo-interview <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开放平台介绍"><span class="nav-number">1.</span> <span class="nav-text">开放平台介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是开放平台"><span class="nav-number">1.1.</span> <span class="nav-text">什么是开放平台</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开放平台整体架构"><span class="nav-number">2.</span> <span class="nav-text">开放平台整体架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开放平台架构组件"><span class="nav-number">3.</span> <span class="nav-text">开放平台架构组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#网关"><span class="nav-number">3.1.</span> <span class="nav-text">网关</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#网关鉴权流程"><span class="nav-number">3.1.1.</span> <span class="nav-text">网关鉴权流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自己动手实现网关"><span class="nav-number">3.1.2.</span> <span class="nav-text">自己动手实现网关</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运营平台管理模块"><span class="nav-number">3.2.</span> <span class="nav-text">运营平台管理模块</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="vicyor"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">vicyor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vicyor" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vicyor" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2457569580@qq.com" title="E-Mail → mailto:2457569580@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vicyor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">915k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">13:52</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = visitors.getAttribute('id').trim();
+      var title = visitors.getAttribute('data-flag-title').trim();
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.log('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return element.getAttribute('id').trim();
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=m9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'm9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz',
+            'X-LC-Key': 'g7WSuE6aDmunoX4rgyBN7SJa',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'qQhr9rNGJh6YalJA0mfaaurx-gzGzoHsz',
+    appKey: 'kJy8NJeOTMPnxQ3zLihOcnw3',
+    placeholder: "请留下您的宝贵评论",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+	
+		 <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		 <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+</body>
+</html>

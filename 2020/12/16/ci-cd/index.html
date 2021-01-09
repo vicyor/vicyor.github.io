@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://vicyor.gitee.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="量身定制你的持续交付体系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ci-cd">
+<meta property="og:url" content="http://vicyor.gitee.io/2020/12/16/ci-cd/index.html">
+<meta property="og:site_name" content="Vicyor">
+<meta property="og:description" content="量身定制你的持续交付体系">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-15T16:11:13.000Z">
+<meta property="article:modified_time" content="2020-12-24T03:24:56.226Z">
+<meta property="article:author" content="vicyor">
+<meta property="article:tag" content="ci,cd">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://vicyor.gitee.io/2020/12/16/ci-cd/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>ci-cd | Vicyor</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vicyor</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">51</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">59</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2020/12/16/ci-cd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="vicyor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vicyor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ci-cd
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-16 00:11:13" itemprop="dateCreated datePublished" datetime="2020-12-16T00:11:13+08:00">2020-12-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-12-24 11:24:56" itemprop="dateModified" datetime="2020-12-24T11:24:56+08:00">2020-12-24</time>
+              </span>
+
+          
+            <span id="/2020/12/16/ci-cd/" class="post-meta-item leancloud_visitors" data-flag-title="ci-cd" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/12/16/ci-cd/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/16/ci-cd/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>量身定制你的持续交付体系</p>
+<a id="more"></a>
+<h2 id="开篇"><a href="#开篇" class="headerlink" title="开篇"></a>开篇</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">持续交互四大模块  -&gt;  配置管理,环境管理,构建集成,测试管理.</span><br></pre></td></tr></table></figure>
+<h3 id="持续交互"><a href="#持续交互" class="headerlink" title="持续交互"></a>持续交互</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">持续集成  -&gt; 从编码到构建到测试的反复持续过程，叫作持续集成. -&gt; 可交互状态.</span><br><span class="line">   集成是一个过程,关键如何做到持续(效率-&gt;自动化).</span><br><span class="line">持续交互  -&gt; 获取外部对软件的反馈再通过持续集成进行优化的过程叫做持续交互. -&gt; 集成的延续.</span><br><span class="line">持续部署  -&gt; 将可交互产品快速安全地交互用户使用的一套方法和系统,持续交互的最后一步.</span><br><span class="line"></span><br><span class="line">持续交互  -&gt; 注重打造发布流水线,目标是在最终用户和研发团队之间建立紧密的反馈环.</span><br><span class="line">程序员角度.</span><br><span class="line">   持续交互过程:设计,测试,部署,运维,运营.</span><br><span class="line">   好处: 改造工作习惯,提高个人能力,提升集体协同效率.</span><br><span class="line">   </span><br><span class="line">举个例子:</span><br><span class="line">  三一部署cat时,安装jdk,tomcat,maven,将源码上传到服务器,然后编译构建(从阿里云maven仓库下依赖)，然后java -jar. (手动，特别慢)</span><br><span class="line">  代码有问题，或者jdk,tomcat,操作系统等有问题，都需要重来一遍.</span><br><span class="line"> oms: 改代码,提交到gitlab,oms点构建,服务器clone代码,自动编译构建(从nexus下载),然后点发布,应用启动.</span><br><span class="line"> 效率提升很多.</span><br></pre></td></tr></table></figure>
+<h2 id="配置管理"><a href="#配置管理" class="headerlink" title="配置管理"></a>配置管理</h2><h3 id="代码分支策略管理"><a href="#代码分支策略管理" class="headerlink" title="代码分支策略管理"></a>代码分支策略管理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">不同的代码分支策略  -&gt;  不同的代码集成、上线流程与协作方式.</span><br><span class="line">TBD(Trunk Based Development)  -&gt;  只有一个开发分支(master),其它分支只是做快照保存.</span><br><span class="line">  优点: 代码总是最新的,便于频繁集成，减少冲突产生.</span><br><span class="line">  缺点: 某个成员的代码出现问题,会导致整个发布流程失败.</span><br><span class="line">特性分支开发</span><br><span class="line">Git Flow</span><br><span class="line">   Master -&gt; 主干.</span><br><span class="line">   Feature -&gt; 小功能.</span><br><span class="line">   Develop -&gt; 开发分支.</span><br><span class="line">   Release -&gt; 发布分支,大功能,测试分支.</span><br><span class="line">   Hotfix  -&gt; 紧急修复master的bug.</span><br><span class="line"> 好处:版本化控制比较清晰.有严格的发布周期,严格的发布流程.</span><br><span class="line">GitHub Flow</span><br><span class="line">   master </span><br><span class="line">   Feature </span><br><span class="line">tips: 持续集成服务器(Jenkins)会对新分支进行自动化测试,经过自动化测试和代码审查后,分支代码会合到master上,再由master部署到生产环境.</span><br><span class="line">好处: 简单实用,经过代码评审和自动化测试后就可以立即发布.</span><br></pre></td></tr></table></figure>
+<h3 id="依赖管理"><a href="#依赖管理" class="headerlink" title="依赖管理"></a>依赖管理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.依赖管理四个特性.</span><br><span class="line">    1.统一命名规则  -  坐标.</span><br><span class="line">    2.统一的中心仓库 - nexus.</span><br><span class="line">    3.统一的依赖描述文件 . - pom</span><br><span class="line">    4.本地使用客户端可以解析依赖描述文件并拉取所需的依赖. - mvn install</span><br></pre></td></tr></table></figure>
+<h4 id="POM-gt-Project-Object-Model"><a href="#POM-gt-Project-Object-Model" class="headerlink" title="POM -&gt; (Project Object Model)"></a>POM -&gt; (Project Object Model)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">坐标   -&gt;   groupId,artifactId,version</span><br><span class="line">type -&gt;   依赖类型,默认为jar</span><br><span class="line">scope -&gt;  依赖范围 -&gt; compile,provided(目标环境会提供,servlet),runtime(JNDI),test(junit).</span><br></pre></td></tr></table></figure>
+<h4 id="maven-依赖仲裁原则"><a href="#maven-依赖仲裁原则" class="headerlink" title="maven 依赖仲裁原则"></a>maven 依赖仲裁原则</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1.最短路径原则.</span><br><span class="line">   A -&gt; B -&gt; C</span><br><span class="line">   A -&gt; C</span><br><span class="line">   那么maven会使用A依赖C的版本.</span><br><span class="line">2.第一声明优先原则.</span><br><span class="line">   A -&gt; B -&gt; D</span><br><span class="line">   A -&gt; C -&gt; D</span><br><span class="line">   maven会使用B依赖的D.</span><br></pre></td></tr></table></figure>
+<h4 id="maven-最佳实践"><a href="#maven-最佳实践" class="headerlink" title="maven 最佳实践"></a>maven 最佳实践</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1.生产环境不使用SNAPSHOT或者是带有范围的依赖版本.</span><br><span class="line">2.测试环境的包与生产环境的包一致.</span><br><span class="line">3.pom 树结构.</span><br><span class="line">  weimob  pom  -&gt; super pom</span><br><span class="line">  bu      pom  -&gt; 部门    pom</span><br><span class="line">  product pom  -&gt; 产品线</span><br><span class="line">    project parent  pom</span><br><span class="line">    project sub module pom</span><br><span class="line">4.父模块 dependencyManagement定义依赖,子模块使用依赖.</span><br><span class="line">  子模块与子模块之间的依赖版本高度统一.</span><br><span class="line">5.properties -&gt; version</span><br><span class="line">6.生产环境不要执行mvn install -&gt; install会将项目编译产生的jar存到操作系统的maven仓库上,不会真正引用到真实的包.</span><br><span class="line">7.每次deploy不要覆盖之前的老版本,如果覆盖老版本,一个版本会产生二义性问题.</span><br><span class="line">8.使用mvn dependency查看项目所依赖的jar包项.</span><br></pre></td></tr></table></figure>
+<h3 id="代码回滚"><a href="#代码回滚" class="headerlink" title="代码回滚"></a>代码回滚</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.包回滚  -&gt;  线上运行系统回滚到以前稳定的老版本.</span><br><span class="line">2.代码回滚  -&gt; Git分支的指针(游标),从指向当前有问题的版本改为指向历史树上没问题的版本.</span><br></pre></td></tr></table></figure>
+<h4 id="代码回滚方式"><a href="#代码回滚方式" class="headerlink" title="代码回滚方式"></a>代码回滚方式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1.feature分支回滚(git reset).</span><br><span class="line">   git reset --hard 版本号 &amp; git push -f</span><br><span class="line">tips: 缺点: 目标版本之后的版本完全丢失(git log 看不到相关信息).</span><br><span class="line">2.主干分支回滚(git revert).</span><br><span class="line">方式一:</span><br><span class="line">   git revert -n 某个版本</span><br><span class="line">   git commit -m &#39;revert 某个版本&#39;</span><br><span class="line">   git push</span><br><span class="line">方式二.</span><br><span class="line">   git fetch origin</span><br><span class="line">   git checkout master</span><br><span class="line">   git reset --hard 版本号                   -&gt; 本地master指向老版本</span><br><span class="line">   git reset --soft origin&#x2F;master  -&gt; origin&#x2F;master指向最新版本</span><br><span class="line">   git commit -m &quot;rollback to 版本号&quot; -&gt; 创建一个新的提交</span><br><span class="line">   git push origin master  </span><br><span class="line">tips: 可以撤销某个版本,保留之后的版本.(撤销的版本历史记录依旧保留)</span><br></pre></td></tr></table></figure>
+<h4 id="代码实际管理举例"><a href="#代码实际管理举例" class="headerlink" title="代码实际管理举例"></a>代码实际管理举例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">举个例子 git flow:</span><br><span class="line">    develop -&gt; feature&#x2F;f1, feature&#x2F;f2, feature&#x2F;f3, feature&#x2F;f4</span><br><span class="line"> gitlab 插件  -&gt; Smart Merge(插件-&gt;高效的解决分支合并问题,如程序员1push了f1,1的改动会自动merge到f2,f3,f4上,若与f2,f3,f3产生冲突,插件就会通过邮件的方式通知2,3,4).</span><br><span class="line"> 4名程序员开发完成后将分支merge到develop分支上。</span><br><span class="line">  测试进行相应的功能&#x2F;性能测试，对不符合要求的进行剔除(revert),通知相关程序员进行fix.</span><br><span class="line"> 测试通过develop merge into release,并打上tag(快照) -&gt; 生个版本,然后发到线上.</span><br><span class="line"> 上线正常后删除几个feature分支,release merge into master, release merge into develop.</span><br></pre></td></tr></table></figure>
+<h2 id="环境管理"><a href="#环境管理" class="headerlink" title="环境管理"></a>环境管理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TODO</span><br></pre></td></tr></table></figure>
+<h2 id="构建集成"><a href="#构建集成" class="headerlink" title="构建集成"></a>构建集成</h2><h3 id="构建速度"><a href="#构建速度" class="headerlink" title="构建速度"></a>构建速度</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">1.硬件资源.</span><br><span class="line">  1.cpu  -&gt;  增加cpu个数,提升cpu主频(一秒算多少次,这个几乎实现不了，摩尔定律早失效).</span><br><span class="line">    tips: 构建过程会消耗大量的计算资源</span><br><span class="line">  2.网络和磁盘  I&#x2F;O -&gt; 使用固态硬盘,增加带宽.</span><br><span class="line">    maven 构建 -&gt; downloading 依赖,将依赖写入磁盘.</span><br><span class="line">       推荐使用私有的nexus仓库,ssd固态硬盘.</span><br><span class="line">2.使用缓存.</span><br><span class="line">  1.maven已存在本地仓库.</span><br><span class="line">  2.git下载优化.</span><br><span class="line">    1.全量下载 </span><br><span class="line">      git clone xxx.git --depth&#x3D;1 </span><br><span class="line">       tips: 这种只clone代码,不会包含历史提交记录.</span><br><span class="line">    2.增量下载.</span><br><span class="line">      若代码和分支已存在，直接git reset &amp; git pull 就好了.</span><br><span class="line">    3.私有仓库.</span><br><span class="line">3.maven参数调优.</span><br><span class="line"> 1. -Dmaven.test.skip&#x3D;true</span><br><span class="line"> 2. 尽量不使用snapshot版本,maven构建时候会节省大量快照构建的时间.</span><br><span class="line"> 3. -T 2C  -&gt; 使用2个线程构建.</span><br><span class="line"> 4. -pl  -&gt;  局部构建,若子模块之间没有相互依赖,可以使用这个方式.</span><br><span class="line">    tips:  ep实现其实是在子模块中构建的</span><br></pre></td></tr></table></figure>
+<h3 id="构建插件原则"><a href="#构建插件原则" class="headerlink" title="构建插件原则"></a>构建插件原则</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1.maven插件支持的检测功能.</span><br><span class="line">  bannedDependencies  -&gt;  表示禁止使用某些依赖,或者某些依赖的版本.</span><br><span class="line">  dependencyConvergence(依赖一致) -&gt; 解决maven的2个原则带来的问题,最短优先原则和第一声明优先原则.</span><br><span class="line">                                                                        提供相关的错误输出.</span><br><span class="line">  banDuplicateClasses -&gt;  检查多个jar中是否存在同名(类的全限定名)的class.</span><br><span class="line">   tips:由于maven2个原则，可能加载的某个class不是预期的class，运行时可能会出现java.lang.NoSuchFieldError，java.lang.NoSuchMethodException等异常.</span><br><span class="line">  CheckVersion  -&gt;  版本号是数字三段式,major.minor.increment-qualifer.</span><br><span class="line">  CheckGroupId  -&gt;  检测GroupId是否符合规范.</span><br><span class="line">  CheckSubMoudleSaveVersion  -&gt;  检查子模块版本号是否与父模块版本号一致.</span><br></pre></td></tr></table></figure>
+<h3 id="持续集成工具"><a href="#持续集成工具" class="headerlink" title="持续集成工具"></a>持续集成工具</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Jenkins  -&gt;  流水线 + 插件.</span><br><span class="line">Docker   -&gt;  轻量级 + 自定义镜像.</span><br><span class="line">Kubernetes -&gt; 容器编排.</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+		<div>
+			
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+			
+		</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ci-cd/" rel="tag"># ci,cd</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/22/jvm-kit/" rel="prev" title="jvm-kit">
+      <i class="fa fa-chevron-left"></i> jvm-kit
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/26/open-platform/" rel="next" title="open-platform">
+      open-platform <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开篇"><span class="nav-number">1.</span> <span class="nav-text">开篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#持续交互"><span class="nav-number">1.1.</span> <span class="nav-text">持续交互</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置管理"><span class="nav-number">2.</span> <span class="nav-text">配置管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码分支策略管理"><span class="nav-number">2.1.</span> <span class="nav-text">代码分支策略管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖管理"><span class="nav-number">2.2.</span> <span class="nav-text">依赖管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#POM-gt-Project-Object-Model"><span class="nav-number">2.2.1.</span> <span class="nav-text">POM -&gt; (Project Object Model)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#maven-依赖仲裁原则"><span class="nav-number">2.2.2.</span> <span class="nav-text">maven 依赖仲裁原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#maven-最佳实践"><span class="nav-number">2.2.3.</span> <span class="nav-text">maven 最佳实践</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码回滚"><span class="nav-number">2.3.</span> <span class="nav-text">代码回滚</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代码回滚方式"><span class="nav-number">2.3.1.</span> <span class="nav-text">代码回滚方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码实际管理举例"><span class="nav-number">2.3.2.</span> <span class="nav-text">代码实际管理举例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境管理"><span class="nav-number">3.</span> <span class="nav-text">环境管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建集成"><span class="nav-number">4.</span> <span class="nav-text">构建集成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构建速度"><span class="nav-number">4.1.</span> <span class="nav-text">构建速度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建插件原则"><span class="nav-number">4.2.</span> <span class="nav-text">构建插件原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#持续集成工具"><span class="nav-number">4.3.</span> <span class="nav-text">持续集成工具</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="vicyor"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">vicyor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vicyor" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vicyor" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2457569580@qq.com" title="E-Mail → mailto:2457569580@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vicyor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">915k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">13:52</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = visitors.getAttribute('id').trim();
+      var title = visitors.getAttribute('data-flag-title').trim();
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.log('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return element.getAttribute('id').trim();
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=m9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'm9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz',
+            'X-LC-Key': 'g7WSuE6aDmunoX4rgyBN7SJa',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'qQhr9rNGJh6YalJA0mfaaurx-gzGzoHsz',
+    appKey: 'kJy8NJeOTMPnxQ3zLihOcnw3',
+    placeholder: "请留下您的宝贵评论",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+	
+		 <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		 <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+</body>
+</html>
