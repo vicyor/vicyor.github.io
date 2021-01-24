@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://vicyor.gitee.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="blog讲解java常用类及常见错误">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java-common">
+<meta property="og:url" content="http://vicyor.gitee.io/2021/01/19/java-common/index.html">
+<meta property="og:site_name" content="Vicyor">
+<meta property="og:description" content="blog讲解java常用类及常见错误">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-19T11:41:12.000Z">
+<meta property="article:modified_time" content="2021-01-20T16:15:04.157Z">
+<meta property="article:author" content="vicyor">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://vicyor.gitee.io/2021/01/19/java-common/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>java-common | Vicyor</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vicyor</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">51</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">59</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2021/01/19/java-common/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="vicyor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vicyor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          java-common
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-19 19:41:12" itemprop="dateCreated datePublished" datetime="2021-01-19T19:41:12+08:00">2021-01-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-21 00:15:04" itemprop="dateModified" datetime="2021-01-21T00:15:04+08:00">2021-01-21</time>
+              </span>
+
+          
+            <span id="/2021/01/19/java-common/" class="post-meta-item leancloud_visitors" data-flag-title="java-common" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/01/19/java-common/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/01/19/java-common/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>blog讲解java常用类及常见错误</p>
+<a id="more"></a>
+
+<h2 id="常用类和技巧"><a href="#常用类和技巧" class="headerlink" title="常用类和技巧"></a>常用类和技巧</h2><h4 id="System"><a href="#System" class="headerlink" title="System"></a>System</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class System&#123;</span><br><span class="line">	private System()&#123;&#125;;</span><br><span class="line">	public static final InputStream in&#x3D;null;</span><br><span class="line">	public static final PrintStream out&#x3D;null;</span><br><span class="line">	public static final PrintStream err&#x3D;null;</span><br><span class="line">	public static Console console()&#123;&#125;;</span><br><span class="line">	public static native long currentTimeMilles();</span><br><span class="line">	public static native long nanoTimes();</span><br><span class="line">	&#x2F;&#x2F; 系统属性</span><br><span class="line">	public static Properties getProperties();</span><br><span class="line">	&#x2F;&#x2F; 行分割符</span><br><span class="line">	private static String lineSeparator;</span><br><span class="line">	private static Map&lt;String,String&gt; getenv();</span><br><span class="line">	public static void exit(int status)&#123;Runtime.getRuntime().exit(status);&#125;</span><br><span class="line">	public static void gc()&#123;Runtime.getRuntime().gc();&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="AtomicInteger"><a href="#AtomicInteger" class="headerlink" title="AtomicInteger"></a>AtomicInteger</h3><h4 id="可变数字"><a href="#可变数字" class="headerlink" title="可变数字"></a>可变数字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">笨方法:</span><br><span class="line">	Map&lt;String,Integer&gt;map&#x3D;new HashMap&lt;&gt;();</span><br><span class="line">	Integer counter&#x3D;map.get(&quot;vicyor&quot;);</span><br><span class="line">    if(Objects.isNull(counter))&#123;</span><br><span class="line">    	counter&#x3D;new Integer(0);</span><br><span class="line">    	map.put(&quot;vicyor&quot;,counter);</span><br><span class="line">    &#125; </span><br><span class="line">    counter&#x3D;counter+1;</span><br><span class="line">    map.put(&quot;vicyor&quot;,counter);</span><br><span class="line"></span><br><span class="line">技巧:</span><br><span class="line">    Map&lt;String,AtomicInteger&gt;map&#x3D;new HashMap&lt;&gt;();</span><br><span class="line">    if(Objects.isNull(map.get(&quot;vicyor&quot;)))&#123;</span><br><span class="line">    	map.put(&quot;vicyor&quot;,new AtomicInteger(1));</span><br><span class="line">    &#125;</span><br><span class="line">    map.get(&quot;vicyor&quot;).incrementAndGet();</span><br><span class="line">优点: 优雅  +  无并发问题</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><h4 id="List-gt-Map遍历优化"><a href="#List-gt-Map遍历优化" class="headerlink" title="List -&gt; Map遍历优化"></a>List -&gt; Map遍历优化</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">2 个 list 之间操作 时间复杂度 为O(N*N)</span><br><span class="line">技巧:</span><br><span class="line">List&lt;Pair&lt;String,String&gt;&gt;pairList1&#x3D;new ArrayList&lt;&gt;();</span><br><span class="line">List&lt;Pair&lt;String,String&gt;&gt;pairList2&#x3D;new ArrayList&lt;&gt;();</span><br><span class="line">Map&lt;String,Pair&lt;String,String&gt;&gt;map&#x3D;pairList1</span><br><span class="line">									.stream().collect(Collectors.toMap(i-&gt;i.getKey(),i-&gt;1));</span><br><span class="line">for(Pair&lt;String,String&gt;pair2:pairList2)&#123;</span><br><span class="line">	String key&#x3D;pair2.getKey();</span><br><span class="line">	Pair&lt;String,String&gt;pair1&#x3D;map.get(key);</span><br><span class="line">	if(pair2.getValue().equalsIgnoreCase(pair1.getValue()))&#123;</span><br><span class="line">		System.out.println(&quot;匹配:&quot;+key+&quot;;&quot;+pair1+&quot;;&quot;+pair2);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Arrays-asList-gt-数组转List"><a href="#Arrays-asList-gt-数组转List" class="headerlink" title="Arrays.asList -&gt; 数组转List"></a>Arrays.asList -&gt; 数组转List</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Arrays.asList(&quot;kewei.yao&quot;,&quot;cuicui&quot;,&quot;kk&quot;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Collection与泛型"><a href="#Collection与泛型" class="headerlink" title="Collection与泛型"></a>Collection与泛型</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;? extends Number&gt; list;</span><br><span class="line">List&lt;? super Number&gt; list;</span><br></pre></td></tr></table></figure>
+
+<h3 id="java8"><a href="#java8" class="headerlink" title="java8"></a>java8</h3><h4 id="Optional-与-Null"><a href="#Optional-与-Null" class="headerlink" title="Optional 与 Null"></a>Optional 与 Null</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static Optional&lt;String&gt;loadName(int id)&#123;</span><br><span class="line">	if(id&gt;0)&#123;</span><br><span class="line">		return Optional.ofNullable(id);</span><br><span class="line">	&#125;</span><br><span class="line">	return Optional.empty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public enum DemoCourseEnum&#123;</span><br><span class="line">	JAVA(1L,&quot;java&quot;,&quot;Java进阶训练营&quot;),</span><br><span class="line">	PYTHON(2L,&quot;python&quot;,&quot;Python进阶训练营&quot;),</span><br><span class="line">	GOLANG(3L,&quot;go&quot;,&quot;Go进阶训练营&quot;)；</span><br><span class="line">	public final Long id;</span><br><span class="line">	public final String code;</span><br><span class="line">	public final String desc;</span><br><span class="line">	DemoCourseEnum(Long id,String code,String desc)&#123;</span><br><span class="line">		this.id&#x3D;id;</span><br><span class="line">		this.code&#x3D;code;</span><br><span class="line">		this.desc&#x3D;desc;</span><br><span class="line">	&#125;</span><br><span class="line">	public static Long code2Id(String theCode)&#123;</span><br><span class="line">		for(DemoCourseEnum item:DemoCourseEnum.values())&#123;</span><br><span class="line">			if(item.code.equalsIgnoreCase(theCode))&#123;</span><br><span class="line">				return item.id;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return null;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="TimeUnit与Sleep"><a href="#TimeUnit与Sleep" class="headerlink" title="TimeUnit与Sleep"></a>TimeUnit与Sleep</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">tips: 0值 -&gt; 让cpu</span><br><span class="line">try&#123;</span><br><span class="line">   TimeUnit.MILLSECONDS.sleep(0L);</span><br><span class="line">&#125;catch(InterruptedException e)&#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"># 线程 打断 </span><br><span class="line">thread.interrupt(); &#x2F;&#x2F; flag -&gt; 1</span><br><span class="line">打断时机?</span><br><span class="line">1.jvm 退出 打断 线程池。</span><br><span class="line">2.spring cloud 超时 熔断。</span><br></pre></td></tr></table></figure>
+
+<h3 id="Random与种子"><a href="#Random与种子" class="headerlink" title="Random与种子"></a>Random与种子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Random random &#x3D; new Random(seed);</span><br></pre></td></tr></table></figure>
+
+<h3 id="ByteArrayOutputStream"><a href="#ByteArrayOutputStream" class="headerlink" title="ByteArrayOutputStream"></a>ByteArrayOutputStream</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Output -&gt; byte[]</span><br><span class="line">tips: ByteArrayInputStream  &#x3D;&gt;  byte[ ] -&gt; input</span><br><span class="line">使用场景:</span><br><span class="line">  request.getInputStream();</span><br></pre></td></tr></table></figure>
+
+<h3 id="RuntimeMXBean-amp-Runtime"><a href="#RuntimeMXBean-amp-Runtime" class="headerlink" title="RuntimeMXBean&amp;Runtime"></a>RuntimeMXBean&amp;Runtime</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">RuntimeMXBean runtimeMXBean&#x3D;ManagementFactory.getRuntimeMXBean();</span><br><span class="line">String vmId&#x3D;runtimeMXBean.getName();</span><br><span class="line">String[]vmInfos&#x3D;vmId.split(&quot;@&quot;);</span><br><span class="line">String processId&#x3D;vmInfos[0];</span><br><span class="line">String hostName&#x3D;vmInfos[1];</span><br><span class="line">Runtime runtime&#x3D;Runtime.getRuntime();</span><br><span class="line">runtime.availableProcessors();</span><br><span class="line">runtime.maxMemory();</span><br><span class="line">runtime.totalMemory();</span><br><span class="line">runtime.freeMemory();</span><br><span class="line">场景: snowflake -&gt; 雪花算法</span><br><span class="line">tips: jdk8 Runtime.getRuntime().availableProcessors(); #获取cpu核数有bug,获取的是宿主机核数。</span><br></pre></td></tr></table></figure>
+
+<h3 id="拆箱与NPE"><a href="#拆箱与NPE" class="headerlink" title="拆箱与NPE"></a>拆箱与NPE</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer num&#x3D;null;</span><br><span class="line">System.out.println(num&#x3D;&#x3D;0);</span><br></pre></td></tr></table></figure>
+
+<h3 id="BigDecimal-与-数值类型越界问题-精确计算问题"><a href="#BigDecimal-与-数值类型越界问题-精确计算问题" class="headerlink" title="BigDecimal 与 数值类型越界问题/精确计算问题"></a>BigDecimal 与 数值类型越界问题/精确计算问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BigDecimal num1&#x3D;new BigDecimal(&quot;1.68168&quot;);</span><br><span class="line">BigDecimal divide&#x3D;num1.divide(new BigDecimal(&quot;2.61&quot;));</span><br></pre></td></tr></table></figure>
+
+<h3 id="日期和时间戳"><a href="#日期和时间戳" class="headerlink" title="日期和时间戳"></a>日期和时间戳</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.时间戳(格式) -&gt; 不带时区。</span><br><span class="line">2.带时区。</span><br><span class="line">  2021-01-20 20:25:12(隐含时区)</span><br><span class="line">  2021-01-14T22:54:44.604+08:00</span><br></pre></td></tr></table></figure>
+
+<h3 id="SimpleDataFormat-与多线程"><a href="#SimpleDataFormat-与多线程" class="headerlink" title="SimpleDataFormat 与多线程"></a>SimpleDataFormat 与多线程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 内部 -&gt; Calendar -&gt; 非线程安全</span><br><span class="line">public class TestSimpleDateFormat&#123;</span><br><span class="line">	private static final SimpleDateFormat format&#x3D;new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span><br><span class="line">	private static AtomicInteger errorCounter&#x3D;new AtomicInteger(0);</span><br><span class="line">	public static void main(String[]args)&#123;</span><br><span class="line">		String str1&#x3D;&quot;2021-01-17 19:30:30&quot;;</span><br><span class="line">		Date date1&#x3D;format.parse(str1);</span><br><span class="line">		String str2&#x3D;&quot;2021-01-18 19:30:30&quot;;</span><br><span class="line">		Date date2&#x3D;format.parse(str2);</span><br><span class="line">		long timeoutMills&#x3D;System.currentTimeMills()+1000;</span><br><span class="line">		IntStream.range(1,9).parallel()</span><br><span class="line">				 .forEach(i -&gt;&#123;</span><br><span class="line">				 	String expect&#x3D;(i%2&#x3D;&#x3D;0)?str1:str2;</span><br><span class="line">				 	Date d&#x3D;(i%2&#x3D;&#x3D;0)?date1:date2;</span><br><span class="line">				 	while(timeoutMills&gt;System.currentTimeMillis())&#123;</span><br><span class="line">				 		String cur&#x3D;format.format(d);</span><br><span class="line">				 		if(!except.equals(cur))&#123;</span><br><span class="line">				 			errorCounter.incrementAndGet();</span><br><span class="line">				 		&#125;</span><br><span class="line">				 	&#125;</span><br><span class="line">				 &#125;);</span><br><span class="line">		System.out.println(&quot;errorCounter&#x3D;&quot;+errorCounter.get());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Serializable-问题"><a href="#Serializable-问题" class="headerlink" title="Serializable 问题"></a>Serializable 问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Java序列化的坑  -&gt;  CAFE_DEAD</span><br><span class="line">	1.加减方法  -&gt;  默认序列化版本会变。</span><br><span class="line">	2.加减字段  -&gt;  直接死。</span><br><span class="line">使用其它序列化方式  -&gt; JSON。</span><br></pre></td></tr></table></figure>
+
+<h3 id="HashCode-和-equals"><a href="#HashCode-和-equals" class="headerlink" title="HashCode 和 equals"></a>HashCode 和 equals</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">约定: equals 相同 则 hashCode必然相同,否则像map会出现多个相同的key。</span><br></pre></td></tr></table></figure>
+
+<h3 id="遍历集合时删除"><a href="#遍历集合时删除" class="headerlink" title="遍历集合时删除"></a>遍历集合时删除</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for(String name : nameList)&#123;</span><br><span class="line">	if(name.contains(&quot;vicyor&quot;))&#123;</span><br><span class="line">		&#x2F;&#x2F; concurrentModifyException</span><br><span class="line">		nameList.remove(name);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">修改方式:</span><br><span class="line">Iterator  -&gt;  并发删除依旧有问题。</span><br><span class="line">Stream + filter -&gt; Stream 会生成新的集合对象。</span><br></pre></td></tr></table></figure>
+
+<h3 id="Log堆栈与Exception堆栈"><a href="#Log堆栈与Exception堆栈" class="headerlink" title="Log堆栈与Exception堆栈"></a>Log堆栈与Exception堆栈</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">logger.error(obj,error) -&gt; 只有使用此方式可以打出异常堆栈信息。</span><br><span class="line">logger.error(&quot;&quot;,obj1,obj2,error,obj3...)  -&gt; 只会调用error.toString方法,不会打印堆栈信息。</span><br></pre></td></tr></table></figure>
+
+<h3 id="资源释放"><a href="#资源释放" class="headerlink" title="资源释放"></a>资源释放</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.try - finally。</span><br><span class="line">2.ThreadLocal(内存泄漏)、I&#x2F;O流关闭。</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+		<div>
+			
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+			
+		</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/31/dubbo-interview/" rel="prev" title="dubbo-interview">
+      <i class="fa fa-chevron-left"></i> dubbo-interview
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用类和技巧"><span class="nav-number">1.</span> <span class="nav-text">常用类和技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#System"><span class="nav-number">1.0.1.</span> <span class="nav-text">System</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AtomicInteger"><span class="nav-number">1.1.</span> <span class="nav-text">AtomicInteger</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#可变数字"><span class="nav-number">1.1.1.</span> <span class="nav-text">可变数字</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合"><span class="nav-number">1.2.</span> <span class="nav-text">集合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#List-gt-Map遍历优化"><span class="nav-number">1.2.1.</span> <span class="nav-text">List -&gt; Map遍历优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Arrays-asList-gt-数组转List"><span class="nav-number">1.2.2.</span> <span class="nav-text">Arrays.asList -&gt; 数组转List</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Collection与泛型"><span class="nav-number">1.2.3.</span> <span class="nav-text">Collection与泛型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java8"><span class="nav-number">1.3.</span> <span class="nav-text">java8</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Optional-与-Null"><span class="nav-number">1.3.1.</span> <span class="nav-text">Optional 与 Null</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">1.4.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TimeUnit与Sleep"><span class="nav-number">1.5.</span> <span class="nav-text">TimeUnit与Sleep</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Random与种子"><span class="nav-number">1.6.</span> <span class="nav-text">Random与种子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ByteArrayOutputStream"><span class="nav-number">1.7.</span> <span class="nav-text">ByteArrayOutputStream</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RuntimeMXBean-amp-Runtime"><span class="nav-number">1.8.</span> <span class="nav-text">RuntimeMXBean&amp;Runtime</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拆箱与NPE"><span class="nav-number">1.9.</span> <span class="nav-text">拆箱与NPE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BigDecimal-与-数值类型越界问题-精确计算问题"><span class="nav-number">1.10.</span> <span class="nav-text">BigDecimal 与 数值类型越界问题&#x2F;精确计算问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#日期和时间戳"><span class="nav-number">1.11.</span> <span class="nav-text">日期和时间戳</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SimpleDataFormat-与多线程"><span class="nav-number">1.12.</span> <span class="nav-text">SimpleDataFormat 与多线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Serializable-问题"><span class="nav-number">1.13.</span> <span class="nav-text">Serializable 问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashCode-和-equals"><span class="nav-number">1.14.</span> <span class="nav-text">HashCode 和 equals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遍历集合时删除"><span class="nav-number">1.15.</span> <span class="nav-text">遍历集合时删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Log堆栈与Exception堆栈"><span class="nav-number">1.16.</span> <span class="nav-text">Log堆栈与Exception堆栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源释放"><span class="nav-number">1.17.</span> <span class="nav-text">资源释放</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="vicyor"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">vicyor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vicyor" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vicyor" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2457569580@qq.com" title="E-Mail → mailto:2457569580@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vicyor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">925k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">14:01</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = visitors.getAttribute('id').trim();
+      var title = visitors.getAttribute('data-flag-title').trim();
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.log('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return element.getAttribute('id').trim();
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=m9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'm9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz',
+            'X-LC-Key': 'g7WSuE6aDmunoX4rgyBN7SJa',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'qQhr9rNGJh6YalJA0mfaaurx-gzGzoHsz',
+    appKey: 'kJy8NJeOTMPnxQ3zLihOcnw3',
+    placeholder: "请留下您的宝贵评论",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+	
+		 <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		 <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+</body>
+</html>
