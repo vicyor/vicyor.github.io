@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://vicyor.gitee.io').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="spring相关面试题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring-interview">
+<meta property="og:url" content="http://vicyor.gitee.io/2021/02/25/spring-interview/index.html">
+<meta property="og:site_name" content="Vicyor">
+<meta property="og:description" content="spring相关面试题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://vicyor.gitee.io/2021/02/25/spring-interview/spring-ioc-container.png">
+<meta property="og:image" content="http://vicyor.gitee.io/2021/02/25/spring-interview/spring-bean-life.png">
+<meta property="article:published_time" content="2021-02-25T11:51:24.000Z">
+<meta property="article:modified_time" content="2021-02-28T07:54:14.279Z">
+<meta property="article:author" content="vicyor">
+<meta property="article:tag" content="spring">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vicyor.gitee.io/2021/02/25/spring-interview/spring-ioc-container.png">
+
+<link rel="canonical" href="http://vicyor.gitee.io/2021/02/25/spring-interview/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>spring-interview | Vicyor</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Vicyor</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">54</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">67</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://vicyor.gitee.io/2021/02/25/spring-interview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="vicyor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Vicyor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          spring-interview
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-25 19:51:24" itemprop="dateCreated datePublished" datetime="2021-02-25T19:51:24+08:00">2021-02-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-28 15:54:14" itemprop="dateModified" datetime="2021-02-28T15:54:14+08:00">2021-02-28</time>
+              </span>
+
+          
+            <span id="/2021/02/25/spring-interview/" class="post-meta-item leancloud_visitors" data-flag-title="spring-interview" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/02/25/spring-interview/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/02/25/spring-interview/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>spring相关面试题</p>
+<a id="more"></a>
+
+<h3 id="什么是spring框架"><a href="#什么是spring框架" class="headerlink" title="什么是spring框架"></a>什么是spring框架</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.Spring是一个开源的轻量级应用框架，旨在降低应用程序开发的复杂度。</span><br><span class="line">2.spring可以集成其它框架，如Hibernates、EJB等。</span><br></pre></td></tr></table></figure>
+
+<h3 id="列举spring-framework的优点"><a href="#列举spring-framework的优点" class="headerlink" title="列举spring framework的优点"></a>列举spring framework的优点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.降低应用程序开发复杂度。</span><br><span class="line">2.提供依赖注入、控制反转、动态代理的功能。</span><br><span class="line">3.分层架构，用户可以自由选择自己的组件。</span><br></pre></td></tr></table></figure>
+
+<h3 id="Spring-Framework-有哪些不同的功能"><a href="#Spring-Framework-有哪些不同的功能" class="headerlink" title="Spring Framework 有哪些不同的功能?"></a>Spring Framework 有哪些不同的功能?</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.轻量级 - 代码量&amp;透明度。</span><br><span class="line">2.IOC - 控制反转。</span><br><span class="line">3.AOP - 面向切面编程。</span><br><span class="line">4.容器 - Spring 负责创建和管理对象(Bean)的生命周期和配置。</span><br><span class="line">5.mvc - 对web应用提供高度可配置性，其它框架集成十分方便。</span><br><span class="line">6.事务管理 - 提供用于事务管理的抽象层。</span><br></pre></td></tr></table></figure>
+
+<h3 id="什么是spring配置文件"><a href="#什么是spring配置文件" class="headerlink" title="什么是spring配置文件"></a>什么是spring配置文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring 配置文件  -&gt; xml 文件。</span><br><span class="line">spring.xml 文件  -&gt;  描述类信息是如何配置及相互引入的。</span><br><span class="line">tips: 若spring.xml没有正确规划和编写，在大项目中管理变得非常困难。</span><br></pre></td></tr></table></figure>
+
+<h3 id="什么是spring-IOC-容器-Ioc容器有啥好处"><a href="#什么是spring-IOC-容器-Ioc容器有啥好处" class="headerlink" title="什么是spring IOC 容器? Ioc容器有啥好处"></a>什么是spring IOC 容器? Ioc容器有啥好处</h3><p><img src="/2021/02/25/spring-interview/spring-ioc-container.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Spring IOC 容器根据类元数据创建对象，并将它们装配在一起，配置并管理对象的完整生命周期。</span><br><span class="line"></span><br><span class="line">Ioc容器有啥好处?</span><br><span class="line">以最小的影响力和最小的侵入机制促进松耦合，支持即时的实例化和延迟加载服务。</span><br></pre></td></tr></table></figure>
+
+<h3 id="Spring-IOC-实现机制"><a href="#Spring-IOC-实现机制" class="headerlink" title="Spring IOC 实现机制"></a>Spring IOC 实现机制</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Spring IOC 实现原理  -&gt;  工厂模式  +  反射机制</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="什么是依赖注入"><a href="#什么是依赖注入" class="headerlink" title="什么是依赖注入?"></a>什么是依赖注入?</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">不需要手动创建对象，需要在描述配置文件(xml)中定义组件与组件之间的关系，</span><br><span class="line">由IOC容器创建并将它们装配在一起。</span><br></pre></td></tr></table></figure>
+
+<h3 id="依赖注入的实现方式"><a href="#依赖注入的实现方式" class="headerlink" title="依赖注入的实现方式"></a>依赖注入的实现方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.构造函数注入。  -&gt;  适用于设置很多属性。</span><br><span class="line">2.setter 注入。  -&gt;  适用于设置少量属性。</span><br></pre></td></tr></table></figure>
+
+<h3 id="区分一下BeanFactory和ApplicationContext"><a href="#区分一下BeanFactory和ApplicationContext" class="headerlink" title="区分一下BeanFactory和ApplicationContext"></a>区分一下BeanFactory和ApplicationContext</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BeanFactory -&gt; 包含bean集合的工厂类，会在客户端要求时实例化bean。</span><br><span class="line">ApplicationContext -&gt; 扩展BeanFactory接口，在BeanFactory基础上提供一些额外的功能。</span><br></pre></td></tr></table></figure>
+
+
+
+<table>
+<thead>
+<tr>
+<th>BeanFactory</th>
+<th>ApplicationContext</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>懒加载(在调用getBean时候才会加载bean)</td>
+<td>即时加载(容器启动后，一次性创建了所有bean)</td>
+</tr>
+<tr>
+<td>不支持国际化</td>
+<td>支持国际化(多种语言的配置)</td>
+</tr>
+</tbody></table>
+<h3 id="spring-提供了哪些配置方式"><a href="#spring-提供了哪些配置方式" class="headerlink" title="spring 提供了哪些配置方式?"></a>spring 提供了哪些配置方式?</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.基于xml配置。</span><br><span class="line">2.基于注解配置。</span><br><span class="line">3.基于Java API 配置。</span><br></pre></td></tr></table></figure>
+
+<h3 id="spring支持集中-bean-scope"><a href="#spring支持集中-bean-scope" class="headerlink" title="spring支持集中 bean scope"></a>spring支持集中 bean scope</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Singleton  -&gt;  单例</span><br><span class="line">Prototype  -&gt;  每次请求都会产生一个新的实例</span><br><span class="line">Request    -&gt;  每次http请求都会产生一个新的实例</span><br><span class="line">Session    -&gt;  bean的生命范围为session</span><br><span class="line">Global-Session -&gt; portlet的web应用</span><br></pre></td></tr></table></figure>
+
+<h4 id="prototype-和-request-有啥区别"><a href="#prototype-和-request-有啥区别" class="headerlink" title="prototype 和 request 有啥区别?"></a>prototype 和 request 有啥区别?</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">prototype在每次 getBean时候都会重新创建。</span><br><span class="line">request在每次http请求时候都创建，线程安全。</span><br></pre></td></tr></table></figure>
+
+<h3 id="Spring-Bean-生命周期"><a href="#Spring-Bean-生命周期" class="headerlink" title="Spring Bean 生命周期"></a>Spring Bean 生命周期</h3><p><img src="/2021/02/25/spring-interview/spring-bean-life.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">元信息配置  +  元信息解析  +  bean 注册  +  对象实例化&amp;DI  + 对象自定义处理  + bean销毁</span><br></pre></td></tr></table></figure>
+
+<h3 id="什么是spring装配-自动装配有哪些方式"><a href="#什么是spring装配-自动装配有哪些方式" class="headerlink" title="什么是spring装配?自动装配有哪些方式?"></a>什么是spring装配?自动装配有哪些方式?</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">spring 装配: spring 容器 将 bean 组合在一起。</span><br><span class="line">自动装配的方式:</span><br><span class="line">  tips: xml 默认no ,注解默认 bytype</span><br><span class="line">  no -&gt; 默认配置</span><br><span class="line">  byName -&gt; 按照bean name自动注入</span><br><span class="line">  byType -&gt; 按照bean type自当注入</span><br><span class="line">  autodetect -&gt; 首先容器尝试通过构造函数使用 autowire 装配，如果不能，则尝试通过 byType 自动装配</span><br></pre></td></tr></table></figure>
+
+<h4 id="自动装配例子"><a href="#自动装配例子" class="headerlink" title="自动装配例子"></a>自动装配例子</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean class&#x3D;&quot;com.weimob.spring.demo.Father&quot; autowire&#x3D;&quot;byType&quot;&gt;&lt;&#x2F;bean&gt;</span><br><span class="line">通过autowire属性指定自动装配方式。</span><br></pre></td></tr></table></figure>
+
+<h4 id="自动装配有啥缺点"><a href="#自动装配有啥缺点" class="headerlink" title="自动装配有啥缺点"></a>自动装配有啥缺点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.自动装配会被手动装配覆盖。</span><br><span class="line">2.简单属性(基本数据类型)无法自动装配。</span><br></pre></td></tr></table></figure>
+
+<h3 id="什么是基于注解的容器配置"><a href="#什么是基于注解的容器配置" class="headerlink" title="什么是基于注解的容器配置"></a>什么是基于注解的容器配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">通过在类或方法上使用注解来替代xml设置。 -&gt; @Bean&#x2F;@Configuration</span><br></pre></td></tr></table></figure>
+
+<h4 id="如何开启spring-启动注解装配"><a href="#如何开启spring-启动注解装配" class="headerlink" title="如何开启spring 启动注解装配"></a>如何开启spring 启动注解装配</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;context:annotation-config&#x2F;&gt;配置，在spring 容器中打开注解装配。</span><br></pre></td></tr></table></figure>
+
+<h4 id="Component、-Controller、-Repository、-Service-区别"><a href="#Component、-Controller、-Repository、-Service-区别" class="headerlink" title="@Component、@Controller、@Repository、@Service 区别"></a>@Component、@Controller、@Repository、@Service 区别</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Controller  -&gt;  spring web mvc	控制器</span><br><span class="line">@Repository  -&gt;  Dao层注解，将未经检查异常转换为Spring DataAccessException.</span><br></pre></td></tr></table></figure>
+
+<h4 id="Required注解"><a href="#Required注解" class="headerlink" title="@Required注解"></a>@Required注解</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Required注解和  @Autowired(required &#x3D; false) 效果一样， 若未有相关bean 填充，容器将抛出 BeanInitializationException。</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+		<div>
+			
+				<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+			
+		</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/spring/" rel="tag"># spring</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/20/software-designer-computer-organization/" rel="prev" title="software-designer-computer-organization">
+      <i class="fa fa-chevron-left"></i> software-designer-computer-organization
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/01/interview/" rel="next" title="interview">
+      interview <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是spring框架"><span class="nav-number">1.</span> <span class="nav-text">什么是spring框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列举spring-framework的优点"><span class="nav-number">2.</span> <span class="nav-text">列举spring framework的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Framework-有哪些不同的功能"><span class="nav-number">3.</span> <span class="nav-text">Spring Framework 有哪些不同的功能?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是spring配置文件"><span class="nav-number">4.</span> <span class="nav-text">什么是spring配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是spring-IOC-容器-Ioc容器有啥好处"><span class="nav-number">5.</span> <span class="nav-text">什么是spring IOC 容器? Ioc容器有啥好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-IOC-实现机制"><span class="nav-number">6.</span> <span class="nav-text">Spring IOC 实现机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是依赖注入"><span class="nav-number">7.</span> <span class="nav-text">什么是依赖注入?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖注入的实现方式"><span class="nav-number">8.</span> <span class="nav-text">依赖注入的实现方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区分一下BeanFactory和ApplicationContext"><span class="nav-number">9.</span> <span class="nav-text">区分一下BeanFactory和ApplicationContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-提供了哪些配置方式"><span class="nav-number">10.</span> <span class="nav-text">spring 提供了哪些配置方式?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring支持集中-bean-scope"><span class="nav-number">11.</span> <span class="nav-text">spring支持集中 bean scope</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#prototype-和-request-有啥区别"><span class="nav-number">11.1.</span> <span class="nav-text">prototype 和 request 有啥区别?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Bean-生命周期"><span class="nav-number">12.</span> <span class="nav-text">Spring Bean 生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是spring装配-自动装配有哪些方式"><span class="nav-number">13.</span> <span class="nav-text">什么是spring装配?自动装配有哪些方式?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#自动装配例子"><span class="nav-number">13.1.</span> <span class="nav-text">自动装配例子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自动装配有啥缺点"><span class="nav-number">13.2.</span> <span class="nav-text">自动装配有啥缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是基于注解的容器配置"><span class="nav-number">14.</span> <span class="nav-text">什么是基于注解的容器配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如何开启spring-启动注解装配"><span class="nav-number">14.1.</span> <span class="nav-text">如何开启spring 启动注解装配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Component、-Controller、-Repository、-Service-区别"><span class="nav-number">14.2.</span> <span class="nav-text">@Component、@Controller、@Repository、@Service 区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Required注解"><span class="nav-number">14.3.</span> <span class="nav-text">@Required注解</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="vicyor"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">vicyor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vicyor" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vicyor" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2457569580@qq.com" title="E-Mail → mailto:2457569580@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vicyor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">1.1m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">16:47</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = visitors.getAttribute('id').trim();
+      var title = visitors.getAttribute('data-flag-title').trim();
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.log('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.log('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return element.getAttribute('id').trim();
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.log('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=m9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'm9GqFbk5NEr9mLiLAXCyheul-gzGzoHsz',
+            'X-LC-Key': 'g7WSuE6aDmunoX4rgyBN7SJa',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.3.10/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'qQhr9rNGJh6YalJA0mfaaurx-gzGzoHsz',
+    appKey: 'kJy8NJeOTMPnxQ3zLihOcnw3',
+    placeholder: "请留下您的宝贵评论",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+	
+		 <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+		 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+		 <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+</body>
+</html>
