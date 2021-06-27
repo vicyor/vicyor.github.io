@@ -53,7 +53,7 @@
 <meta property="og:description" content="juc 以及并发编程相关面试题整理">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-02-02T13:08:03.000Z">
-<meta property="article:modified_time" content="2021-02-23T11:59:22.403Z">
+<meta property="article:modified_time" content="2021-06-03T02:30:56.201Z">
 <meta property="article:author" content="vicyor">
 <meta property="article:tag" content="juc">
 <meta name="twitter:card" content="summary">
@@ -147,7 +147,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">67</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">62</span></a>
 
   </li>
   </ul>
@@ -206,7 +206,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-23 19:59:22" itemprop="dateModified" datetime="2021-02-23T19:59:22+08:00">2021-02-23</time>
+                <time title="修改时间：2021-06-03 10:30:56" itemprop="dateModified" datetime="2021-06-03T10:30:56+08:00">2021-06-03</time>
               </span>
 
           
@@ -236,14 +236,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.8k</span>
+              <span>6.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -258,7 +258,15 @@
         <p>juc 以及并发编程相关面试题整理</p>
 <a id="more"></a>
 
-<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><h3 id="什么是线程和进程"><a href="#什么是线程和进程" class="headerlink" title="什么是线程和进程"></a>什么是线程和进程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">线程  -&gt;  程序代码执行的一条线，一条方法调用链。</span><br><span class="line">		  轻量级进程，分配cpu资源和调度执行的基本单位。</span><br><span class="line">进程  -&gt;  应用程序的一个动态执行过程，操作系统会给他分配分配内存、文件以及CPU资源。</span><br></pre></td></tr></table></figure>
+<h2 id="JAVA-集合"><a href="#JAVA-集合" class="headerlink" title="JAVA 集合"></a>JAVA 集合</h2><h3 id="为什么java-util-Collection和Map底层存储都是被transient修饰"><a href="#为什么java-util-Collection和Map底层存储都是被transient修饰" class="headerlink" title="为什么java.util.Collection和Map底层存储都是被transient修饰?"></a>为什么java.util.Collection和Map底层存储都是被transient修饰?</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">因为Collection和Map当容量达到阈值时候都会扩容，会存在部分空间不存储数据。</span><br><span class="line">若非transient修饰，则会序列化过多的空对象，java.util.Collection通过重写readObject和writeObject方法来规避这个问题。</span><br></pre></td></tr></table></figure>
+
+<h3 id="HashMap为啥初始容量是2的幂"><a href="#HashMap为啥初始容量是2的幂" class="headerlink" title="HashMap为啥初始容量是2的幂?"></a>HashMap为啥初始容量是2的幂?</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">使得key分配均匀。</span><br><span class="line">因为key路由时候是 hash(key) &amp; tabSize -1 </span><br><span class="line">若tabsize 不为2的幂，则会出现某些bit位为0的情况，这样&amp;运算那个bit位使用为0，如第二位为0(从右向左数)，这样tab index为2，3，5，6.。。都为空。</span><br></pre></td></tr></table></figure>
+
+<h4 id="ConcurrentHashMap-与ConcurrentLinkedList是否是强一致性"><a href="#ConcurrentHashMap-与ConcurrentLinkedList是否是强一致性" class="headerlink" title="ConcurrentHashMap 与ConcurrentLinkedList是否是强一致性?"></a>ConcurrentHashMap 与ConcurrentLinkedList是否是强一致性?</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">否，juc 的集合在读的时候是不会加锁的。有可能读到后写的数据。</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><h3 id="什么是线程和进程"><a href="#什么是线程和进程" class="headerlink" title="什么是线程和进程"></a>什么是线程和进程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">线程  -&gt;  程序代码执行的一条线，一条方法调用链。</span><br><span class="line">		      轻量级进程，分配cpu资源和调度执行的基本单位。</span><br><span class="line">进程  -&gt;  应用程序的一个动态执行过程，操作系统会给他分配分配内存、文件以及CPU资源。</span><br></pre></td></tr></table></figure>
 
 <h3 id="线程有哪些状态"><a href="#线程有哪些状态" class="headerlink" title="线程有哪些状态"></a>线程有哪些状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new &#x2F; runnable &#x2F; running &#x2F; ready &#x2F; waiting &#x2F; timed_waiting &#x2F; blocked(锁&#x2F;IO阻塞) &#x2F; terminated</span><br></pre></td></tr></table></figure>
 
@@ -266,7 +274,7 @@
 
 <h3 id="Thread-sleep-0-与-TimeUnit-MILLISECONDS-sleep-0"><a href="#Thread-sleep-0-与-TimeUnit-MILLISECONDS-sleep-0" class="headerlink" title="Thread.sleep(0) 与 TimeUnit.MILLISECONDS.sleep(0)"></a>Thread.sleep(0) 与 TimeUnit.MILLISECONDS.sleep(0)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TimeUnit.MILLISECONDS.sleep(0) -&gt; 没有效果，数值0会被过滤掉。</span><br><span class="line">Thread.sleep(0) -&gt;  类似Thread.yield,使线程让出cpu。</span><br></pre></td></tr></table></figure>
 
-<h2 id="多线程和并发"><a href="#多线程和并发" class="headerlink" title="多线程和并发"></a>多线程和并发</h2><h3 id="你怎么看并行和并发"><a href="#你怎么看并行和并发" class="headerlink" title="你怎么看并行和并发"></a>你怎么看并行和并发</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">concurrent -&gt;  多个线程在共同完成一件事，互相之间有依赖，例如多个部门做同一个系统。</span><br><span class="line">parallel -&gt;    多个线程各做各的事，互相之间无共享状态。</span><br><span class="line">在GC算法中: concurrent  指 GC线程和业务线程一起执行。</span><br><span class="line">		   parallel    指多个GC线程之间的并行执行。</span><br></pre></td></tr></table></figure>
+<h2 id="多线程和并发"><a href="#多线程和并发" class="headerlink" title="多线程和并发"></a>多线程和并发</h2><h3 id="你怎么看并行和并发"><a href="#你怎么看并行和并发" class="headerlink" title="你怎么看并行和并发"></a>你怎么看并行和并发</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">concurrent -&gt;  多个线程在共同完成一件事，互相之间有依赖，例如多个部门做同一个系统。</span><br><span class="line">parallel -&gt;    多个线程各做各的事，互相之间无共享状态。</span><br><span class="line">在GC算法中: concurrent  指 GC线程和业务线程一起执行。</span><br><span class="line">           parallel    指多个GC线程之间的并行执行。</span><br></pre></td></tr></table></figure>
 
 <h3 id="多线程优势、劣势"><a href="#多线程优势、劣势" class="headerlink" title="多线程优势、劣势"></a>多线程优势、劣势</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">优势:  充分利用多个CPU核心，提高程序的执行性能。</span><br><span class="line">	如: 多个服务员之间可以看成是并行线程，服务员与厨师之间是并发线程。</span><br><span class="line">劣势:  </span><br><span class="line">	1.消耗更多的资源。 CPU &amp; 内存。</span><br><span class="line">	2.需要协调和管理，线程之间相互影响，有资源竞争问题。</span><br></pre></td></tr></table></figure>
 
@@ -279,6 +287,12 @@
 <h3 id="线程间通信方式"><a href="#线程间通信方式" class="headerlink" title="线程间通信方式"></a>线程间通信方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.共享内存(隐式通信)。</span><br><span class="line">2.信号传递(显示通信)。</span><br></pre></td></tr></table></figure>
 
 <h2 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h2><h3 id="什么是线程安全"><a href="#什么是线程安全" class="headerlink" title="什么是线程安全"></a>什么是线程安全</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">多个线程执行同一段代码，不会出现不确定的结果。</span><br></pre></td></tr></table></figure>
+
+<h3 id="为啥会产生数据不一致，线程安全的情况"><a href="#为啥会产生数据不一致，线程安全的情况" class="headerlink" title="为啥会产生数据不一致，线程安全的情况?"></a>为啥会产生数据不一致，线程安全的情况?</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.堆内存中的共享变量在被不同线程操作时，会被加载到自己的工作内存中，也就是 CPU 中的高速缓存。</span><br><span class="line">2.单核cpu不存在数据不一致情况，多个线程同时访问进程中的共享数据，CPU 将共享变量加载到高速缓存后，不同线程在访问缓存数据的时候，都会映射到相同的缓存位置，这样即使发生线程的切换，缓存仍然不会失效</span><br><span class="line">3.多核cpu存在数据不一致情况，每个核都有一个 L1 缓存，如果多个线程运行在不同的内核上访问共享变量时，每个内核的 L1 缓存将会缓存一份共享变量。</span><br></pre></td></tr></table></figure>
+
+<h3 id="重排序问题"><a href="#重排序问题" class="headerlink" title="重排序问题"></a>重排序问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">在不影响运算结果的前提下，编译器有可能会改变顺序代码的指令执行顺序，特别是在一些可以优化的场景。</span><br><span class="line">举个例子</span><br><span class="line">public void m1()&#123;</span><br><span class="line">   x&#x3D;1;  &#x2F;&#x2F; 1</span><br><span class="line">   flag&#x3D;true;&#x2F;&#x2F; 2</span><br><span class="line">&#125;</span><br><span class="line">public void m2()&#123;</span><br><span class="line">   if(flag)&#123;</span><br><span class="line">     y&#x3D;x;</span><br><span class="line">     System.out.println(y&#x3D;&#x3D;1);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">线程A执行m1,线程B执行m2， 若 1和2重排序,则结果可能为false</span><br></pre></td></tr></table></figure>
+
+
 
 <h3 id="线程安全有哪些特征"><a href="#线程安全有哪些特征" class="headerlink" title="线程安全有哪些特征"></a>线程安全有哪些特征</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.原子性。</span><br><span class="line">2.可见性(volatile)。</span><br><span class="line">3.有序性(volatile)。</span><br></pre></td></tr></table></figure>
 
@@ -307,6 +321,10 @@
 
 <h3 id="线程池如何监控"><a href="#线程池如何监控" class="headerlink" title="线程池如何监控"></a>线程池如何监控</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jstack &#x2F;  kill -3  &#x2F;  jconsole &#x2F; jvisium &#x2F;jmc</span><br><span class="line">tips: 线程池对应的线程具有相同的name prefix。</span><br></pre></td></tr></table></figure>
 
+<h3 id="各种线程池使用场景"><a href="#各种线程池使用场景" class="headerlink" title="各种线程池使用场景"></a>各种线程池使用场景</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SingleThreadPool(coreSize&#x3D;1)   -&gt;   单线程执行任务，若线程异常结束，会有一个新的线程替代。</span><br><span class="line">FixedThreadPool (coreSize&#x3D;maxSize,blockQueue&#x3D;LinkedBlockingQueue)   -&gt;  执行长期，并发量大的任务，减少线程上下文切换。</span><br><span class="line">CacheThreadPool(coreSize&#x3D;0,blockQueue&#x3D;SynchronizedQueue)  -&gt;  短期任务的小程序，并发量不多。</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><h3 id="synchronized原理"><a href="#synchronized原理" class="headerlink" title="synchronized原理"></a>synchronized原理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对象锁(Object Lock)  -&gt;  以对象为锁资源，对象的头(header)记录该对象对应的锁状态。</span><br></pre></td></tr></table></figure>
 
 <h3 id="synchronized有哪些优化"><a href="#synchronized有哪些优化" class="headerlink" title="synchronized有哪些优化"></a>synchronized有哪些优化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1.偏向锁(BiaseLock) -&gt; 轻量级锁  -&gt;  互斥锁(monitor)。</span><br></pre></td></tr></table></figure>
@@ -323,7 +341,41 @@
 
 <h3 id="什么是死锁？怎么防止死锁"><a href="#什么是死锁？怎么防止死锁" class="headerlink" title="什么是死锁？怎么防止死锁"></a>什么是死锁？怎么防止死锁</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1.什么是死锁?</span><br><span class="line">  死锁  -&gt;  多个进程因竞争资源而造成的一种僵局(互相等待)，若无外力作用，这些进程都将无法继续推进。</span><br><span class="line">2.死锁产生的原因。</span><br><span class="line">  1.互斥条件。       一个资源每次只能被一个进程使用。</span><br><span class="line">  2.请求和保持条件。  进程已经保持了至少一个资源，但又提出了新的资源请求。</span><br><span class="line">  3.不可剥夺条件。    进程所获取的资源在未使用完毕之前，不能被其它进程强行夺走。</span><br><span class="line">  4.循环等待条件。    若干进程间形成首尾相连、循环等待资源的关系。</span><br><span class="line">3.死锁的避免。</span><br><span class="line">  系统对进程发出的每一个系统能够满足的资源申请进行动态检查，并根据检查结果决定是否分配资源。</span><br><span class="line">  若分配后发生死锁，则不予以分配。</span><br></pre></td></tr></table></figure>
 
-<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2>
+<h3 id="Synchronized-与-Lock-区别"><a href="#Synchronized-与-Lock-区别" class="headerlink" title="Synchronized 与 Lock 区别"></a>Synchronized 与 Lock 区别</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>Synchronized</th>
+<th>Lock</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>实现方式</td>
+<td>JVM底层</td>
+<td>JAVA底层</td>
+</tr>
+<tr>
+<td>锁的获取</td>
+<td>JVM隐式获取</td>
+<td>显示获取:Lock.lock/unlock/tryLock</td>
+</tr>
+<tr>
+<td>锁的释放</td>
+<td>JVM隐式释放</td>
+<td>显示，在finally中通过Lock.unLock释放</td>
+</tr>
+<tr>
+<td>锁的类型</td>
+<td>非公平锁、可重入</td>
+<td>非公平锁、公平锁、可重入</td>
+</tr>
+<tr>
+<td>锁的状态</td>
+<td>不可中断</td>
+<td>可中断</td>
+</tr>
+</tbody></table>
+
     </div>
 
     
@@ -351,8 +403,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/01/24/netty-interview/" rel="prev" title="netty-interview">
-      <i class="fa fa-chevron-left"></i> netty-interview
+    <a href="/2021/01/19/java-common/" rel="prev" title="java-common">
+      <i class="fa fa-chevron-left"></i> java-common
     </a></div>
       <div class="post-nav-item">
     <a href="/2021/02/05/soa-platform-search/" rel="next" title="soa-platform-search">
@@ -396,7 +448,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程"><span class="nav-number">1.</span> <span class="nav-text">线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是线程和进程"><span class="nav-number">1.1.</span> <span class="nav-text">什么是线程和进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程有哪些状态"><span class="nav-number">1.2.</span> <span class="nav-text">线程有哪些状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#啥是守护线程"><span class="nav-number">1.3.</span> <span class="nav-text">啥是守护线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thread-sleep-0-与-TimeUnit-MILLISECONDS-sleep-0"><span class="nav-number">1.4.</span> <span class="nav-text">Thread.sleep(0) 与 TimeUnit.MILLISECONDS.sleep(0)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多线程和并发"><span class="nav-number">2.</span> <span class="nav-text">多线程和并发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#你怎么看并行和并发"><span class="nav-number">2.1.</span> <span class="nav-text">你怎么看并行和并发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程优势、劣势"><span class="nav-number">2.2.</span> <span class="nav-text">多线程优势、劣势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何让一个线程执行完再执行第二个"><span class="nav-number">2.3.</span> <span class="nav-text">如何让一个线程执行完再执行第二个</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何让两个线程以指定顺序交替执行"><span class="nav-number">2.4.</span> <span class="nav-text">如何让两个线程以指定顺序交替执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sleep-和-wait-有啥区别"><span class="nav-number">2.5.</span> <span class="nav-text">sleep 和 wait 有啥区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程间通信方式"><span class="nav-number">2.6.</span> <span class="nav-text">线程间通信方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程安全"><span class="nav-number">3.</span> <span class="nav-text">线程安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是线程安全"><span class="nav-number">3.1.</span> <span class="nav-text">什么是线程安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程安全有哪些特征"><span class="nav-number">3.2.</span> <span class="nav-text">线程安全有哪些特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载和初始化的过程是线程安全吗-哪些情况下是不安全的"><span class="nav-number">3.3.</span> <span class="nav-text">类加载和初始化的过程是线程安全吗?哪些情况下是不安全的?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocal-是什么"><span class="nav-number">3.4.</span> <span class="nav-text">ThreadLocal 是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocal-有哪些使用场景"><span class="nav-number">3.5.</span> <span class="nav-text">ThreadLocal 有哪些使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocal-有哪些需要注意的地方"><span class="nav-number">3.6.</span> <span class="nav-text">ThreadLocal 有哪些需要注意的地方</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池"><span class="nav-number">4.</span> <span class="nav-text">线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池种类及参数"><span class="nav-number">4.1.</span> <span class="nav-text">线程池种类及参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池创建线程时机"><span class="nav-number">4.2.</span> <span class="nav-text">线程池创建线程时机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池拒绝策略"><span class="nav-number">4.3.</span> <span class="nav-text">线程池拒绝策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池的submit和execute方法有什么区别"><span class="nav-number">4.4.</span> <span class="nav-text">线程池的submit和execute方法有什么区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池有哪些关闭方法"><span class="nav-number">4.5.</span> <span class="nav-text">线程池有哪些关闭方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池优势"><span class="nav-number">4.6.</span> <span class="nav-text">线程池优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#讲一下ScheduledExecutorService原理"><span class="nav-number">4.7.</span> <span class="nav-text">讲一下ScheduledExecutorService原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池如何监控"><span class="nav-number">4.8.</span> <span class="nav-text">线程池如何监控</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁"><span class="nav-number">5.</span> <span class="nav-text">锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#synchronized原理"><span class="nav-number">5.1.</span> <span class="nav-text">synchronized原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#synchronized有哪些优化"><span class="nav-number">5.2.</span> <span class="nav-text">synchronized有哪些优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Synchronized-与-Lock区别-谁的性能更高"><span class="nav-number">5.3.</span> <span class="nav-text">Synchronized 与 Lock区别,谁的性能更高?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读写锁"><span class="nav-number">5.4.</span> <span class="nav-text">读写锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用锁的注意事项"><span class="nav-number">5.5.</span> <span class="nav-text">使用锁的注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Synchronized-锁升级"><span class="nav-number">5.6.</span> <span class="nav-text">Synchronized 锁升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#synchronized-和-volatile-区别"><span class="nav-number">5.7.</span> <span class="nav-text">synchronized 和 volatile 区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是死锁？怎么防止死锁"><span class="nav-number">5.8.</span> <span class="nav-text">什么是死锁？怎么防止死锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TODO"><span class="nav-number">6.</span> <span class="nav-text">TODO</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA-集合"><span class="nav-number">1.</span> <span class="nav-text">JAVA 集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么java-util-Collection和Map底层存储都是被transient修饰"><span class="nav-number">1.1.</span> <span class="nav-text">为什么java.util.Collection和Map底层存储都是被transient修饰?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap为啥初始容量是2的幂"><span class="nav-number">1.2.</span> <span class="nav-text">HashMap为啥初始容量是2的幂?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ConcurrentHashMap-与ConcurrentLinkedList是否是强一致性"><span class="nav-number">1.2.1.</span> <span class="nav-text">ConcurrentHashMap 与ConcurrentLinkedList是否是强一致性?</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程"><span class="nav-number">2.</span> <span class="nav-text">线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是线程和进程"><span class="nav-number">2.1.</span> <span class="nav-text">什么是线程和进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程有哪些状态"><span class="nav-number">2.2.</span> <span class="nav-text">线程有哪些状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#啥是守护线程"><span class="nav-number">2.3.</span> <span class="nav-text">啥是守护线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thread-sleep-0-与-TimeUnit-MILLISECONDS-sleep-0"><span class="nav-number">2.4.</span> <span class="nav-text">Thread.sleep(0) 与 TimeUnit.MILLISECONDS.sleep(0)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多线程和并发"><span class="nav-number">3.</span> <span class="nav-text">多线程和并发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#你怎么看并行和并发"><span class="nav-number">3.1.</span> <span class="nav-text">你怎么看并行和并发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程优势、劣势"><span class="nav-number">3.2.</span> <span class="nav-text">多线程优势、劣势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何让一个线程执行完再执行第二个"><span class="nav-number">3.3.</span> <span class="nav-text">如何让一个线程执行完再执行第二个</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何让两个线程以指定顺序交替执行"><span class="nav-number">3.4.</span> <span class="nav-text">如何让两个线程以指定顺序交替执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sleep-和-wait-有啥区别"><span class="nav-number">3.5.</span> <span class="nav-text">sleep 和 wait 有啥区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程间通信方式"><span class="nav-number">3.6.</span> <span class="nav-text">线程间通信方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程安全"><span class="nav-number">4.</span> <span class="nav-text">线程安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是线程安全"><span class="nav-number">4.1.</span> <span class="nav-text">什么是线程安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为啥会产生数据不一致，线程安全的情况"><span class="nav-number">4.2.</span> <span class="nav-text">为啥会产生数据不一致，线程安全的情况?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重排序问题"><span class="nav-number">4.3.</span> <span class="nav-text">重排序问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程安全有哪些特征"><span class="nav-number">4.4.</span> <span class="nav-text">线程安全有哪些特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载和初始化的过程是线程安全吗-哪些情况下是不安全的"><span class="nav-number">4.5.</span> <span class="nav-text">类加载和初始化的过程是线程安全吗?哪些情况下是不安全的?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocal-是什么"><span class="nav-number">4.6.</span> <span class="nav-text">ThreadLocal 是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocal-有哪些使用场景"><span class="nav-number">4.7.</span> <span class="nav-text">ThreadLocal 有哪些使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocal-有哪些需要注意的地方"><span class="nav-number">4.8.</span> <span class="nav-text">ThreadLocal 有哪些需要注意的地方</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池"><span class="nav-number">5.</span> <span class="nav-text">线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池种类及参数"><span class="nav-number">5.1.</span> <span class="nav-text">线程池种类及参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池创建线程时机"><span class="nav-number">5.2.</span> <span class="nav-text">线程池创建线程时机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池拒绝策略"><span class="nav-number">5.3.</span> <span class="nav-text">线程池拒绝策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池的submit和execute方法有什么区别"><span class="nav-number">5.4.</span> <span class="nav-text">线程池的submit和execute方法有什么区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池有哪些关闭方法"><span class="nav-number">5.5.</span> <span class="nav-text">线程池有哪些关闭方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池优势"><span class="nav-number">5.6.</span> <span class="nav-text">线程池优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#讲一下ScheduledExecutorService原理"><span class="nav-number">5.7.</span> <span class="nav-text">讲一下ScheduledExecutorService原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池如何监控"><span class="nav-number">5.8.</span> <span class="nav-text">线程池如何监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#各种线程池使用场景"><span class="nav-number">5.9.</span> <span class="nav-text">各种线程池使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁"><span class="nav-number">6.</span> <span class="nav-text">锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#synchronized原理"><span class="nav-number">6.1.</span> <span class="nav-text">synchronized原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#synchronized有哪些优化"><span class="nav-number">6.2.</span> <span class="nav-text">synchronized有哪些优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Synchronized-与-Lock区别-谁的性能更高"><span class="nav-number">6.3.</span> <span class="nav-text">Synchronized 与 Lock区别,谁的性能更高?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读写锁"><span class="nav-number">6.4.</span> <span class="nav-text">读写锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用锁的注意事项"><span class="nav-number">6.5.</span> <span class="nav-text">使用锁的注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Synchronized-锁升级"><span class="nav-number">6.6.</span> <span class="nav-text">Synchronized 锁升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#synchronized-和-volatile-区别"><span class="nav-number">6.7.</span> <span class="nav-text">synchronized 和 volatile 区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是死锁？怎么防止死锁"><span class="nav-number">6.8.</span> <span class="nav-text">什么是死锁？怎么防止死锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Synchronized-与-Lock-区别"><span class="nav-number">6.9.</span> <span class="nav-text">Synchronized 与 Lock 区别</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -412,7 +464,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-count">62</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -468,7 +520,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">16:47</span>
+    <span title="站点阅读时长">16:27</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
   </div>
